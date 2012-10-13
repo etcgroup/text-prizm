@@ -1,0 +1,13 @@
+@import url("jquery.dataTables/jquery.dataTables.css");
+@import url("jquery.dataTables/jquery.dataTables_themeroller.css");
+
+body{
+    width:700px;
+    margin:auto;
+}
+td{
+    white-space:nowrap;
+}
+td.links{
+    font-size:10px;
+}

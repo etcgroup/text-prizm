@@ -1,0 +1,17 @@
+
+@import url("jquery.rating.css");
+
+.highlight{
+    background-color:#aaaaaa;
+}
+.participant{
+    font-style:italic;
+    color:#222222;
+}
+.time{
+    color:#666666;
+}
+.avg{
+    opacity:0.2;
+    filter:alpha(opacity=20);
+}

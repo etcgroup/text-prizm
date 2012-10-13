@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+.CodeListViewItem, #CodeListViewNewCode{
+    width:130px;
+    height:15px;
+    overflow:hidden;
+    float:left;
+    padding:3px;
+    font-size:12px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.CodeListViewItem:hover {
+    box-shadow: 1px 1px 1px 1px #aaa;
+}
+.CodeListViewItem.found, #CodeListViewNewCode{
+    background-color:#99ff66;
+    font-weight: bold;
+    color:black;
+}
+#codeListView {
+    width:300px;
+    position: absolute;
+    top:230px;
+    bottom: 0px;
+    overflow:auto;
+}

@@ -1,0 +1,47 @@
+/*
+    Document   : etc-graph.css
+    Created on : May 14, 2012, 4:41:08 PM
+    Author     : soco
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.stdbar svg {  color: #222; }
+.stdbar text { color: #222; fill: #444; }
+.stdbar rect { fill: #04c; -webkit-transition: fill 0.2s ease-in; }
+.stdbar rect:hover { fill: #0df; -webkit-transition: all 0.10s ease-out;}
+
+path.area {
+    fill: #f00;
+}
+
+.stdgraph .axis {
+    shape-rendering: crispEdges;
+}
+
+.stdgraph .axis path {
+    fill: none;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.stdgraph .axis line {
+    stroke: #eee;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.stdgraph .axis .minor {
+    stroke: #f0f0f0;
+}
+
+
+.stdgraph .axis path {
+    fill: none;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.stdbar {
+    overflow: auto;
+}

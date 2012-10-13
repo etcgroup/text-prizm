@@ -1,0 +1,580 @@
+<project name="Text Prism" default="dist">
+
+    <!-- Get a build time -->
+    <tstamp>
+        <format property="build.time" pattern="MM/dd/yyyy hh:mm aa"/>
+    </tstamp>
+
+    <!-- Get the short revision code -->
+    <exec executable="git" outputproperty="app.revision" failifexecutionfails="false">
+        <arg value="rev-parse"/>
+        <arg value="--short"/>
+        <arg value="HEAD"/>
+    </exec>
+
+
+    <!--    git symbolic-ref HEAD | cut -d"/" -f 3
+    <exec executable="git"-->
+
+    <!-- Environment variables will be available in env -->
+    <property environment="env"/>
+
+    <!-- If we are running on windows, pear programs must end in .bat -->
+    <condition property="pear.ext" value=".bat">
+        <contains string="${os.name}" substring="Windows"/>
+    </condition>
+    <!-- If on Windows, node.js programs must end in .cmd -->
+    <condition property="node.ext" value=".cmd">
+        <contains string="${os.name}" substring="Windows"/>
+    </condition>
+    <!-- Otherwise, nothing -->
+    <property name="pear.ext" value=""/>
+    <property name="node.ext" value=""/>
+
+    <!-- Get the build properties -->
+    <property file="${basedir}/build.properties"/>
+
+    <property file="${basedir}/deploy.properties"/>
+
+    <!-- This gives us access to the dependencies project -->
+    <include file="${deps.dir}/build.xml"/>
+
+    <target name="prod-deps" description="Gets dependencies required to build for production">
+        <echo>Collecting production build tools into ${build.tools.dir}</echo>
+        <parallel>
+            <dependency name="rhino" dest="${build.tools.dir}"/>
+            <dependency name="requirejs-optimizer" dest="${build.tools.dir}"/>
+        </parallel>
+    </target>
+
+    <target name="server-deps" description="Gets dependencies for server-side code">
+        <echo>Collecting server dependencies into ${build.gather.dir}/server</echo>
+
+        <parallel>
+            <dependency name="codeigniter" dest="${build.gather.dir}/server"/>
+            <dependency name="codeigniter-asset-helper" dest="${build.gather.dir}/server"/>
+            <dependency name="codeigniter-restserver" dest="${build.gather.dir}/server"/>
+        </parallel>
+    </target>
+
+    <target name="client-deps" description="Gets client-side dependencies">
+        <echo>Collecting client dependencies into ${build.gather.dir}/client</echo>
+
+        <mkdir dir="${build.gather.dir}/client/js/lib"/>
+
+        <parallel>
+            <dependency name="backbone" dest="${build.gather.dir}/client"/>
+            <dependency name="backbone-relational" dest="${build.gather.dir}/client"/>
+            <dependency name="blueprint" dest="${build.gather.dir}/client"/>
+            <dependency name="color" dest="${build.gather.dir}/client"/>
+            <dependency name="d3" dest="${build.gather.dir}/client"/>
+            <dependency name="date" dest="${build.gather.dir}/client"/>
+            <dependency name="famfamfam" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.blockUI" dest="${build.gather.dir}/client"/>
+            <dependency name="color" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.dataTables" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.elastic" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.event.drag" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.event.drop" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.rating" dest="${build.gather.dir}/client"/>
+            <dependency name="jquery.sortElements" dest="${build.gather.dir}/client"/>
+            <dependency name="jqueryui" dest="${build.gather.dir}/client"/>
+            <dependency name="jqueryui.timepicker" dest="${build.gather.dir}/client"/>
+            <dependency name="requirejs" dest="${build.gather.dir}/client"/>
+            <dependency name="slickgrid" dest="${build.gather.dir}/client"/>
+            <dependency name="spin" dest="${build.gather.dir}/client"/>
+            <dependency name="underscore" dest="${build.gather.dir}/client"/>
+
+        </parallel>
+    </target>
+
+    <!--Combines and minifies files.-->
+    <target name="-optimize">
+        <exec executable="node">
+            <arg file="${build.tools.dir}/r.js"/>
+            <arg value="-o"/>
+            <arg file="${requirejs.optimizer.settings}"/>
+            <arg value="dir=${requirejs.optimizer.output.dir}"/>
+            <arg value="appDir=${requirejs.optimizer.input.dir}"/>
+            <arg value="mainConfigFile=${requirejs.optimizer.input.dir}/common_config.js"/>
+            <arg value="baseUrl=js"/>
+        </exec>
+        <echo message="Project optimized based on ${requirejs.optimizer.settings}" />
+    </target>
+
+    <!-- Copies client files to dist by way of the requirejs optimizer -->
+    <target name="-optimize-client-dist">
+        <antcall target="-optimize">
+            <param name="requirejs.optimizer.settings" value="${client.build.file}"/>
+            <param name="requirejs.optimizer.input.dir" value="${build.gather.dir}/client"/>
+            <param name="requirejs.optimizer.output.dir" value="${dist.dir}/assets"/>
+        </antcall>
+    </target>
+
+    <target name="clean-dist" description="Cleans the dist folder">
+        <echo>Cleaning directory ${dist.dir}</echo>
+        <delete dir="${dist.dir}" includeemptydirs="true" failonerror="true" />
+    </target>
+
+    <target name="clean-build" description="Cleans the build folder">
+        <echo>Cleaning build directory ${build.dir}</echo>
+        <delete dir="${build.dir}" includeemptydirs="true">
+        </delete>
+    </target>
+
+
+    <target name="prepare" depends="clean-build" description="Creates the build directories">
+        <echo>Creating build directory in ${build.dir}</echo>
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.tools.dir}"/>
+        <mkdir dir="${build.gather.dir}"/>
+        <mkdir dir="${build.logs.dir}"/>
+
+        <mkdir dir="${build.dir}/code-browser"/>
+        <mkdir dir="${build.dir}/pdepend"/>
+        <mkdir dir="${build.dir}/phpcs"/>
+    </target>
+
+    <!-- Gathers the client files into build -->
+    <target name="-gather-client" depends="client-deps">
+
+        <echo>Copying client resources to ${build.gather.dir}/client</echo>
+
+        <copy todir="${build.gather.dir}/client">
+            <fileset dir="${src.dir}/client"/>
+        </copy>
+    </target>
+
+    <!-- Gathers the server files into build -->
+    <target name="-gather-server" depends="server-deps">
+        <echo>Copying PHP files to ${build.gather.dir}/server"</echo>
+
+        <copy todir="${build.gather.dir}/server/application" overwrite="true">
+            <fileset dir="${src.dir}/server"/>
+        </copy>
+
+    </target>
+
+    <target name="server-tools" description="Runs the server quality assurance tools"
+            depends="prepare,phplint,phploc,pdepend,phpmd,phpcs,phpcpd">
+        <antcall target="phpcb"/>
+    </target>
+
+    <target name="client-tools" depends="prepare,jshint,csslint">
+    </target>
+
+    <target name="-tools-ci" depends="phploc,pdepend,-phpmd-ci,-phpcs-ci,phpcpd,-jshint-ci,-csslint-ci">
+    </target>
+
+    <!-- Run tools in parallel -->
+    <target name="-tools-ci-parallel">
+        <parallel threadCount="2">
+            <sequential>
+                <antcall target="pdepend"/>
+                <antcall target="-phpmd-ci"/>
+            </sequential>
+            <antcall target="phpcpd"/>
+            <antcall target="-phpcs-ci"/>
+            <antcall target="phploc"/>
+            <antcall target="-jshint-ci"/>
+            <antcall target="-csslint-ci"/>
+        </parallel>
+    </target>
+
+    <target name="build" description="Performs a build without running quality assurance tools"
+            depends="prepare,-gather-client,-gather-server,-build-config">
+
+    </target>
+
+    <target name="build-ci" description="Performs a build with output for CI"
+            depends="prepare,phplint,-gather-client,-gather-server,-tools-ci,-build-config">
+
+    </target>
+
+    <target name="build-ci-parallel"  description="Performs a parallel build with output for CI"
+            depends="prepare,phplint">
+        <parallel>
+            <antcall target="-gather-client"/>
+            <antcall target="-gather-server"/>
+            <antcall target="-tools-ci-parallel"/>
+        </parallel>
+        <antcall target="-build-config"/>
+    </target>
+
+
+    <!-- Build tools below -->
+
+    <macrodef name="exec-node" description="Runs a node.js module">
+        <attribute name="module" description="The name of the NodeJS module to execute"/>
+        <attribute name="failonerror" default="false" description="Fail if the exit code is not 0"/>
+        <element name="args" implicit="yes" description="Arguments to pass to the exec task"/>
+        <sequential>
+            <exec executable="cmd.exe" failonerror="@{failonerror}" osfamily="winnt">
+                <arg line="/c  @{module}" />
+                <args/>
+
+                <!-- Windows cmd output workaround: http://stackoverflow.com/a/10359327/227349 -->
+                <!-- Forces node's stderror and stdout to a temporary file -->
+                <arg line=" &gt; _tempfile.out 2&lt;&amp;1"/>
+
+                <!-- If command exits with an error, then output the temporary file         -->
+                <!-- to stdout delete the temporary file and finally exit with error level 1  -->
+                <!-- so that the apply task can catch the error if @failonerror="true"        -->
+                <arg line=" || (type _tempfile.out &amp; del _tempfile.out &amp; exit /b 1)"/>
+
+                <!-- Otherwise, just type the temporary file and delete it-->
+                <arg line=" &amp; type _tempfile.out &amp; del _tempfile.out &amp;"/>
+            </exec>
+            <exec executable="@{module}" failonerror="@{failonerror}" osfamily="unix">
+                <args/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="exec-node-output" description="Runs a node.js module and saves the output to a file">
+        <attribute name="module" description="The name of the NodeJS module to execute"/>
+        <attribute name="failonerror" default="false" description="Fail if the exit code is not 0"/>
+        <attribute name="output" description="The file to send output to"/>
+        <element name="args" implicit="yes" description="Arguments to pass to the exec task"/>
+        <sequential>
+            <exec executable="cmd.exe" failonerror="@{failonerror}" osfamily="winnt" output="@{output}">
+                <arg line="/c  @{module}" />
+                <args/>
+
+                <!-- Windows cmd output workaround: http://stackoverflow.com/a/10359327/227349 -->
+                <!-- Forces node's stderror and stdout to a temporary file -->
+                <arg line=" &gt; _tempfile.out 2&lt;&amp;1"/>
+
+                <!-- If command exits with an error, then output the temporary file         -->
+                <!-- to stdout delete the temporary file and finally exit with error level 1  -->
+                <!-- so that the apply task can catch the error if @failonerror="true"        -->
+                <arg line=" || (type _tempfile.out &amp; del _tempfile.out &amp; exit /b 1)"/>
+
+                <!-- Otherwise, just type the temporary file and delete it-->
+                <arg line=" &amp; type _tempfile.out &amp; del _tempfile.out &amp;"/>
+            </exec>
+            <exec executable="@{module}" failonerror="@{failonerror}" osfamily="unix" output="@{output}">
+                <args/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="jshint" description="Perform syntax and style check of JS files. Run before committing.">
+        <exec-node module="jshint">
+            <arg value="--config" />
+            <arg file="${scripts.dir}/jshintrc.json"/>
+            <arg file="${src.dir}/client/js" />
+        </exec-node>
+    </target>
+
+    <!-- Perform syntax and style check of JS files with XML output -->
+    <target name="-jshint-ci">
+        <exec-node-output module="jshint" output="${build.logs.dir}/js-checkstyle.xml">
+            <arg value="--config" />
+            <arg file="${scripts.dir}/jshintrc.json"/>
+            <arg value="--checkstyle-reporter" />
+            <arg file="${src.dir}/client/js" />
+        </exec-node-output>
+    </target>
+
+    <target name="csslint" description="Perform syntax and style check of CSS files. Run before committing.">
+        <copy file="${scripts.dir}/csslintrc"
+              tofile="${basedir}/.csslintrc"/>
+
+        <exec-node module="csslint">
+            <arg value="--format=text" />
+            <arg file="${src.dir}/client/css" />
+        </exec-node>
+
+        <delete file="${basedir}/.csslintrc"/>
+    </target>
+
+    <!-- Perform syntax and style check of CSS files with XML output -->
+    <target name="-csslint-ci">
+        <!-- Move the configuration into a place where the silly tool expects it -->
+        <copy file="${scripts.dir}/csslintrc"
+              tofile="${basedir}/.csslintrc"/>
+
+        <exec-node-output module="csslint" output="${build.logs.dir}/css-checkstyle.xml">
+            <arg value="--format=checkstyle-xml" />
+            <arg path="${src.dir}/client/css" />
+        </exec-node-output>
+
+        <delete file="${basedir}/.csslintrc"/>
+    </target>
+
+    <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset dir="${src.dir}/server">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+
+            <fileset dir="${tests.dir}/server">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc${pear.ext}">
+            <arg value="--log-csv" />
+            <arg file="${build.logs.dir}/phploc.csv" />
+            <arg file="${src.dir}/server" />
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="pdepend${pear.ext}">
+            <arg value="--jdepend-xml=${build.logs.dir}/jdepend.xml" />
+            <arg value="--jdepend-chart=${build.dir}/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${build.dir}/pdepend/overview-pyramid.svg" />
+            <arg file="${src.dir}/server" />
+        </exec>
+    </target>
+
+    <target name="phpmd"
+            description="Perform project mess detection using PHPMD and print human readable output. Run before committing.">
+        <exec executable="phpmd${pear.ext}">
+            <arg file="${src.dir}/server" />
+            <arg value="text" />
+            <arg file="${scripts.dir}/phpmd_rules.xml" />
+        </exec>
+    </target>
+
+    <!-- Perform project mess detection using PHPMD creating a log file for the continuous integration server -->
+    <target name="-phpmd-ci">
+        <exec executable="phpmd${pear.ext}">
+            <arg file="${src.dir}/server" />
+            <arg value="xml" />
+            <arg file="${scripts.dir}/phpmd_rules.xml" />
+            <arg value="--reportfile" />
+            <arg file="${build.logs.dir}/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="-phpcs-standard" unless="${phpcs.standard.exists}">
+        <dependency name="codeigniter-for-php-codesniffer" dest="${build.dir}/phpcs"/>
+    </target>
+
+    <target name="phpcs"
+            description="Find coding standard violations. Run before committing.">
+
+        <!-- Get the required coding standard -->
+        <condition property="phpcs.standard.exists">
+            <available file="${build.dir}/phpcs/CodeIgniter/ruleset.xml"/>
+        </condition>
+        <antcall target="-phpcs-standard"/>
+
+        <exec executable="phpcs${pear.ext}">
+            <arg value="--standard=${build.dir}/phpcs/CodeIgniter" />
+            <arg file="${src.dir}/server" />
+        </exec>
+    </target>
+
+    <!-- Find coding standard violations creating a log file for the continuous integration server -->
+    <target name="-phpcs-ci">
+
+        <!-- Get the required coding standard -->
+        <condition property="phpcs.standard.exists">
+            <available file="${build.dir}/phpcs/CodeIgniter/ruleset.xml"/>
+        </condition>
+        <antcall target="-phpcs-standard"/>
+
+        <exec executable="phpcs${pear.ext}">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${build.logs.dir}/php-checkstyle.xml" />
+            <arg value="--standard=${build.dir}/phpcs/CodeIgniter" />
+            <arg file="${src.dir}/server" />
+            <redirector />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD. Run before committing.">
+        <exec executable="phpcpd${pear.ext}">
+            <arg value="--log-pmd" />
+            <arg file="${build.logs.dir}/pmd-cpd.xml" />
+            <arg file="${src.dir}/server" />
+        </exec>
+    </target>
+
+    <!-- We are not using phpdox
+                              		<target name="phpdox" description="Generate API documentation using phpDox">
+                                                         			<exec executable="phpdox${pear.ext}"/>
+                              		</target>
+   	-->
+
+    <!-- We are not currently using phpunit
+                              		<target name="phpunit" description="Run unit tests with PHPUnit">
+                                                         			<exec executable="phpunit${pear.ext}" failonerror="true"/>
+                              		</target>
+   	-->
+
+    <!--    We are not currently using phpcb because HTMLPublisher isn't available on the build server
+<target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <exec executable="phpcb${pear.ext}">
+            <arg value="\-\-log" />
+            <arg file="${build.logs.dir}" />
+            <arg value="\-\-source" />
+            <arg file="${src.dir}" />
+            <arg value="\-\-output" />
+            <arg file="${build.dir}/code-browser" />
+        </exec>
+    </target>-->
+
+    <!-- Sets config variables specifict to this build. -->
+    <target name="-build-config">
+        <echo>Setting up build config files</echo>
+
+        <replace file="${build.config.dir}/app.php">
+            <replacefilter token="$config['name'] = 'My App';"
+                           value="$config['name'] = '${app.name}';"/>
+            <replacefilter token="$config['version'] = '';"
+                           value="$config['version'] = '${app.version}';"/>
+            <replacefilter token="$config['build_time'] = '';"
+                           value="$config['build_time'] = '${build.time}';"/>
+            <replacefilter token="$config['revision'] = '';"
+                           value="$config['revision'] = '${app.revision}';"/>
+        </replace>
+
+    </target>
+
+    <!-- Sets config variables specific to the distribution. -->
+    <target name="-dist-config">
+        <echo>Setting up dist config files</echo>
+
+        <replace file="${dist.dir}/index.php"
+                 token="define('ENVIRONMENT', 'development');"
+                 value="define('ENVIRONMENT', '${app.environment}');"/>
+    </target>
+
+
+    <target name="dist" depends="clean-dist,build" description="Creates a distributable build. Use for local testing.">
+
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.gather.dir}/server"/>
+        </copy>
+
+        <!-- Just copy it over for regular dist -->
+        <copy todir="${dist.dir}/assets">
+            <fileset dir="${build.gather.dir}/client"/>
+        </copy>
+
+    </target>
+
+    <target name="dist-prod" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
+
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.gather.dir}/server"/>
+        </copy>
+
+        <antcall target="optimize-client-dist"/>
+
+        <antcall target="set-config"/>
+    </target>
+
+
+    <!-- Simply copies the src into build, and then into dist -->
+    <target name="refresh" description="Does a quick copy to dist of any server and client source files that have changed." >
+        <copy todir="${build.gather.dir}/server/application">
+            <fileset dir="${src.dir}/server"/>
+        </copy>
+
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.gather.dir}/server"/>
+        </copy>
+
+        <copy todir="${build.gather.dir}/client">
+            <fileset dir="${src.dir}/client"/>
+        </copy>
+
+        <copy todir="${dist.dir}/assets">
+            <fileset dir="${build.gather.dir}/client"/>
+        </copy>
+    </target>
+
+
+    <macrodef name="sshcmd" description="Executes a command remotely">
+        <attribute name="command"/>
+        <attribute name="failonerror" default="true"/>
+        <sequential>
+            <sshexec host="${deploy.remote.host}"
+                     username="${deploy.remote.user}"
+                     keyfile="${deploy.key.file}"
+                     failonerror="@{failonerror}"
+                     command="@{command}"/>
+        </sequential>
+    </macrodef>
+
+    <target name="-deploy-vars">
+        <fail unless="deploy.remote.user" message="Must define deploy.remote.user"/>
+        <fail unless="deploy.remote.host" message="Must define deploy.remote.host"/>
+        <fail unless="deploy.key.file" message="Must define deploy.key.file"/>
+    </target>
+
+    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars">
+        <property name="prod.app.dir" value="~/public_html/${app.shortname}"/>
+
+        <!-- In case there is a copy in place already, take it offline -->
+        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php down"/>
+
+        <chmod file="${dist.dir}/application/util/*.sh" perm="u+x"/>
+        <chmod file="${dist.dir}/application/util/manage.php" perm="u+x"/>
+        <chmod file="${dist.dir}/index.php" perm="u+x"/>
+
+        <!-- Copy the files up -->
+        <exec executable="rsync" failonerror="true">
+            <arg value="-avz"/>
+            <arg value="--chmod=ug+r,u+wx,a-r"/>
+            <arg value="--no-perms"/>
+            <arg value="--group=www"/>
+            <arg value="${dist.dir}/"/>
+            <arg value="${deploy.remote.user}@${deploy.remote.host}:${prod.app.dir}/"/>
+        </exec>
+
+        <!-- Now upgrade the installation -->
+        <sshcmd command="${prod.app.dir}/application/util/prod_upgrade.sh ${app.shortname}"/>
+
+        <!-- Now back online -->
+        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php up"/>
+
+        <echo>echo "Upgrade complete at host/${app.shortname}"</echo>
+    </target>
+
+    <!-- Deploys a live test with production data. -->
+    <target name="deploy-test" depends="-deploy-vars,dist">
+
+        <property name="test.name" value="test"/>
+        <property name="test.app.dir" value="~/public_html/${test.name}"/>
+
+        <!-- Clean the remote copy -->
+        <sshcmd command="rm -rf ${test.app.dir}; mkdir -p ${test.app.dir}"/>
+
+        <chmod file="${dist.dir}/application/util/*.sh" perm="u+x"/>
+        <chmod file="${dist.dir}/application/util/manage.php" perm="u+x"/>
+        <chmod file="${dist.dir}/index.php" perm="u+x"/>
+
+        <!-- Copy the files up -->
+        <exec executable="rsync" failonerror="true">
+            <arg value="-avz"/>
+            <arg value="--chmod=ug+r,u+wx,a-r"/>
+            <arg value="--no-perms"/>
+            <arg value="--group=www"/>
+            <arg value="${dist.dir}/"/>
+            <arg value="${deploy.remote.user}@${deploy.remote.host}:${test.app.dir}/"/>
+        </exec>
+
+        <!-- Now run the script to set up the test on the server -->
+        <sshcmd command="${test.app.dir}/application/util/test_install.sh ${test.name}"/>
+
+        <!-- Now bring it online -->
+        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php up"/>
+
+        <echo>echo "Test installed at host/${test.name}"</echo>
+    </target>
+
+</project>

@@ -1,0 +1,118 @@
+
+#sidebar {
+    width: 300px;
+    position: absolute;
+    background-color: #fff;
+    left: 0px;
+    box-shadow: 0px 0px 2px -2px #333;
+}
+
+#adminmenu {
+    margin: 20px 10px 10px 20px;
+}
+
+html, body {
+    padding: 0px;
+    margin: 0px;
+}
+
+html, body, #sidebar, #main {
+    min-height: 100%;
+}
+
+body {
+    width: 100%;
+    background: #EEE;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dropshadow {
+    box-shadow: 0px 0px 2px 2px #888;
+}
+
+#main {
+
+    /*margin-left: 300px; */
+    padding: 20px;
+    /*box-shadow: inset 4px 0px 10px -2px #333;*/
+}
+
+#logo {
+    margin-top: 20px;
+}
+
+
+.content {
+    padding: 10px;
+    background-color: white;
+    /*box-shadow: 0px 0px 6px 0px #AAA;*/
+    border-radius: 5px;
+    border: 1px solid #888;
+}
+
+#testgrid {
+    /*padding: 10px;*/
+    height: 500px;
+    border: 1px solid #000;
+}
+
+#outer {
+    min-height: 100%;
+    margin-left: 300px;
+    overflow: hidden;
+}
+
+
+
+
+.loading-indicator {
+    display: inline-block;
+    padding: 12px;
+    background: white;
+    -opacity: 0.5;
+    color: black;
+    font-weight: bold;
+    z-index: 9999;
+    border: 1px solid red;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #000;
+    -text-shadow: 1px 1px 1px white;
+}
+
+.loading-indicator label {
+    padding-left: 20px;
+    background: url('../modules/slickgrid/images/ajax-loader-small.gif') no-repeat center left;
+}
+
+
+/* clearfix hack */
+/* For modern browsers */
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+
+.cf:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf {
+    zoom:1;
+}
+
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+

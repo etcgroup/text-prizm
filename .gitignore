@@ -1,0 +1,8 @@
+Thumbs.db
+nbproject/private
+.DS_Store
+.*\.orig$
+build/*
+dist/*
+build.local.properties
+cache.properties
