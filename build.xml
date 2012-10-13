@@ -516,7 +516,7 @@
         <fail unless="deploy.key.file" message="Must define deploy.key.file"/>
     </target>
 
-    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars">
+    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars,dist">
         <property name="prod.app.dir" value="~/public_html/${app.shortname}"/>
 
         <!-- In case there is a copy in place already, take it offline -->
