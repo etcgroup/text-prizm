@@ -27,7 +27,8 @@ class Migration_Add_coding_codes extends CI_Migration {
             ),
             'active_instances' => array(
                 'type' => 'INT',
-                'unsigned' => TRUE
+                'unsigned' => TRUE,
+                'default' => 0
             ),
             'schema_id' => array(
                 'type' => 'INT'

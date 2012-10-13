@@ -31,7 +31,7 @@ class Migration_Add_coding_ratings extends CI_Migration {
             ),
             'updated' => array(
                 'type' => 'DATETIME'
-            ),
+            )
         ));
 
         //Add the primary key
