@@ -626,7 +626,7 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if (!Util::put_file($htaccess_dest, $htaccess_content))
+        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put standard .htaccess in place');
         }
