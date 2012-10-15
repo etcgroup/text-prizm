@@ -603,6 +603,10 @@ class Config {
     function collect_env_install(&$install_config, $name)
     {
         $install_config['db']['hostname'] = $_ENV['MYSQL_RUNTIME_HOST'];
+        if ($_ENV['MYSQL_PORT'])
+        {
+            $install_config['db']['hostname'] .= ':' . $_ENV['MYSQL_PORT'];
+        }
         $install_config['db']['username'] = $_ENV['MYSQL_' . $name . '_USER'];
         $install_config['db']['password'] = $_ENV['MYSQL_' . $name . '_PASSWORD'];
         $install_config['db']['database'] = $_ENV['MYSQL_' . $name . '_DATABASE'];
