@@ -2,7 +2,9 @@ require.config({
     paths: {
         'backbone': 'lib/backbone',
         'underscore': 'lib/underscore',
-        'jquery' : 'lib/jquery'
+        'jquery' : 'lib/jquery',
+        'jquery.event.drag' : 'lib/jquery.event.drag',
+        'jquery.event.drop' : 'lib/jquery.event.drop'
     },
     shim: {
         'lib/backbone-relational': {
