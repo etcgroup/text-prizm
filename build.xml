@@ -312,10 +312,11 @@
                 <modified />
             </fileset>
 
+<!--        Removed until we have some unit tests
             <fileset dir="${tests.dir}/server">
                 <include name="**/*.php" />
                 <modified />
-            </fileset>
+            </fileset>-->
         </apply>
     </target>
 
