@@ -928,7 +928,14 @@ class Manager {
         }
         else
         {
-            warn('You have no install config file. Would you like to create one? (y/n)', 'y');
+            if (Config::$env_install)
+            {
+                out('Reading install config from environment...');
+            }
+            else
+            {
+                warn('You have no install config file. Would you like to create one? (y/n)', 'y');
+            }
             $this->config->collect_install_config();
         }
 
@@ -1036,7 +1043,8 @@ else if ($argc >= 2)
         if ($argv[2] === 'env-install')
         {
             Config::$env_install = TRUE;
-            if ($argc == 3) {
+            if ($argc == 3)
+            {
                 fatal('Must specify name for env-install');
             }
             Config::$env_install_name = $argv[3];
