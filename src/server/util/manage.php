@@ -662,7 +662,7 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if (!Util::put_file($htaccess_dest, $htaccess_content))
+        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put maintenance .htaccess in place');
         }
@@ -690,9 +690,9 @@ class Config {
             return TRUE;
         }
 
-        if (!Util::unput_file($htaccess_dest))
+        if (!$this->place_standard_htaccess())
         {
-            fatal('Unable to remove maintenance .htaccess');
+            fatal('Unable to restore standard .htaccess');
         }
         out('Removing maintenance.php');
         if (!unlink($maintenance_dest))
