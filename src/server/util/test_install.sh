@@ -13,6 +13,9 @@ echo "Testing based on ${MYSQL_PROD_DATABASE} database"
 TEST_DATABASE=${MYSQL_PROD_DATABASE}_${TEST_NAME}
 TEST_BASEURL=$BASE_URL/$TEST_NAME
 
+# Set permissions
+www-fixdir -r $PUBLIC_HTML/$TEST_NAME
+
 # Copy the production data
 $PUBLIC_HTML/$TEST_NAME/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $TEST_DATABASE
 

@@ -13,6 +13,9 @@ echo "Using production ${MYSQL_PROD_DATABASE} database"
 PROD_BASEURL=$BASE_URL/$INSTALL_NAME
 BACKUP_DATABASE=${MYSQL_PROD_DATABASE}_backup
 
+# Set permissions
+www-fixdir -r $PUBLIC_HTML/$TEST_NAME
+
 # Back up the production data
 $PUBLIC_HTML/$INSTALL_NAME/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $BACKUP_DATABASE
 

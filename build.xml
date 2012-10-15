@@ -403,15 +403,15 @@
     </target>
 
     <!-- We are not using phpdox
-                              		<target name="phpdox" description="Generate API documentation using phpDox">
-                                                         			<exec executable="phpdox${pear.ext}"/>
-                              		</target>
+                                  		<target name="phpdox" description="Generate API documentation using phpDox">
+                                                                 			<exec executable="phpdox${pear.ext}"/>
+                                  		</target>
    	-->
 
     <!-- We are not currently using phpunit
-                              		<target name="phpunit" description="Run unit tests with PHPUnit">
-                                                         			<exec executable="phpunit${pear.ext}" failonerror="true"/>
-                              		</target>
+                                  		<target name="phpunit" description="Run unit tests with PHPUnit">
+                                                                 			<exec executable="phpunit${pear.ext}" failonerror="true"/>
+                                  		</target>
    	-->
 
     <!--    We are not currently using phpcb because HTMLPublisher isn't available on the build server
@@ -464,6 +464,8 @@
             <fileset dir="${build.gather.dir}/client"/>
         </copy>
 
+        <antcall target="-permissions"/>
+
     </target>
 
     <target name="dist-prod" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
@@ -475,6 +477,8 @@
         <antcall target="optimize-client-dist"/>
 
         <antcall target="set-config"/>
+
+        <antcall target="-permissions"/>
     </target>
 
 
@@ -516,31 +520,36 @@
         <fail unless="deploy.key.file" message="Must define deploy.key.file"/>
     </target>
 
-    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars,dist">
-        <property name="prod.app.dir" value="~/public_html/${app.shortname}"/>
-
-        <!-- In case there is a copy in place already, take it offline -->
-        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php down"/>
-
-        <chmod file="${dist.dir}/application/util/*.sh" perm="u+x"/>
-        <chmod file="${dist.dir}/application/util/manage.php" perm="u+x"/>
-        <chmod file="${dist.dir}/index.php" perm="u+x"/>
-
+    <target name="-upload-files">
+        <echo>Uploading files to ${deploy.remote.host}/${deploy.remote.dir}</echo>
         <!-- Copy the files up -->
         <exec executable="rsync" failonerror="true">
-            <arg value="-avz"/>
-            <arg value="--chmod=ug+r,u+wx,a-r"/>
-            <arg value="--no-perms"/>
-            <arg value="--group=www"/>
+            <arg value="-az"/>
             <arg value="${dist.dir}/"/>
-            <arg value="${deploy.remote.user}@${deploy.remote.host}:${prod.app.dir}/"/>
+            <arg value="${deploy.remote.user}@${deploy.remote.host}:${deploy.remote.dir}/"/>
         </exec>
+    </target>
+
+    <target name="-permissions">
+        <echo>Setting file and directory permissions...</echo>
+        <!-- baseline permissions -->
+        <chmod file="${dist.dir}/**" perm="2750" type="dir"/>
+        <chmod file="${dist.dir}/**" perm="740" type="file"/>
+    </target>
+
+    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars,dist">
+        <property name="deploy.remote.dir" value="~/public_html/${app.shortname}"/>
+
+        <!-- In case there is a copy in place already, take it offline -->
+        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php down"/>
+
+        <antcall target="-upload-files"/>
 
         <!-- Now upgrade the installation -->
-        <sshcmd command="${prod.app.dir}/application/util/prod_upgrade.sh ${app.shortname}"/>
+        <sshcmd command="${deploy.remote.dir}/application/util/prod_upgrade.sh ${app.shortname}"/>
 
         <!-- Now back online -->
-        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php up"/>
+        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php up"/>
 
         <echo>echo "Upgrade complete at host/${app.shortname}"</echo>
     </target>
@@ -549,30 +558,18 @@
     <target name="deploy-test" depends="-deploy-vars,dist">
 
         <property name="test.name" value="test"/>
-        <property name="test.app.dir" value="~/public_html/${test.name}"/>
+        <property name="deploy.remote.dir" value="~/public_html/${test.name}"/>
 
         <!-- Clean the remote copy -->
-        <sshcmd command="rm -rf ${test.app.dir}; mkdir -p ${test.app.dir}"/>
+        <sshcmd command="rm -rf ${deploy.remote.dir}; mkdir -p --mode=u+rwx,g+rxs,o-rwx ${deploy.remote.dir}"/>
 
-        <chmod file="${dist.dir}/application/util/*.sh" perm="u+x"/>
-        <chmod file="${dist.dir}/application/util/manage.php" perm="u+x"/>
-        <chmod file="${dist.dir}/index.php" perm="u+x"/>
-
-        <!-- Copy the files up -->
-        <exec executable="rsync" failonerror="true">
-            <arg value="-avz"/>
-            <arg value="--chmod=ug+r,u+wx,a-r"/>
-            <arg value="--no-perms"/>
-            <arg value="--group=www"/>
-            <arg value="${dist.dir}/"/>
-            <arg value="${deploy.remote.user}@${deploy.remote.host}:${test.app.dir}/"/>
-        </exec>
+        <antcall target="-upload-files"/>
 
         <!-- Now run the script to set up the test on the server -->
-        <sshcmd command="${test.app.dir}/application/util/test_install.sh ${test.name}"/>
+        <sshcmd command="${deploy.remote.dir}/application/util/test_install.sh ${test.name}"/>
 
         <!-- Now bring it online -->
-        <sshcmd command="cd ${prod.app.dir}; php application/util/manage.php up"/>
+        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php up"/>
 
         <echo>echo "Test installed at host/${test.name}"</echo>
     </target>
