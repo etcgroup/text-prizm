@@ -32,9 +32,8 @@
     <property name="node.ext" value=""/>
 
     <!-- Get the build properties -->
+    <property file="${basedir}/build.local.properties"/>
     <property file="${basedir}/build.properties"/>
-
-    <property file="${basedir}/deploy.properties"/>
 
     <!-- This gives us access to the dependencies project -->
     <include file="${deps.dir}/build.xml"/>
@@ -537,7 +536,7 @@
         <chmod file="${dist.dir}/**" perm="740" type="file"/>
     </target>
 
-    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars,dist">
+    <target name="deploy-prod" description="Deploys to production" depends="-deploy-vars">
         <property name="deploy.remote.dir" value="~/public_html/${app.shortname}"/>
 
         <!-- In case there is a copy in place already, take it offline -->
@@ -555,7 +554,7 @@
     </target>
 
     <!-- Deploys a live test with production data. -->
-    <target name="deploy-test" depends="-deploy-vars,dist">
+    <target name="deploy-test" depends="-deploy-vars">
 
         <property name="test.name" value="test"/>
         <property name="deploy.remote.dir" value="~/public_html/${test.name}"/>
@@ -572,6 +571,37 @@
         <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php up"/>
 
         <echo>echo "Test installed at host/${test.name}"</echo>
+    </target>
+
+    <target name="-local-test-vars">
+        <fail unless="deploy.local.dir" message="Must define deploy.local.dir"/>
+    </target>
+
+    <target name="local-test" depends="-local-test-vars">
+
+        <mkdir dir="${deploy.local.dir}"/>
+
+        <!-- Take it offline -->
+        <exec executable="php" failonerror="false">
+            <arg file="${deploy.local.dir}/application/util/manage.php"/>
+            <arg value="down"/>
+        </exec>
+
+        <copy todir="${deploy.local.dir}">
+            <fileset dir="${dist.dir}"/>
+        </copy>
+
+        <!-- Do the upgrade -->
+        <exec executable="php" failonerror="true">
+            <arg file="${deploy.local.dir}/application/util/manage.php"/>
+            <arg value="install"/>
+        </exec>
+
+        <!-- Bring it back up -->
+        <exec executable="php" failonerror="true">
+            <arg file="${deploy.local.dir}/application/util/manage.php"/>
+            <arg value="up"/>
+        </exec>
     </target>
 
 </project>

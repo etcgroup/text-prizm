@@ -4,5 +4,6 @@ nbproject/private
 .*\.orig$
 build/*
 dist/*
+deploy-local
 build.local.properties
 cache.properties
