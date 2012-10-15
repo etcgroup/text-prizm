@@ -572,8 +572,15 @@
         <antcall target="-upload-files"/>
 
         <!-- Copy the production database -->
-        <sshcmd command="source $HOME/credentials.sh;
-                         ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_TEST_DATABASE"/>
+        <if>
+            <not>
+                <isset property="deploy.test.nobackup"/>
+            </not>
+            <then>
+                <sshcmd command="source $HOME/credentials.sh;
+                                 ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_TEST_DATABASE"/>
+            </then>
+        </if>
 
         <!-- Now run the script to set up the test on the server -->
         <sshcmd command="source $HOME/credentials.sh;
