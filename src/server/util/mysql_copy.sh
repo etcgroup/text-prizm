@@ -27,10 +27,10 @@ echo "Dropping database <$TO_DATABASE>..."
 ${MYSQL_BINDIR}/mysqladmin drop $TO_DATABASE --force $MYSQL_CONNECTION_OPTS || true
 
 # Create the database fresh
+echo "Creating database <$TO_DATABASE>."
 ${MYSQL_BINDIR}/mysqladmin create $TO_DATABASE $MYSQL_CONNECTION_OPTS
 
-echo "Created database <$TO_DATABASE>."
-echo "Copying data from $FROM_DATABASE into $TO_DATABASE..."
+echo "Copying data..."
 # Pipe data in from the production database
 ${MYSQL_BINDIR}/mysqldump $MYSQL_CONNECTION_OPTS $FROM_DATABASE | ${MYSQL_BINDIR}/mysql $MYSQL_CONNECTION_OPTS $TO_DATABASE
 
