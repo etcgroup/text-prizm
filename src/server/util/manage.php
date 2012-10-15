@@ -149,7 +149,29 @@ class IniFileWriter {
 abstract class Util {
 
     static $action_stack = array();
-    static $answer_default = FALSE;
+
+    /**
+     * Surrounds $path with '/' if not present already.
+     * @param type $path
+     * @return string
+     */
+    static function slashify($path)
+    {
+        if (strlen($path) == 0)
+        {
+            return '/';
+        }
+
+        if ($path[0] != '/')
+        {
+            $path = '/' . $path;
+        }
+        if ($path[strlen($path) - 1] != '/')
+        {
+            $path = $path . '/';
+        }
+        return $path;
+    }
 
     /**
      * Generates a highly random encryption key suitable for CodeIgniter.
@@ -272,10 +294,7 @@ abstract class Util {
         while ($varin === NULL)
         {
             fwrite(STDOUT, $question);
-
-            if (!self::$answer_default) {
-                $varin = trim(fgets(STDIN));
-            }
+            $varin = trim(fgets(STDIN));
 
             if (!$varin)
             {
@@ -466,6 +485,8 @@ function warn($message = '')
 
 class Config {
 
+    static $env_install = FALSE;
+    static $env_install_name = FALSE;
     var $config_dir;
     var $util_dir;
     var $application_dir;
@@ -550,29 +571,44 @@ class Config {
             'htaccess_header' => ''
         );
 
-        $install_config['db']['hostname'] = Util::get_input('Database hostname?', 'localhost');
-        $install_config['db']['username'] = Util::get_input('Database username?', 'root');
-        $install_config['db']['password'] = Util::get_input('Database password?', '');
-        $install_config['db']['database'] = Util::get_input('Database schema?');
-
-        $site_path = Util::get_input('Path portion of your application\'s url?', '/');
-        if ($site_path[0] != '/')
+        if (!self::$env_install)
         {
-            $site_path = '/' . $site_path;
-        }
-        if ($site_path[strlen($site_path) - 1] != '/')
-        {
-            $site_path = $site_path . '/';
-        }
-        $install_config['site_path'] = $site_path;
+            $install_config['db']['hostname'] = Util::get_input('Database hostname?', 'localhost');
+            $install_config['db']['username'] = Util::get_input('Database username?', 'root');
+            $install_config['db']['password'] = Util::get_input('Database password?', '');
+            $install_config['db']['database'] = Util::get_input('Database schema?');
 
-        $install_config['htaccess_header'] = Util::get_input('Any special header for your .htaccess file?', '');
+            $install_config['site_path'] = Util::get_input('Path portion of your application\'s url?', '/');
+            $install_config['htaccess_header'] = Util::get_input('Any special header for your .htaccess file?', '');
+        }
+        else
+        {
+            $this->collect_env_install($install_config, self::$env_install_name);
+        }
+
+        $install_config['site_path'] = Util::slashify($install_config['site_path']);
         $install_config['htaccess_header'] = str_replace('\n', "\n", $install_config['htaccess_header']);
 
         out('Configuration:');
         var_dump($install_config);
 
         $this->install_config = $install_config;
+    }
+
+    /**
+     * Gets the install config by $name from the environment.
+     * @param array $install_config
+     * @param string $name
+     */
+    function collect_env_install(&$install_config, $name)
+    {
+        $install_config['db']['hostname'] = $_ENV['MYSQL_RUNTIME_HOST'];
+        $install_config['db']['username'] = $_ENV['MYSQL_' . $name . '_USER'];
+        $install_config['db']['password'] = $_ENV['MYSQL_' . $name . '_PASSWORD'];
+        $install_config['db']['database'] = $_ENV['MYSQL_' . $name . '_DATABASE'];
+
+        $install_config['site_path'] = $_ENV['BASE_URL_' . $name];
+        $install_config['htaccess_header'] = $_ENV['HTACCESS_HEADER'];
     }
 
     function save_install_config($install_config = NULL)
@@ -995,9 +1031,15 @@ else if ($argc >= 2)
 {
     $method_name = $argv[1];
 
-    if ($argc >= 3) {
-        if ($argv[2] === 'yes') {
-            Util::$answer_default = TRUE;
+    if ($argc >= 3)
+    {
+        if ($argv[2] === 'env-install')
+        {
+            Config::$env_install = TRUE;
+            if ($argc == 3) {
+                fatal('Must specify name for env-install');
+            }
+            Config::$env_install_name = $argv[3];
         }
     }
 

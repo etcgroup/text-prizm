@@ -527,6 +527,9 @@
             <arg value="${dist.dir}/"/>
             <arg value="${deploy.remote.user}@${deploy.remote.host}:${deploy.remote.dir}/"/>
         </exec>
+
+        <!-- Set permissions -->
+        <sshcmd command="www-fixdir -r ${deploy.remote.dir}"/>
     </target>
 
     <target name="-permissions">
@@ -540,15 +543,20 @@
         <property name="deploy.remote.dir" value="~/public_html/${app.shortname}"/>
 
         <!-- In case there is a copy in place already, take it offline -->
-        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php down"/>
+        <sshcmd command="php ${deploy.remote.dir}/application/util/manage.php down"/>
 
         <antcall target="-upload-files"/>
 
-        <!-- Now upgrade the installation -->
-        <sshcmd command="${deploy.remote.dir}/application/util/prod_upgrade.sh ${app.shortname}"/>
+        <!-- Backup the database -->
+        <sshcmd command="source $HOME/credentials.sh;
+                         ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_PROD_BACKUP_DATABASE"/>
+
+        <!-- Run the upgrade script -->
+        <sshcmd command="source $HOME/credentials.sh;
+                         php ${deploy.remote.dir}/application/util/manage.php install env-install PROD"/>
 
         <!-- Now back online -->
-        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php up"/>
+        <sshcmd command="php ${deploy.remote.dir}/application/util/manage.php up"/>
 
         <echo>echo "Upgrade complete at host/${app.shortname}"</echo>
     </target>
@@ -556,21 +564,25 @@
     <!-- Deploys a live test with production data. -->
     <target name="deploy-test" depends="-deploy-vars">
 
-        <property name="test.name" value="test"/>
-        <property name="deploy.remote.dir" value="~/public_html/${test.name}"/>
+        <property name="deploy.remote.dir" value="~/public_html/test"/>
 
         <!-- Clean the remote copy -->
         <sshcmd command="rm -rf ${deploy.remote.dir}; mkdir -p --mode=u+rwx,g+rxs,o-rwx ${deploy.remote.dir}"/>
 
         <antcall target="-upload-files"/>
 
+        <!-- Copy the production database -->
+        <sshcmd command="source $HOME/credentials.sh;
+                         ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_TEST_DATABASE"/>
+
         <!-- Now run the script to set up the test on the server -->
-        <sshcmd command="${deploy.remote.dir}/application/util/test_install.sh ${test.name}"/>
+        <sshcmd command="source $HOME/credentials.sh;
+                         php ${deploy.remote.dir}/application/util/manage.php install env-install TEST"/>
 
         <!-- Now bring it online -->
-        <sshcmd command="cd ${deploy.remote.dir}; php application/util/manage.php up"/>
+        <sshcmd command="php ${deploy.remote.dir}/application/util/manage.php up"/>
 
-        <echo>echo "Test installed at host/${test.name}"</echo>
+        <echo>echo "Test installed at host/test"</echo>
     </target>
 
     <target name="-local-test-vars">
