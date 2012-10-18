@@ -536,7 +536,7 @@
         </exec>
 
         <!-- Set permissions -->
-        <sshcmd command="www-fixdir -r ${deploy.remote.dir}"/>
+        <sshcmd command="www-fixdir -r ${deploy.remote.dir}" failonerror="false"/>
     </target>
 
     <target name="-permissions">
