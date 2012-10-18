@@ -490,7 +490,7 @@
             <fileset dir="${build.gather.dir}/server"/>
         </copy>
 
-        <antcall target="optimize-client-dist"/>
+        <antcall target="-optimize-client-dist"/>
 
         <antcall target="-permissions"/>
 
