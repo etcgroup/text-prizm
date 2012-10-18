@@ -12,5 +12,5 @@
 	}
 	],
 	optimize: 'none',
-	mainConfigFile: 'build/client/js/common_config.js'
+	mainConfigFile: '../build/src/client/js/common_config.js'
 })
