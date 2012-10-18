@@ -473,8 +473,9 @@
         <antcall target="-permissions"/>
 
         <tar destfile="${basedir}/dist.tar.gz"
-             basedir="${dist.dir}"
-             compression="gzip"/>
+             compression="gzip">
+             <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
+        </tar>
     </target>
 
     <target name="dist-opt" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
@@ -490,8 +491,9 @@
         <antcall target="-permissions"/>
 
         <tar destfile="${basedir}/dist-opt.tar.gz"
-             basedir="${dist.dir}"
-             compression="gzip"/>
+             compression="gzip">
+             <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
+        </tar>
     </target>
 
 
@@ -532,16 +534,28 @@
         <fail unless="deploy.remote.user" message="Must define deploy.remote.user"/>
         <fail unless="deploy.remote.host" message="Must define deploy.remote.host"/>
         <fail unless="deploy.key.file" message="Must define deploy.key.file"/>
+
+        <available file="${basedir}/dist-opt.tar.gz" property="dist.tar.file" value="${basedir}/dist-opt.tar.gz"/>
+        <available file="${basedir}/dist.tar.gz" property="dist.tar.file" value="${basedir}/dist.tar.gz"/>
+
+        <fail unless="dist.tar.file" message="Either dist-opt.tar.gz or dist.tar.gz must be present"/>
     </target>
 
     <target name="-upload-files">
         <echo>Uploading files to ${deploy.remote.host}/${deploy.remote.dir}</echo>
         <!-- Copy the files up -->
-        <exec executable="rsync" failonerror="true">
-            <arg value="-az"/>
-            <arg value="${dist.dir}/"/>
-            <arg value="${deploy.remote.user}@${deploy.remote.host}:${deploy.remote.dir}/"/>
-        </exec>
+
+        <basename file="${dist.tar.file}" property="dist.tar.filename"/>
+
+        <scp file="${dist.tar.file}" todir="${deploy.remote.user}@${deploy.remote.host}:${deploy.remote.dir}"
+             keyfile="${deploy.key.file}"
+             trust="true"/>
+
+        <echo>Extracting ${deploy.remote.filename} remotely</echo>
+        <sshcmd command="tar -xzf ${deploy.remote.dir}/${dist.tar.filename} -C ${deploy.remote.dir}"/>
+
+        <echo>Deleting ${deploy.remote.filename} on the server</echo>
+        <sshcmd command="rm ${deploy.remote.dir}/${dist.tar.filename}"/>
 
         <!-- Set permissions -->
         <sshcmd command="www-fixdir -r ${deploy.remote.dir}" failonerror="false"/>

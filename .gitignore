@@ -7,3 +7,4 @@ dist/*
 deploy-local
 build.local.properties
 cache.properties
+dist*.tar.gz
