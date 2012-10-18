@@ -271,7 +271,7 @@
             <arg value="--checkstyle-reporter" />
             <arg file="${src.dir}/client/js" />
         </exec-node-output>
-        
+
         <echo file="${build.logs.dir}/js-checkstyle.xml" message="${jshint-ci.output}"/>
     </target>
 
@@ -299,15 +299,15 @@
         </exec-node-output>
 
         <delete file="${basedir}/.csslintrc"/>
-        
+
         <echo file="${build.logs.dir}/css-checkstyle.xml" message="${csslint-ci.output}"/>
-        
+
         <replaceregexp flags="s" file="${build.logs.dir}/css-checkstyle.xml"
             match="^.*&lt;\?xml"
             replace="&lt;\?xml"/>
-        
+
     </target>
-    
+
     <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
         <apply executable="php" failonerror="true">
             <arg value="-l" />
@@ -516,7 +516,8 @@
                      username="${deploy.remote.user}"
                      keyfile="${deploy.key.file}"
                      failonerror="@{failonerror}"
-                     command="@{command}"/>
+                     command="@{command}"
+                     trust="true"/>
         </sequential>
     </macrodef>
 
