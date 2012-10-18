@@ -22,7 +22,7 @@ fi
 
 MYSQL_CONNECTION_OPTS="-h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_DEPLOY_USER --password=$MYSQL_DEPLOY_PASSWORD"
 
-if [ -z "$ONLY_IF_NEWER" ]; then
+if [ -n "$ONLY_IF_NEWER" ]; then
     echo "Checking if target database schema is up to date..."
     TO_SCHEMA=`${MYSQL_BINDIR}/mysqldump $MYSQL_CONNECTION_OPTS --no-data --skip-dump-date --skip-comments $TO_DATABASE` || true
     FROM_SCHEMA=`${MYSQL_BINDIR}/mysqldump $MYSQL_CONNECTION_OPTS --no-data --skip-dump-date --skip-comments $FROM_DATABASE` || true
