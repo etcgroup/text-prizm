@@ -114,6 +114,7 @@
     <target name="clean-dist" description="Cleans the dist folder">
         <echo>Cleaning directory ${dist.dir}</echo>
         <delete dir="${dist.dir}" includeemptydirs="true" failonerror="true" />
+        <delete file="${basedir}/dist*.tar.gz"/>
     </target>
 
     <target name="clean-build" description="Cleans the build folder">
@@ -471,9 +472,12 @@
 
         <antcall target="-permissions"/>
 
+        <tar destfile="${basedir}/dist.tar.gz"
+             basedir="${dist.dir}"
+             compression="gzip"/>
     </target>
 
-    <target name="dist-prod" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
+    <target name="dist-opt" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
 
         <copy todir="${dist.dir}">
             <fileset dir="${build.gather.dir}/server"/>
@@ -484,6 +488,10 @@
         <antcall target="set-config"/>
 
         <antcall target="-permissions"/>
+
+        <tar destfile="${basedir}/dist-opt.tar.gz"
+             basedir="${dist.dir}"
+             compression="gzip"/>
     </target>
 
 
