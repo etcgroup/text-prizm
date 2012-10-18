@@ -308,9 +308,6 @@
         
     </target>
     
-    <target name="testing" depends="-csslint-ci">
-    </target>
-
     <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
         <apply executable="php" failonerror="true">
             <arg value="-l" />
