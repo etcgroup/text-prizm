@@ -465,7 +465,7 @@
     </target>
 
 
-    <target name="dist" depends="clean-dist,build" description="Creates a distributable build. Use for local testing.">
+    <target name="dist" depends="clean-dist" description="Creates a distributable build. Use for local testing.">
 
         <copy todir="${dist.dir}">
             <fileset dir="${build.gather.dir}/server"/>
@@ -484,15 +484,13 @@
         </tar>
     </target>
 
-    <target name="dist-opt" depends="prod-deps,clean-dist,build" description="Creates a distributable build optimized for performance. Use for production deployment.">
+    <target name="dist-opt" depends="prod-deps,clean-dist" description="Creates a distributable build optimized for performance. Use for production deployment.">
 
         <copy todir="${dist.dir}">
             <fileset dir="${build.gather.dir}/server"/>
         </copy>
 
         <antcall target="optimize-client-dist"/>
-
-        <antcall target="set-config"/>
 
         <antcall target="-permissions"/>
 
@@ -501,7 +499,6 @@
              <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
         </tar>
     </target>
-
 
     <!-- Simply copies the src into build, and then into dist -->
     <target name="refresh" description="Does a quick copy to dist of any server and client source files that have changed." >
