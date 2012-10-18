@@ -230,10 +230,10 @@
     <macrodef name="exec-node-output" description="Runs a node.js module and saves the output to a file">
         <attribute name="module" description="The name of the NodeJS module to execute"/>
         <attribute name="failonerror" default="false" description="Fail if the exit code is not 0"/>
-        <attribute name="output" description="The file to send output to"/>
+        <attribute name="outputproperty" description="The property to send output to"/>
         <element name="args" implicit="yes" description="Arguments to pass to the exec task"/>
         <sequential>
-            <exec executable="cmd.exe" failonerror="@{failonerror}" osfamily="winnt" output="@{output}">
+            <exec executable="cmd.exe" failonerror="@{failonerror}" osfamily="winnt" outputproperty="@{outputproperty}">
                 <arg line="/c  @{module}" />
                 <args/>
 
@@ -249,7 +249,7 @@
                 <!-- Otherwise, just type the temporary file and delete it-->
                 <arg line=" &amp; type _tempfile.out &amp; del _tempfile.out &amp;"/>
             </exec>
-            <exec executable="@{module}" failonerror="@{failonerror}" osfamily="unix" output="@{output}">
+            <exec executable="@{module}" failonerror="@{failonerror}" osfamily="unix" outputproperty="@{outputproperty}">
                 <args/>
             </exec>
         </sequential>
@@ -265,12 +265,14 @@
 
     <!-- Perform syntax and style check of JS files with XML output -->
     <target name="-jshint-ci">
-        <exec-node-output module="jshint" output="${build.logs.dir}/js-checkstyle.xml">
+        <exec-node-output module="jshint" outputproperty="jshint-ci.output">
             <arg value="--config" />
             <arg file="${scripts.dir}/jshintrc.json"/>
             <arg value="--checkstyle-reporter" />
             <arg file="${src.dir}/client/js" />
         </exec-node-output>
+		
+		<echo file="${build.logs.dir}/js-checkstyle.xml" message="${jshint-ci.output}"/>
     </target>
 
     <target name="csslint" description="Perform syntax and style check of CSS files. Run before committing.">
@@ -291,12 +293,14 @@
         <copy file="${scripts.dir}/csslintrc"
               tofile="${basedir}/.csslintrc"/>
 
-        <exec-node-output module="csslint" output="${build.logs.dir}/css-checkstyle.xml">
+        <exec-node-output module="csslint" outputproperty="csslint-ci.output">
             <arg value="--format=checkstyle-xml" />
             <arg path="${src.dir}/client/css" />
         </exec-node-output>
 
         <delete file="${basedir}/.csslintrc"/>
+		
+		<echo file="${build.logs.dir}/css-checkstyle.xml" message="${csslint-ci.output}"/>
     </target>
 
     <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
