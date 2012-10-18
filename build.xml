@@ -13,6 +13,9 @@
     </exec>
 
 
+    <!-- Load the ant-contrib tasks -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml" onerror="fail"/>
+
     <!--    git symbolic-ref HEAD | cut -d"/" -f 3
     <exec executable="git"-->
 
@@ -36,7 +39,7 @@
     <property file="${basedir}/build.properties"/>
 
     <!-- This gives us access to the dependencies project -->
-    <include file="${deps.dir}/build.xml"/>
+    <include file="${deps.dir}/build.xml" optional="true"/>
 
     <target name="prod-deps" description="Gets dependencies required to build for production">
         <echo>Collecting production build tools into ${build.tools.dir}</echo>
@@ -133,6 +136,9 @@
 
         <mkdir dir="${build.dir}/code-browser"/>
         <mkdir dir="${build.dir}/phpcs"/>
+
+        <available file="${deps.dir}/build.xml" property="deps.dir.exists"/>
+        <fail unless="${deps.dir.exists}" message="Project 'dependencies' must be present in order to build."/>
     </target>
 
     <!-- Gathers the client files into build -->
