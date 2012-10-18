@@ -93,7 +93,7 @@
 
     <!--Combines and minifies files.-->
     <target name="-optimize">
-        <exec executable="node">
+        <exec executable="node" failonerror="true">
             <arg file="${build.tools.dir}/r.js"/>
             <arg value="-o"/>
             <arg file="${requirejs.optimizer.settings}"/>
