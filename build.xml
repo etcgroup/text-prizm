@@ -271,8 +271,8 @@
             <arg value="--checkstyle-reporter" />
             <arg file="${src.dir}/client/js" />
         </exec-node-output>
-		
-		<echo file="${build.logs.dir}/js-checkstyle.xml" message="${jshint-ci.output}"/>
+        
+        <echo file="${build.logs.dir}/js-checkstyle.xml" message="${jshint-ci.output}"/>
     </target>
 
     <target name="csslint" description="Perform syntax and style check of CSS files. Run before committing.">
@@ -299,8 +299,16 @@
         </exec-node-output>
 
         <delete file="${basedir}/.csslintrc"/>
-		
-		<echo file="${build.logs.dir}/css-checkstyle.xml" message="${csslint-ci.output}"/>
+        
+        <echo file="${build.logs.dir}/css-checkstyle.xml" message="${csslint-ci.output}"/>
+        
+        <replaceregexp flags="s" file="${build.logs.dir}/css-checkstyle.xml"
+            match="^.*&lt;\?xml"
+            replace="&lt;\?xml"/>
+        
+    </target>
+    
+    <target name="testing" depends="-csslint-ci">
     </target>
 
     <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
@@ -404,16 +412,16 @@
     </target>
 
     <!-- We are not using phpdox
-                                  		<target name="phpdox" description="Generate API documentation using phpDox">
-                                                                 			<exec executable="phpdox${pear.ext}"/>
-                                  		</target>
-   	-->
+                                          <target name="phpdox" description="Generate API documentation using phpDox">
+                                                                             <exec executable="phpdox${pear.ext}"/>
+                                          </target>
+       -->
 
     <!-- We are not currently using phpunit
-                                  		<target name="phpunit" description="Run unit tests with PHPUnit">
-                                                                 			<exec executable="phpunit${pear.ext}" failonerror="true"/>
-                                  		</target>
-   	-->
+                                          <target name="phpunit" description="Run unit tests with PHPUnit">
+                                                                             <exec executable="phpunit${pear.ext}" failonerror="true"/>
+                                          </target>
+       -->
 
     <!--    We are not currently using phpcb because HTMLPublisher isn't available on the build server
 <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
