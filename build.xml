@@ -303,9 +303,8 @@
         <echo file="${build.logs.dir}/css-checkstyle.xml" message="${csslint-ci.output}"/>
 
         <replaceregexp flags="s" file="${build.logs.dir}/css-checkstyle.xml"
-            match="^.*&lt;\?xml"
-            replace="&lt;\?xml"/>
-
+                       match="^.*&lt;\?xml"
+                       replace="&lt;\?xml"/>
     </target>
 
     <target name="phplint" description="Perform syntax check of PHP files. Run before committing.">
@@ -317,7 +316,7 @@
                 <modified />
             </fileset>
 
-<!--        Removed until we have some unit tests
+            <!--        Removed until we have some unit tests
             <fileset dir="${tests.dir}/server">
                 <include name="**/*.php" />
                 <modified />
@@ -333,7 +332,7 @@
         </exec>
     </target>
 
-<!--    Build server doesn't support this yet
+    <!--    Build server doesn't support this yet
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
         <exec executable="pdepend${pear.ext}">
             <arg value="\-\-jdepend-xml=${build.logs.dir}/jdepend.xml" />
@@ -409,16 +408,16 @@
     </target>
 
     <!-- We are not using phpdox
-                                          <target name="phpdox" description="Generate API documentation using phpDox">
-                                                                             <exec executable="phpdox${pear.ext}"/>
-                                          </target>
-       -->
+                                       <target name="phpdox" description="Generate API documentation using phpDox">
+                                                                          <exec executable="phpdox${pear.ext}"/>
+                                       </target>
+    -->
 
     <!-- We are not currently using phpunit
-                                          <target name="phpunit" description="Run unit tests with PHPUnit">
-                                                                             <exec executable="phpunit${pear.ext}" failonerror="true"/>
-                                          </target>
-       -->
+                                       <target name="phpunit" description="Run unit tests with PHPUnit">
+                                                                          <exec executable="phpunit${pear.ext}" failonerror="true"/>
+                                       </target>
+    -->
 
     <!--    We are not currently using phpcb because HTMLPublisher isn't available on the build server
 <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
@@ -586,7 +585,7 @@
             </not>
             <then>
                 <sshcmd command="source $HOME/credentials.sh;
-                                 ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_TEST_DATABASE"/>
+                                 ${deploy.remote.dir}/application/util/mysql_copy.sh $MYSQL_PROD_DATABASE $MYSQL_TEST_DATABASE ONLY_IF_NEWER"/>
             </then>
         </if>
 
