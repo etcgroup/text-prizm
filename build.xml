@@ -628,7 +628,7 @@
         <fail unless="deploy.local.dir" message="Must define deploy.local.dir"/>
     </target>
 
-    <target name="local-test" depends="-local-test-vars">
+    <target name="deploy-local" depends="-local-test-vars">
 
         <mkdir dir="${deploy.local.dir}"/>
 
@@ -645,7 +645,7 @@
         <!-- Do the upgrade -->
         <exec executable="php" failonerror="true">
             <arg file="${deploy.local.dir}/application/util/manage.php"/>
-            <arg value="install"/>
+            <arg value="upgrade"/>
         </exec>
 
         <!-- Bring it back up -->
