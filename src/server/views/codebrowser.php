@@ -1,3 +1,9 @@
+<?php
+function edit_url($label, $which, $code_id, $n, $before, $after)
+{
+	return "<a href=\"" . base_url() . "codebrowser/examples/$which/$code_id/$n/$before/$after\">$label</a>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,8 +21,20 @@
     <body>
 
         <?php
-        echo "<h1>$n $which examples for code <em>$code</em></h1>";
-        echo "<h2>$before minutes before and $after minutes after</h2>";
+        echo "<h1>";
+        echo edit_url("-", $which, $code_id, $n - 1, $before, $after);
+        echo "$n";
+        echo edit_url("+", $which, $code_id, $n + 1, $before, $after);
+        echo "$which examples for code <em>$code</em></h1>";
+        echo "<h2>";
+        echo edit_url("-", $which, $code_id, $n, $before - 1, $after);
+        echo "$before";
+        echo edit_url("+", $which, $code_id, $n, $before + 1, $after);
+        echo "minutes before and ";
+        echo edit_url("-", $which, $code_id, $n, $before, $after - 1);
+        echo "$after";
+        echo edit_url("+", $which, $code_id, $n, $before, $after + 1);
+        echo "minutes after</h2>";
         echo "<h3>logged in as $user_id</h3>";
         echo "<table>";
         foreach ($data as $arr)
