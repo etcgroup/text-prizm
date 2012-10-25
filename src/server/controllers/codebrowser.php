@@ -100,7 +100,7 @@ class Codebrowser extends CI_Controller {
                 $arr["avgrating"] = $example->avgrating;
                 $all[] = $arr;
             }
-            $this->load->view('codebrowser', array('code' => $codeName, 'before' => $before, 'after' => $after, 'data' => $all, 'user_id' => $current_user->id, 'n' => count($result), 'which' => str_replace("_", " ", $which)));
+            $this->load->view('codebrowser', array('code_id' => $code, 'code' => $codeName, 'before' => $before, 'after' => $after, 'data' => $all, 'user_id' => $current_user->id, 'n' => count($result), 'which' => str_replace("_", " ", $which)));
         }
     }
 
