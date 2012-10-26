@@ -1,4 +1,4 @@
-<project name="Text Prism" default="dist">
+<project name="Text Prism" default="local-all">
 
     <!-- Get a build time -->
     <tstamp>
@@ -655,4 +655,6 @@
         </exec>
     </target>
 
+    <target name="local-all" depends="build,dist,deploy-local">
+    </target>
 </project>
