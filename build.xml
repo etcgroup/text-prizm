@@ -93,7 +93,7 @@
 
     <!--Combines and minifies files.-->
     <target name="-optimize">
-        <exec executable="node" failonerror="true">
+        <exec-node module="node" failonerror="true">
             <arg file="${build.tools.dir}/r.js"/>
             <arg value="-o"/>
             <arg file="${requirejs.optimizer.settings}"/>
@@ -101,7 +101,7 @@
             <arg value="appDir=${requirejs.optimizer.input.dir}"/>
             <arg value="mainConfigFile=${requirejs.optimizer.input.dir}/common_config.js"/>
             <arg value="baseUrl=js"/>
-        </exec>
+        </exec-node>
         <echo message="Project optimized based on ${requirejs.optimizer.settings}" />
     </target>
 
