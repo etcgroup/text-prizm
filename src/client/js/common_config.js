@@ -3,6 +3,7 @@ require.config({
         'backbone': 'lib/backbone',
         'text': 'lib/requirejs-text',
         'underscore': 'lib/underscore',
+        'marionette': 'lib/backbone.marionette',
         'jquery' : 'lib/jquery',
         'jquery.event.drag' : 'lib/jquery.event.drag',
         'jquery.event.drop' : 'lib/jquery.event.drop'
@@ -11,13 +12,6 @@ require.config({
         'lib/backbone-relational': {
             deps: ['lib/backbone', 'lib/underscore'],
             exports: 'Backbone'
-        },
-        'lib/backbone': {
-            deps: ['lib/underscore', 'lib/jquery'],
-            exports: 'Backbone'
-        },
-        'lib/underscore': {
-            exports: '_'
         },
         'lib/jquery': {
             exports: 'jQuery'

@@ -66,7 +66,7 @@
 
         <parallel>
 
-            <dependency name="backbone" dest="${build.gather.dir}/client"/>
+            <dependency name="backbone-amd" dest="${build.gather.dir}/client"/>
             <dependency name="backbone-relational" dest="${build.gather.dir}/client"/>
             <dependency name="backbone.marionette" dest="${build.gather.dir}/client"/>
 
@@ -90,7 +90,7 @@
             <dependency name="requirejs-text" dest="${build.gather.dir}/client"/>
             <dependency name="slickgrid" dest="${build.gather.dir}/client"/>
             <dependency name="spin" dest="${build.gather.dir}/client"/>
-            <dependency name="underscore" dest="${build.gather.dir}/client"/>
+            <dependency name="underscore-amd" dest="${build.gather.dir}/client"/>
 
         </parallel>
     </target>
