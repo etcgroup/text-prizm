@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Generates a menu item with the provided
+ * link and text. If the link is equal to the active
+ * link, then the menu item is marked active.
+ * 
+ * @param type $href
+ * @param type $text
+ * @param type $active_href
+ * @return type
+ */
 function nav_menu_item($href, $text, $active_href)
 {
     $attrs = '';
