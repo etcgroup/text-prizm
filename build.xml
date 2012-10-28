@@ -517,6 +517,8 @@
         <copy todir="${dist.dir}/assets">
             <fileset dir="${build.gather.dir}/client"/>
         </copy>
+
+        <antcall target="deploy-local"/>
     </target>
 
 
