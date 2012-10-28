@@ -7,7 +7,9 @@ class Base_Controller extends CI_Controller {
 
     protected function ensure_user()
     {
-
+        $this->load->model('gen/Users_model');
+        $current_user = $this->Users_model->current_user();
+        return $current_user;
     }
 
     /**
