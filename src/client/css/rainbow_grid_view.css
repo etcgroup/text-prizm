@@ -51,7 +51,7 @@ root {
     opacity: 1;
     margin: 0;
     padding: 0;
-    cursor: default;
+    cursor: pointer;
     color: white;
     font-weight: bold;
     text-shadow: -1px 0px 2px #000, 0px -1px 2px #000, 1px 0px 2px #000, 0px 1px 2px #000, -1px -1px 2px #000, 1px 1px 2px #000, -1px 1px 2px #000, 1px -1px 2px #000;
