@@ -70,7 +70,7 @@
             <dependency name="backbone-relational" dest="${build.gather.dir}/client"/>
             <dependency name="backbone.marionette" dest="${build.gather.dir}/client"/>
 
-            <dependency name="blueprint" dest="${build.gather.dir}/client"/>
+            <dependency name="bootstrap" dest="${build.gather.dir}/client"/>
             <dependency name="color" dest="${build.gather.dir}/client"/>
             <dependency name="d3" dest="${build.gather.dir}/client"/>
             <dependency name="date" dest="${build.gather.dir}/client"/>
