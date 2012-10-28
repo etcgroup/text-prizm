@@ -501,7 +501,9 @@
     </target>
 
     <!-- Simply copies the src into build, and then into dist -->
-    <target name="refresh" description="Does a quick copy to dist of any server and client source files that have changed." >
+    <target name="refresh" description="Does a quick copy to dist of any server and client source files that have changed."
+        depends="-local-test-vars">
+
         <copy todir="${build.gather.dir}/server/application">
             <fileset dir="${src.dir}/server"/>
         </copy>
@@ -518,7 +520,10 @@
             <fileset dir="${build.gather.dir}/client"/>
         </copy>
 
-        <antcall target="deploy-local"/>
+        <copy todir="${deploy.local.dir}">
+            <fileset dir="${dist.dir}"/>
+        </copy>
+        
     </target>
 
 
