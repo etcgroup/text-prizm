@@ -1,6 +1,7 @@
 require.config({
     paths: {
         'backbone': 'lib/backbone',
+        'text': 'lib/requirejs-text',
         'underscore': 'lib/underscore',
         'jquery' : 'lib/jquery',
         'jquery.event.drag' : 'lib/jquery.event.drag',
