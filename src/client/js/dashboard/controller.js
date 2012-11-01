@@ -8,6 +8,9 @@ define(['textprizm',
         AppStatusView,
         DataSetSummaryView) {
 
+        /**
+         * A collection of functions that control the dashboard
+         */
         var DashboardController = function() {
             //Initialize an empty activities collection
             this.activities = new Backbone.Collection();
