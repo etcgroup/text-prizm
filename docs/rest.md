@@ -13,6 +13,6 @@ want to check out the Extended API.
 **The base URL for accessing the REST API is `/rest/`.**
 For example, to GET messages, request `/rest/messages`
 
-## Index
+## API Module Index
 
-* [Data](rest/data.md)
+* [Data Module](rest/data.md): static data (messages, participants, etc.)
