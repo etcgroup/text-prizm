@@ -33,11 +33,11 @@ class Base_Controller extends CI_Controller {
         // Augment the provided title with
         if (array_key_exists('page_title', $data))
         {
-            $data['page_title'] = 'Text Prizm: ' . $data['page_title'];
+            $data['page_title'] = $this->config->item('name') . ': ' . $data['page_title'];
         }
         else
         {
-            $data['page_title'] = 'Text Prizm';
+            $data['page_title'] = $this->config->item('name');
         }
 
         // Get the app javascript and css references
