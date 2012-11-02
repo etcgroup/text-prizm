@@ -380,6 +380,8 @@
     <target name="phpcs"
             description="Find coding standard violations. Run before committing.">
 
+        <property name="phpcs.target" value="${src.dir}/server"/>
+
         <!-- Get the required coding standard -->
         <condition property="phpcs.standard.exists">
             <available file="${build.dir}/phpcs/CodeIgniter/ruleset.xml"/>
@@ -388,7 +390,7 @@
 
         <exec executable="phpcs${pear.ext}">
             <arg value="--standard=${build.dir}/phpcs/CodeIgniter" />
-            <arg file="${src.dir}/server" />
+            <arg file="${phpcs.target}" />
         </exec>
     </target>
 
@@ -527,7 +529,7 @@
         <copy todir="${deploy.local.dir}">
             <fileset dir="${dist.dir}"/>
         </copy>
-        
+
     </target>
 
 
