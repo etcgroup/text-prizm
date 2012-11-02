@@ -8,11 +8,11 @@ a given message cluster, the REST API would be the way to do it.
 
 However, if you wanted to compute the mean and standard deviation
 of the lengths of all of the messages in the data set, you might
-want to check out the [[Extended API|Extended API Documentation]].
+want to check out the Extended API.
 
 **The base URL for accessing the REST API is `/rest/`.**
 For example, to GET messages, request `/rest/messages`
 
-## REST API Docs Index
+## Index
 
 * [Data](rest/data.md)
