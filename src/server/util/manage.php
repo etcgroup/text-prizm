@@ -3,25 +3,24 @@
 define('BASEPATH', 'nobody better try to use this define');
 
 /**
- * IniFileWriter based on Config_Lite (Config/Lite.php)
+ * Ini_file_writer based on Config_Lite (Config/Lite.php)
  * @link      https://github.com/pce/config_lite
  */
-class IniFileWriter {
+class Ini_file_writer {
 
     /**
-     * line-break chars, default *x: "\n", windows: "\r\n"
+     * Line-break chars, default *x: "\n", windows: "\r\n".
      *
      * @var string
      */
     protected $linebreak = "\n";
 
     /**
-     * quote Strings - if true,
-     * writes ini files with doublequoted strings
+     * Quote Strings - if true, writes ini files with doublequoted strings.
      *
-     * @var bool
+     * @var boolean
      */
-    protected $quoteStrings = true;
+    protected $quote_strings = TRUE;
 
     /**
      * generic write ini config file, to save use `save'.
@@ -43,7 +42,7 @@ class IniFileWriter {
      */
     public function write($filename, $sectionsarray)
     {
-        $content = $this->buildOutputString($sectionsarray);
+        $content = $this->build_output_string($sectionsarray);
         return file_put_contents($filename, $content, LOCK_EX);
     }
 
@@ -55,19 +54,19 @@ class IniFileWriter {
      *
      * @return string
      */
-    protected function buildOutputString($sectionsarray)
+    protected function build_output_string($sectionsarray)
     {
         $content = '';
         $sections = '';
         $globals = '';
-        if (!empty($sectionsarray))
+        if ( ! empty($sectionsarray))
         {
             // 2 loops to write `globals' on top, alternative: buffer
             foreach ($sectionsarray as $section => $item)
             {
-                if (!is_array($item))
+                if ( ! is_array($item))
                 {
-                    $value = $this->normalizeValue($item);
+                    $value = $this->normalize_value($item);
                     $globals .= $section . ' = ' . $value . $this->linebreak;
                 }
             }
@@ -83,7 +82,7 @@ class IniFileWriter {
                         {
                             foreach ($value as $arrkey => $arrvalue)
                             {
-                                $arrvalue = $this->normalizeValue($arrvalue);
+                                $arrvalue = $this->normalize_value($arrvalue);
                                 $arrkey = $key . '[' . $arrkey . ']';
                                 $sections .= $arrkey . ' = ' . $arrvalue
                                         . $this->linebreak;
@@ -91,7 +90,7 @@ class IniFileWriter {
                         }
                         else
                         {
-                            $value = $this->normalizeValue($value);
+                            $value = $this->normalize_value($value);
                             $sections .= $key . ' = ' . $value . $this->linebreak;
                         }
                     }
@@ -109,18 +108,18 @@ class IniFileWriter {
      *
      * @return string
      */
-    protected function normalizeValue($value)
+    protected function normalize_value($value)
     {
         if (is_bool($value))
         {
-            $value = $this->toBool($value);
+            $value = $this->to_bool($value);
             return $value;
         }
         elseif (is_numeric($value))
         {
             return $value;
         }
-        if ($this->quoteStrings)
+        if ($this->quote_strings)
         {
             $value = '"' . $value . '"';
         }
@@ -135,9 +134,9 @@ class IniFileWriter {
      * @return string
      * @throws Config_Lite_Exception_UnexpectedValue when format is unknown
      */
-    protected function toBool($value)
+    protected function to_bool($value)
     {
-        if ($value === true)
+        if ($value === TRUE)
         {
             return 'yes';
         }
@@ -146,27 +145,37 @@ class IniFileWriter {
 
 }
 
+/**
+ * Class containing static utility function.
+ */
 abstract class Util {
 
-    static $action_stack = array();
+    /**
+     * A stack of actions.
+     *
+     * @var array
+     */
+    private static $_action_stack = array();
 
     /**
      * Surrounds $path with '/' if not present already.
-     * @param type $path
+     *
+     * @param type $path A file path
+     *
      * @return string
      */
     static function slashify($path)
     {
-        if (strlen($path) == 0)
+        if (strlen($path) === 0)
         {
             return '/';
         }
 
-        if ($path[0] != '/')
+        if ($path[0] !== '/')
         {
             $path = '/' . $path;
         }
-        if ($path[strlen($path) - 1] != '/')
+        if ($path[strlen($path) - 1] !== '/')
         {
             $path = $path . '/';
         }
@@ -175,14 +184,15 @@ abstract class Util {
 
     /**
      * Generates a highly random encryption key suitable for CodeIgniter.
+     *
      * @return string
      */
     static function generate_key()
     {
-        $time = microtime(true);
+        $time = microtime(TRUE);
         $random = mt_rand(10000000, 99999999);
         $local = gethostname();
-        $combo = uniqid($time . $random . $local, true);
+        $combo = uniqid($time . $random . $local, TRUE);
         return sha1($combo);
     }
 
@@ -195,20 +205,25 @@ abstract class Util {
      */
     function is_cli_request()
     {
-        return (php_sapi_name() == 'cli') or defined('STDIN');
+        return (php_sapi_name() === 'cli') or defined('STDIN');
     }
 
     /**
      * Replaces every occurrence of $searchs with $replaces
      * in the file.
-     * searches and replaces may also be arrays of strings (same length arrays).
+     *
+     * Searches and replaces may also be arrays of strings (same length arrays).
+     *
      * Returns FALSE if there is an error. Otherwise
      * it returns the length of the new file.
+     *
      * If $fail_if_none is true and no replacements were made, returns FALSE.
-     * @param string $searches
-     * @param string|array $replaces
-     * @param string|array $filename
-     * @param bool $fail_if_none
+     *
+     * @param string|array $searches A search target or array of search targets.
+     * @param string|array $replaces A replacement string or array of replacement strings.
+     * @param string $filename The filename to search and replace in.
+     * @param bool $fail_if_none If set to TRUE and no search targets are found in the file, a warning will be issued.
+     *
      * @return boolean
      */
     static function replace_in_file($searches, $replaces, $filename, $fail_if_none = FALSE)
@@ -220,7 +235,7 @@ abstract class Util {
         }
         else if (is_array($searches) && is_array($replaces))
         {
-            if (count($searches) != count($replaces))
+            if (count($searches) !== count($replaces))
             {
                 fatal('Different number of searche strings and replace strings');
             }
@@ -240,7 +255,7 @@ abstract class Util {
                 $replace = $replaces[$i];
 
                 $contents_replaced = str_replace($search, $replace, $contents);
-                if ($contents == $contents_replaced && $fail_if_none)
+                if ($contents === $contents_replaced && $fail_if_none)
                 {
                     warn('Could not find ' . $search . ' in ' . $filename);
                 }
@@ -255,8 +270,10 @@ abstract class Util {
     /**
      * Gets the index into $haystack of a string containing $needle.
      * If no such string exists, returns FALSE.
-     * @param array $haystack
-     * @param string $needle
+     *
+     * @param array $haystack An array of strings to search.
+     * @param string $needle The substring to search for.
+     *
      * @return int|boolean
      */
     static function string_array_pos($haystack, $needle)
@@ -274,17 +291,19 @@ abstract class Util {
     /**
      * Prints a prompt and gets a line of input from the user.
      * A default may be used if the user enters nothing.
-     * @param string $msg
-     * @param string $default
+     *
+     * @param string $message The prompt shown to the user.
+     * @param string $default (optional) If provided the user may select the default response.
+     *
      * @return string
      */
-    static function get_input($msg, $default = NULL)
+    static function get_input($message, $default = NULL)
     {
         echo PHP_EOL;
-        $question = "> $msg";
+        $question = "> {$message}";
         if ($default !== NULL)
         {
-            $question .= " [$default]: ";
+            $question .= " [{$default}]: ";
         }
         else
         {
@@ -296,7 +315,7 @@ abstract class Util {
             fwrite(STDOUT, $question);
             $varin = trim(fgets(STDIN));
 
-            if (!$varin)
+            if ( ! $varin)
             {
                 $varin = $default;
             }
@@ -305,32 +324,44 @@ abstract class Util {
         return $varin;
     }
 
+    /**
+     * Mark the start of a new action.
+     *
+     * @return NULL
+     */
     static function action_start()
     {
         $trace = debug_backtrace(NULL);
-        self::$action_stack[] = $trace[1]['function'];
-        echo PHP_EOL;
-    }
-
-    static function action_end()
-    {
-        array_pop(self::$action_stack);
+        self::$_action_stack[] = $trace[1]['function'];
         echo PHP_EOL;
     }
 
     /**
-     * Returns TRUE if the haytack ends with the needle.
+     * Mark the end of the current action.
+     *
+     * @return NULL;
+     */
+    static function action_end()
+    {
+        array_pop(self::$_action_stack);
+        echo PHP_EOL;
+    }
+
+    /**
+     * Returns TRUE if the haystack ends with the needle.
      * http://stackoverflow.com/questions/834303/php-startswith-and-endswith-functions
-     * @param type $haystack
-     * @param type $needle
+     *
+     * @param type $haystack The string to search in.
+     * @param type $needle The substring to search for.
+     *
      * @return boolean
      */
     static function ends_with($haystack, $needle)
     {
         $length = strlen($needle);
-        if ($length == 0)
+        if ($length === 0)
         {
-            return true;
+            return TRUE;
         }
 
         return (substr($haystack, -$length) === $needle);
@@ -343,16 +374,18 @@ abstract class Util {
      * If it does exist, it is first backed up (by default).
      * Returns false if the file could not be saved,
      * or if an existing version could not be backed up.
-     * @param type $filename
-     * @param type $contents
-     * @param type $backup
+     *
+     * @param type $filename The target filename.
+     * @param type $contents The file contents.
+     * @param type $backup (optional) Set to FALSE if the current file should NOT be backed up.
+     *
      * @return boolean
      */
     static function put_file($filename, $contents, $backup = TRUE)
     {
         if (file_exists($filename) && $backup)
         {
-            if (!self::backup_file($filename))
+            if ( ! self::backup_file($filename))
             {
                 return FALSE;
             }
@@ -364,12 +397,14 @@ abstract class Util {
 
     /**
      * Reverses put_file();
-     * @param string $filename
+     *
+     * @param string $filename The filename to unput.
+     *
      * @return boolean
      */
     static function unput_file($filename)
     {
-        if (!file_exists($filename))
+        if ( ! file_exists($filename))
         {
             return FALSE;
         }
@@ -393,12 +428,14 @@ abstract class Util {
      *
      * Returns false if the file did not exist or the backup was
      * not successful.
-     * @param string $filename
+     *
+     * @param string $filename The filename to backup.
+     *
      * @return boolean
      */
     static function backup_file($filename)
     {
-        if (!file_exists($filename))
+        if ( ! file_exists($filename))
         {
             out('File ' . $filename . ' does not exist');
             return FALSE;
@@ -422,7 +459,9 @@ abstract class Util {
      *
      * Returns FALSE if there is no backup,
      * or the backup was unsuccessful.
-     * @param type $filename
+     *
+     * @param type $filename The filename to restore.
+     *
      * @return boolean
      */
     static function restore_file($filename)
@@ -451,29 +490,50 @@ abstract class Util {
 
 }
 
+/**
+ * Log a fatal error and exit.
+ *
+ * @param string $message The error message.
+ *
+ * @return NULL;
+ */
 function fatal($message = '')
 {
     out('ERROR: ' . $message);
     exit(1);
 }
 
+/**
+ * Prints out a message.
+ *
+ * @param string $message The log message.
+ *
+ * @return NULL;
+ */
 function out($message = '')
 {
-    if (count(Util::$action_stack) > 0)
+    if (count(Util::$_action_stack) > 0)
     {
-        $action = Util::$action_stack[count(Util::$action_stack) - 1];
-        $prefix = " [ $action ] ";
+        $action = Util::$_action_stack[count(Util::$_action_stack) - 1];
+        $prefix = " [ {$action} ] ";
         $message = str_pad($prefix, 18, ' ', STR_PAD_LEFT) . $message;
     }
 
     echo $message . PHP_EOL;
 }
 
+/**
+ * Issue a warning and check with the user if they want to continue anyway.
+ *
+ * @param string $message The warning message.
+ *
+ * @return NULL
+ */
 function warn($message = '')
 {
     out('WARNING: ' . $message);
     $continue = Util::get_input('Do you want to continue? (y/n)', 'y');
-    if ($continue == 'y')
+    if ($continue === 'y')
     {
         return;
     }
@@ -483,18 +543,75 @@ function warn($message = '')
     }
 }
 
+/**
+ * Class for manipulating configuration files.
+ */
 class Config {
 
+    /**
+     * True if the environment should provide the install config.
+     *
+     * @var boolean
+     */
     static $env_install = FALSE;
+
+    /**
+     * The name of the environment config to use.
+     *
+     * @var string
+     */
     static $env_install_name = FALSE;
+    /**
+     * The CodeIgniter config directory.
+     *
+     * @var string
+     */
     var $config_dir;
+
+    /**
+     * The CodeIgniter util directory.
+     *
+     * @var string
+     */
     var $util_dir;
+
+    /**
+     * The CodeIgniter application directory.
+     *
+     * @var string
+     */
     var $application_dir;
+
+    /**
+     * The CodeIgniter base directory.
+     *
+     * @var string
+     */
     var $base_dir;
+
+    /**
+     * The loaded install config.
+     *
+     * @var array
+     */
     var $install_config;
+
+    /**
+     * The loaded app config.
+     *
+     * @var array
+     */
     var $app_config;
+    /**
+     * The path to the install config file.
+     *
+     * @var string
+     */
     var $install_config_file;
 
+    /**
+     * Construct a new Config manager.
+     */
     function __construct()
     {
         $this->util_dir = __DIR__;
@@ -507,17 +624,26 @@ class Config {
 
     /**
      * Loads the install and app configs.
+     *
+     * @return NULL
      */
     public function load_configs()
     {
         //Get the meta-configuration for this installation
-        $this->read_install_config();
+        $this->_read_install_config();
 
         //Get any needed application configurations
-        $this->app_config = $this->get_config('app');
+        $this->app_config = $this->_get_config('app');
     }
 
-    private function get_config($config_name)
+    /**
+     * Loads a CodeIgniter config file by name.
+     *
+     * @param string $config_name The name of the config file to read.
+     *
+     * @return array
+     */
+    private function _get_config($config_name)
     {
         out('Loading config/' . $config_name . '.php');
         $config = array();
@@ -528,9 +654,10 @@ class Config {
     /**
      * Reads the install config file.
      * Returns false if there isn't one.
+     *
      * @return boolean
      */
-    private function read_install_config()
+    private function _read_install_config()
     {
         if (file_exists($this->install_config_file))
         {
@@ -546,6 +673,7 @@ class Config {
 
     /**
      * Returns TRUE if an install config file exists.
+     *
      * @return type
      */
     function install_config_exists()
@@ -556,6 +684,7 @@ class Config {
     /**
      * Creates a new install config file based on user prompts.
      * Note: you must still call load_configs to have access to it.
+     *
      * @return boolean
      */
     function collect_install_config()
@@ -571,7 +700,7 @@ class Config {
             'htaccess_header' => ''
         );
 
-        if (!self::$env_install)
+        if ( ! self::$env_install)
         {
             $install_config['db']['hostname'] = Util::get_input('Database hostname?', 'localhost');
             $install_config['db']['username'] = Util::get_input('Database username?', 'root');
@@ -597,8 +726,11 @@ class Config {
 
     /**
      * Gets the install config by $name from the environment.
-     * @param array $install_config
-     * @param string $name
+     *
+     * @param array &$install_config The install config is placed in this provided array.
+     * @param string $name The name of the configuration to read from the environment.
+     *
+     * @return NULL
      */
     function collect_env_install(&$install_config, $name)
     {
@@ -615,14 +747,21 @@ class Config {
         $install_config['htaccess_header'] = $_ENV['HTACCESS_HEADER'];
     }
 
+    /**
+     * Save the current install config to file.
+     *
+     * @param array $install_config (optional) If omitted, the current install config will be saved. Otherwise, the provided config will be saved.
+     *
+     * @return boolean
+     */
     function save_install_config($install_config = NULL)
     {
-        if ($install_config == NULL)
+        if ($install_config === NULL)
         {
             $install_config = $this->install_config;
         }
-        $writer = new IniFileWriter();
-        if (!$writer->write($this->install_config_file, $install_config))
+        $writer = new Ini_file_writer();
+        if ( ! $writer->write($this->install_config_file, $install_config))
         {
             fatal('Unable to save ' . $this->install_config_file);
         }
@@ -635,7 +774,10 @@ class Config {
 
     /**
      * Enables or disables migrations.
-     * @param bool $enabled
+     *
+     * @param bool $enabled TRUE to enable migrations, FALSE to disable.
+     *
+     * @return NULL
      */
     function set_migrations($enabled)
     {
@@ -656,6 +798,12 @@ class Config {
         }
     }
 
+    /**
+     * Regenerates the standard htacess file from configuration.
+     * Removes any other htaccess currently in place.
+     *
+     * @return boolean
+     */
     function place_standard_htaccess()
     {
         $htaccess_src = $this->util_dir . '/standard.htaccess.php';
@@ -666,7 +814,7 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
+        if ( ! Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put standard .htaccess in place');
         }
@@ -674,6 +822,11 @@ class Config {
         return TRUE;
     }
 
+    /**
+     * Returns TRUE if maintenance mode is currently on.
+     *
+     * @return boolean
+     */
     function is_maintenance_on()
     {
         $maintenance_dest = $this->base_dir . '/maintenance.php';
@@ -682,6 +835,8 @@ class Config {
 
     /**
      * Activates maintenance mode.
+     *
+     * @return boolean
      */
     function maintenance_on()
     {
@@ -702,13 +857,13 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
+        if ( ! Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put maintenance .htaccess in place');
         }
 
         out('Creating maintenance.php');
-        if (!copy($maintenance_src, $maintenance_dest))
+        if ( ! copy($maintenance_src, $maintenance_dest))
         {
             fatal('Unable to put maintenance.php in place');
         }
@@ -718,24 +873,26 @@ class Config {
 
     /**
      * Deactivates maintenance mode.
+     *
+     * @return boolean
      */
     function maintenance_off()
     {
         $maintenance_dest = $this->base_dir . '/maintenance.php';
         $htaccess_dest = $this->base_dir . '/.htaccess';
 
-        if (!$this->is_maintenance_on())
+        if ( ! $this->is_maintenance_on())
         {
             out('Maintenance mode was already off. Nothing to do.');
             return TRUE;
         }
 
-        if (!$this->place_standard_htaccess())
+        if ( ! $this->place_standard_htaccess())
         {
             fatal('Unable to restore standard .htaccess');
         }
         out('Removing maintenance.php');
-        if (!unlink($maintenance_dest))
+        if ( ! unlink($maintenance_dest))
         {
             fatal('Unable to remove maintenance.php');
         }
@@ -747,14 +904,16 @@ class Config {
      * Sets up the CodeIgniter configs which are
      * fresh from the source code with certain
      * settings.
+     *
+     * @return NULL
      */
     function refresh_configs()
     {
         //Set the encryption key
         out('Generating encryption key for config/config.php');
-        $key = Util::generate_key();
+        $encryption_key = Util::generate_key();
         $before_str = '$config[\'encryption_key\'] = \'\';';
-        $after_str = '$config[\'encryption_key\'] = \'' . $key . '\';';
+        $after_str = '$config[\'encryption_key\'] = \'' . $encryption_key . '\';';
         $main_config = $this->config_dir . '/config.php';
         Util::replace_in_file($before_str, $after_str, $main_config)
                 || fatal('Could not set the encryption key');
@@ -781,6 +940,7 @@ class Config {
 
     /**
      * Returns TRUE if the installation has completed successfully.
+     *
      * @return boolean
      */
     function is_fully_installed()
@@ -798,13 +958,23 @@ class Config {
 
 }
 
+/**
+ * Class for manipulating the database during upgrade operations.
+ */
 class Database {
 
     /**
+     * The current Config instance.
+     *
      * @var Config
      */
     var $config;
 
+    /**
+     * Construct a new database controller.
+     *
+     * @param Config $config Provide a Config instane
+     */
     function __construct($config)
     {
         $this->config = $config;
@@ -812,11 +982,13 @@ class Database {
 
     /**
      * Migrates the database to the latest version.
+     *
+     * @return NULL
      */
     function do_migration()
     {
         // First enable migrations.
-        $this->config->set_migrations(true);
+        $this->config->set_migrations(TRUE);
 
         out('Performing database migration...');
 
@@ -830,23 +1002,35 @@ class Database {
         out('Migration complete!');
 
         // Then disable migrations.
-        $this->config->set_migrations(false);
+        $this->config->set_migrations(FALSE);
     }
 
 }
 
+/**
+ * The Manager class contains the user-accessible
+ * high-level management actions.
+ */
 class Manager {
 
     /**
+     * The config file controller.
+     *
      * @var Config
      */
     var $config;
 
     /**
+     * The database controller.
+     *
      * @var Database
      */
     var $db;
 
+    /**
+     * Construct a new Manager instance.
+     * Initializes the config and db components.
+     */
     function __construct()
     {
         $this->config = new Config();
@@ -855,6 +1039,8 @@ class Manager {
 
     /**
      * Enables the application after maintenance.
+     *
+     * @return NULL
      */
     function up()
     {
@@ -862,7 +1048,7 @@ class Manager {
 
         out('Putting the application up...');
 
-        if (!$this->config->is_fully_installed())
+        if ( ! $this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -881,6 +1067,8 @@ class Manager {
 
     /**
      * Disables the application for maintenance.
+     *
+     * @return NULL
      */
     function down()
     {
@@ -888,7 +1076,7 @@ class Manager {
 
         out('Taking the application down...');
 
-        if (!$this->config->is_fully_installed())
+        if ( ! $this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -902,6 +1090,8 @@ class Manager {
 
     /**
      * Performs tasks needed for a fresh installation of the application.
+     *
+     * @return NULL
      */
     function install()
     {
@@ -969,6 +1159,8 @@ class Manager {
 
     /**
      * Performs tasks for an upgrade.
+     *
+     * @return NULL
      */
     function upgrade()
     {
@@ -976,7 +1168,7 @@ class Manager {
 
         out('Beginning upgrade...');
 
-        if (!$this->config->is_fully_installed())
+        if ( ! $this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -986,7 +1178,7 @@ class Manager {
             warn('A previous upgrade did not complete. Are you sure you want to continue? (y/n)', 'n');
         }
 
-        if (!$this->config->is_maintenance_on())
+        if ( ! $this->config->is_maintenance_on())
         {
             fatal('You must put the application in maintenance mode before an upgrade!');
         }
@@ -1014,7 +1206,7 @@ class Manager {
 
 }
 
-if (!Util::is_cli_request())
+if ( ! Util::is_cli_request())
 {
     echo 'No web access';
     die(1);
@@ -1022,7 +1214,7 @@ if (!Util::is_cli_request())
 
 $methods = get_class_methods('Manager');
 
-if ($argc == 1)
+if ($argc === 1)
 {
     echo 'Usage: php manage.php ACTION' . PHP_EOL;
     echo PHP_EOL;
@@ -1047,7 +1239,7 @@ else if ($argc >= 2)
         if ($argv[2] === 'env-install')
         {
             Config::$env_install = TRUE;
-            if ($argc == 3)
+            if ($argc === 3)
             {
                 fatal('Must specify name for env-install');
             }
@@ -1056,7 +1248,7 @@ else if ($argc >= 2)
     }
 
     $manager = new Manager();
-    if (!method_exists($manager, $method_name))
+    if ( ! method_exists($manager, $method_name))
     {
         fatal('Invalid method ' . $method_name . '.');
     }
