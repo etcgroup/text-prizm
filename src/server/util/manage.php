@@ -4,6 +4,7 @@ define('BASEPATH', 'nobody better try to use this define');
 
 /**
  * Ini_file_writer based on Config_Lite (Config/Lite.php)
+ *
  * @link      https://github.com/pce/config_lite
  */
 class Ini_file_writer {
@@ -59,12 +60,12 @@ class Ini_file_writer {
         $content = '';
         $sections = '';
         $globals = '';
-        if ( ! empty($sectionsarray))
+        if (!empty($sectionsarray))
         {
             // 2 loops to write `globals' on top, alternative: buffer
             foreach ($sectionsarray as $section => $item)
             {
-                if ( ! is_array($item))
+                if (!is_array($item))
                 {
                     $value = $this->normalize_value($item);
                     $globals .= $section . ' = ' . $value . $this->linebreak;
@@ -315,7 +316,7 @@ abstract class Util {
             fwrite(STDOUT, $question);
             $varin = trim(fgets(STDIN));
 
-            if ( ! $varin)
+            if (!$varin)
             {
                 $varin = $default;
             }
@@ -345,6 +346,26 @@ abstract class Util {
     {
         array_pop(self::$_action_stack);
         echo PHP_EOL;
+    }
+
+    /**
+     * Returns true if there are any actions on the stack.
+     *
+     * @return boolean
+     */
+    static function has_actions()
+    {
+        return count(self::$_action_stack) > 0;
+    }
+
+    /**
+     * Gets the current (top) action.
+     * 
+     * @return string
+     */
+    static function get_current_action()
+    {
+        return self::$_action_stack[count(self::$_action_stack) - 1];
     }
 
     /**
@@ -385,7 +406,7 @@ abstract class Util {
     {
         if (file_exists($filename) && $backup)
         {
-            if ( ! self::backup_file($filename))
+            if (!self::backup_file($filename))
             {
                 return FALSE;
             }
@@ -404,7 +425,7 @@ abstract class Util {
      */
     static function unput_file($filename)
     {
-        if ( ! file_exists($filename))
+        if (!file_exists($filename))
         {
             return FALSE;
         }
@@ -435,7 +456,7 @@ abstract class Util {
      */
     static function backup_file($filename)
     {
-        if ( ! file_exists($filename))
+        if (!file_exists($filename))
         {
             out('File ' . $filename . ' does not exist');
             return FALSE;
@@ -512,9 +533,9 @@ function fatal($message = '')
  */
 function out($message = '')
 {
-    if (count(Util::$_action_stack) > 0)
+    if (Util::has_actions())
     {
-        $action = Util::$_action_stack[count(Util::$_action_stack) - 1];
+        $action = Util::get_current_action();
         $prefix = " [ {$action} ] ";
         $message = str_pad($prefix, 18, ' ', STR_PAD_LEFT) . $message;
     }
@@ -561,6 +582,7 @@ class Config {
      * @var string
      */
     static $env_install_name = FALSE;
+
     /**
      * The CodeIgniter config directory.
      *
@@ -602,6 +624,7 @@ class Config {
      * @var array
      */
     var $app_config;
+
     /**
      * The path to the install config file.
      *
@@ -700,7 +723,7 @@ class Config {
             'htaccess_header' => ''
         );
 
-        if ( ! self::$env_install)
+        if (!self::$env_install)
         {
             $install_config['db']['hostname'] = Util::get_input('Database hostname?', 'localhost');
             $install_config['db']['username'] = Util::get_input('Database username?', 'root');
@@ -761,7 +784,7 @@ class Config {
             $install_config = $this->install_config;
         }
         $writer = new Ini_file_writer();
-        if ( ! $writer->write($this->install_config_file, $install_config))
+        if (!$writer->write($this->install_config_file, $install_config))
         {
             fatal('Unable to save ' . $this->install_config_file);
         }
@@ -814,7 +837,7 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if ( ! Util::put_file($htaccess_dest, $htaccess_content, FALSE))
+        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put standard .htaccess in place');
         }
@@ -857,13 +880,13 @@ class Config {
         include $htaccess_src;
         $htaccess_content = ob_get_clean();
 
-        if ( ! Util::put_file($htaccess_dest, $htaccess_content, FALSE))
+        if (!Util::put_file($htaccess_dest, $htaccess_content, FALSE))
         {
             fatal('Unable to put maintenance .htaccess in place');
         }
 
         out('Creating maintenance.php');
-        if ( ! copy($maintenance_src, $maintenance_dest))
+        if (!copy($maintenance_src, $maintenance_dest))
         {
             fatal('Unable to put maintenance.php in place');
         }
@@ -881,18 +904,18 @@ class Config {
         $maintenance_dest = $this->base_dir . '/maintenance.php';
         $htaccess_dest = $this->base_dir . '/.htaccess';
 
-        if ( ! $this->is_maintenance_on())
+        if (!$this->is_maintenance_on())
         {
             out('Maintenance mode was already off. Nothing to do.');
             return TRUE;
         }
 
-        if ( ! $this->place_standard_htaccess())
+        if (!$this->place_standard_htaccess())
         {
             fatal('Unable to restore standard .htaccess');
         }
         out('Removing maintenance.php');
-        if ( ! unlink($maintenance_dest))
+        if (!unlink($maintenance_dest))
         {
             fatal('Unable to remove maintenance.php');
         }
@@ -1048,7 +1071,7 @@ class Manager {
 
         out('Putting the application up...');
 
-        if ( ! $this->config->is_fully_installed())
+        if (!$this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -1076,7 +1099,7 @@ class Manager {
 
         out('Taking the application down...');
 
-        if ( ! $this->config->is_fully_installed())
+        if (!$this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -1168,7 +1191,7 @@ class Manager {
 
         out('Beginning upgrade...');
 
-        if ( ! $this->config->is_fully_installed())
+        if (!$this->config->is_fully_installed())
         {
             fatal('The installation has not yet been completed.');
         }
@@ -1178,7 +1201,7 @@ class Manager {
             warn('A previous upgrade did not complete. Are you sure you want to continue? (y/n)', 'n');
         }
 
-        if ( ! $this->config->is_maintenance_on())
+        if (!$this->config->is_maintenance_on())
         {
             fatal('You must put the application in maintenance mode before an upgrade!');
         }
@@ -1206,7 +1229,7 @@ class Manager {
 
 }
 
-if ( ! Util::is_cli_request())
+if (!Util::is_cli_request())
 {
     echo 'No web access';
     die(1);
@@ -1248,7 +1271,7 @@ else if ($argc >= 2)
     }
 
     $manager = new Manager();
-    if ( ! method_exists($manager, $method_name))
+    if (!method_exists($manager, $method_name))
     {
         fatal('Invalid method ' . $method_name . '.');
     }
