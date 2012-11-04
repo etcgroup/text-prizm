@@ -21,7 +21,7 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href="dashboard" class="active">Text Prizm</a>
+                        <a class="brand" href="dashboard" class="active"><?php echo $this->config->item('name') ?></a>
                         <?php echo $nav_menu; ?>
                     </div>
                 </div>

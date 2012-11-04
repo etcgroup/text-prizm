@@ -1,4 +1,4 @@
-<project name="Text Prism" default="local-all">
+<project name="Text Prizm" default="local-all">
 
     <!-- Get a build time -->
     <tstamp>
