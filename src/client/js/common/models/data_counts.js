@@ -1,9 +1,9 @@
 define(['backbone'], function(Backbone) {
     /**
-     * Model for storing information about the data set.
+     * Model for storing counts info about the data set.
      */
-    var DataSet = Backbone.Model.extend({
-        url: '/'
+    var DataCounts = Backbone.Model.extend({
+        url: '/ext/datacounts'
     });
-    return DataSet;
+    return DataCounts;
 });
