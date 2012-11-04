@@ -4,7 +4,7 @@ define(function(require) {
     require('lib/jquery.blockUI');
     require('util/jquery.ui.selectable');
     var Backbone = require('lib/backbone-relational'),
-    _ = require('lib/underscore'),
+    _ = require('underscore'),
     MessageCollection = require('collections/message_collection'),
     CodeInstanceCollection = require('collections/code_instance_collection'),
     ParticipantCollection = require('collections/participant_collection'),

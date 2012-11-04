@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/underscore', 'lib/backbone-relational', 'lib/color'],
+define(['lib/jquery', 'underscore', 'lib/backbone-relational', 'lib/color'],
     function($, _, Backbone, Color) {
 
         var RainbowGridView = Backbone.View.extend({

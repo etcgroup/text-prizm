@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/underscore', 'lib/d3', 'lib/date'],
+define(['lib/jquery', 'lib/backbone-relational', 'underscore', 'lib/d3', 'lib/date'],
     function($, Backbone, _, d3, Date) {
 
         var FrequencyView = Backbone.View.extend({

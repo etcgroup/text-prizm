@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/jqueryui', 'lib/backbone-relational', 'lib/underscore'], function($, jqueryUI, Backbone, _) {
+define(['lib/jquery', 'lib/jqueryui', 'lib/backbone-relational', 'underscore'], function($, jqueryUI, Backbone, _) {
     var GridSelectorView = Backbone.View.extend({
         el: $('#grid-selector-view'),
 

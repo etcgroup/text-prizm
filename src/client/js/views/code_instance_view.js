@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/underscore'], function($, Backbone, _) {
+define(['lib/jquery', 'lib/backbone-relational', 'underscore'], function($, Backbone, _) {
     var CodeInstanceView = Backbone.View.extend({
         tagName: 'li',
 

@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/underscore',
+define(['lib/jquery', 'lib/backbone-relational', 'underscore',
     'models/code_model'],
     function($, Backbone, _, Code) {
         var CodeFilterView = Backbone.View.extend({

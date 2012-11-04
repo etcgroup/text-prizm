@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/underscore', 'views/code_instance_view'],
+define(['lib/jquery', 'lib/backbone-relational', 'underscore', 'views/code_instance_view'],
     function($, Backbone, _, CodeInstanceView) {
 
         var MessageView = Backbone.View.extend({
