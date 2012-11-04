@@ -5,14 +5,13 @@
         <title><?php echo $page_title; ?></title>
         <?php echo css($app_css); ?>
 
-        <script>
-            var require = {
-                baseUrl: "<?php echo js_url() ?>"
-            }
-        </script>
-
         <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js') ?>
+        <script>
+            require.config({
+                baseUrl: "<?php echo js_url() ?>"
+            });
+        </script>
     </head>
     <body>
         <!-- #wrap and #push create the sticky footer effect -->
