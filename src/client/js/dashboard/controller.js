@@ -1,12 +1,12 @@
 define(['textprizm',
     './views/activity_list_view',
-    'common/views/app_status_view',
-    'common/views/data_set_summary_view'],
+    './views/app_status_view',
+    './views/data_summary_view'],
     function(
         TextPrizm,
         ActivityListView,
         AppStatusView,
-        DataSetSummaryView) {
+        DataSummaryView) {
 
         /**
          * A collection of functions that control the dashboard
@@ -56,7 +56,7 @@ define(['textprizm',
                 var appStatusView = new AppStatusView();
                 TextPrizm.appStatus.show(appStatusView);
 
-                var dataSetSummaryView = new DataSetSummaryView();
+                var dataSetSummaryView = new DataSummaryView();
                 TextPrizm.dataSetSummary.show(dataSetSummaryView);
             }
         });

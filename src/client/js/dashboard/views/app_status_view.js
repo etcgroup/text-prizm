@@ -1,5 +1,5 @@
 define(['marionette',
-    '../models/app_status',
+    'common/models/app_status',
     'text!../templates/app_status.html'],
     function(Marionette, AppStatus, appStatusTemplate) {
 
