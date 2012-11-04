@@ -1,5 +1,7 @@
 @import url("slick.grid.css");
 @import url("slick/slick-default-theme.css");
+@import url("colorbrewer.css");
+@import url("etc-graph.css");
 
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; font-family: Tahoma, Geneva, sans-serif; font-size: 0.9em;}
 
