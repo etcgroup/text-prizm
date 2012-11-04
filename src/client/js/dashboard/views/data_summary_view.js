@@ -1,7 +1,7 @@
 define(['marionette',
-    'common/models/data_set',
+    'common/models/data_counts',
     'text!../templates/data_summary.html'],
-    function(Marionette, DataSet, dataSummaryTemplate) {
+    function(Marionette, DataCounts, dataSummaryTemplate) {
 
         /**
          * A view summarizing information about the data set.
@@ -9,7 +9,7 @@ define(['marionette',
         var DatSetSummaryView = Marionette.ItemView.extend({
             template: dataSummaryTemplate,
             initialize: function() {
-                this.model = new DataSet();
+                this.model = new DataCounts();
                 this.model.fetch();
             }
         });
