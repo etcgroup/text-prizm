@@ -12,20 +12,14 @@ header('Retry-After: 172800');
         <title>Temporary Maintenance</title>
         <style type="text/css">
             body {
-                background: black;
+                background: #00A;
                 color: #eee;
-                font-family: "Verdana", sans-serif;
-                padding-top: 10px;
+                font-family: "Courier New", Courier, monospace;
+                margin: 30px;
             }
 
             #player {
                 margin-top: 30px;
-            }
-
-            #page {
-                width: 700px;
-                margin: auto;
-                text-align: center;
             }
         </style>
     </head>
@@ -41,7 +35,7 @@ header('Retry-After: 172800');
             <div id="player"></div>
         </div>
 
-        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
         <script>
 
