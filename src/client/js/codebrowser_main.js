@@ -1,5 +1,5 @@
-require(['common_config', 'lib/jquery', 'lib/jquery.rating'],
-    function(config, $) {
+require(['jquery', 'lib/jquery.rating'],
+    function($) {
         function rate(message_id,rating){
             console.log(message_id,rating,window.user_id);
             $.get('codebrowser/rate/' + message_id + '/' + window.user_id + '/' + rating);

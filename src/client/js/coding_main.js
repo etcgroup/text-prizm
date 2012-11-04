@@ -1,5 +1,5 @@
-require(['common_config', 'lib/jquery', 'controllers/coding_controller'],
-    function(config, $, CodingController) {
+require(['jquery', 'controllers/coding_controller'],
+    function($, CodingController) {
 
         $(document).ready(function() {
             window.controller = new CodingController(window.coding_options);

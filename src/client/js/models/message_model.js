@@ -1,4 +1,4 @@
-define(['lib/backbone-relational', 'models/participant_model'],
+define(['backbone', 'models/participant_model', 'lib/backbone-relational'],
     function(Backbone, Participant) {
 
         var Message = Backbone.RelationalModel.extend({

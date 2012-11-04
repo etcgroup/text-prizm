@@ -1,6 +1,6 @@
 define(function(require) {
-    var $ = require('lib/jquery'),
-    Backbone = require('lib/backbone-relational'),
+    var $ = require('jquery'),
+    Backbone = require('backbone'),
     _ = require('underscore'),
     Date = require('lib/date'),
     Code = require('models/code_model');

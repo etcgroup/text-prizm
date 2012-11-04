@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational'], function($, Backbone) {
+define(['jquery', 'backbone'], function($, Backbone) {
     var CodeListView = Backbone.View.extend({
 
         initialize: function() {

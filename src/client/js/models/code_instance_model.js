@@ -1,8 +1,9 @@
 define(function(require) {
-    var Backbone = require('lib/backbone-relational'),
+    var Backbone = require('backbone'),
     Code = require('models/code_model'),
     Message = require('models/message_model'),
     User = require('models/user_model');
+    require('lib/backbone-relational');
 
     var CodeInstance = Backbone.RelationalModel.extend({
         relations: [{

@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/jqueryui', 'lib/backbone-relational', 'lib/underscore', 'views/message_view'],
+define(['jquery', 'jqueryui', 'backbone', 'underscore', 'views/message_view'],
     function($, jqueryUI, Backbone, _, MessageView) {
 
         var MessageListView = Backbone.View.extend({

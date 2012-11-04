@@ -1,4 +1,4 @@
-define(['lib/backbone-relational', 'models/participant_model'],
+define(['backbone', 'models/participant_model'],
     function(Backbone, Participant) {
 
         var ParticipantCollection = Backbone.Collection.extend({

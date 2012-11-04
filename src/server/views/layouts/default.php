@@ -11,8 +11,8 @@
             }
         </script>
 
-        <?php echo js('lib/require.js') ?>
         <?php echo js('common_config.js'); ?>
+        <?php echo js('lib/require.js') ?>
     </head>
     <body>
         <!-- #wrap and #push create the sticky footer effect -->

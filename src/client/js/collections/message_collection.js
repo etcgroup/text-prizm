@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/date', 'models/message_model'],
+define(['jquery', 'backbone', 'lib/date', 'models/message_model'],
     function($, Backbone, Date, Message) {
 
         var MessageCollection = Backbone.Collection.extend({

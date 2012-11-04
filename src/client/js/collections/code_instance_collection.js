@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/date', 'models/code_instance_model'],
+define(['jquery', 'backbone', 'lib/date', 'models/code_instance_model'],
     function($, Backbone, Date, CodeInstance) {
 
         var CodeInstanceCollection = Backbone.Collection.extend({

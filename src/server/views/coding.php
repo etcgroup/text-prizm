@@ -18,7 +18,7 @@
         userId: <?php echo $user_id ?>
     };
         </script>
-
+        <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js', array('data-main' => js_url() . 'coding_main')); ?>
 
     </head>

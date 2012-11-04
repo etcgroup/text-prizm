@@ -1,5 +1,5 @@
 define(function(require) {
-    var $ = require('lib/jquery'),
+    var $ = require('jquery'),
     Slick = require('lib/slick.core');
     require('lib/slick.grid');
     require('lib/slick.dataview');

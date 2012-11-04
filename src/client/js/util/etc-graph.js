@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/d3'], function($, d3) {
+define(['jquery', 'lib/d3'], function($, d3) {
 
     function ETCBarGraph(options) {
         var defaults = {

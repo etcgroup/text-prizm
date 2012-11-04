@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/backbone-relational', 'lib/d3', 'lib/date'], function($, Backbone, d3, Date) {
+define(['jquery', 'backbone', 'lib/d3', 'lib/date'], function($, Backbone, d3, Date) {
 
     var CodeInfoView = Backbone.View.extend({
         el: $('#info-box'),

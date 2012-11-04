@@ -1,4 +1,4 @@
-define(['lib/jquery', 'lib/slick'], function($, Slick) {
+define(['jquery', 'lib/slick'], function($, Slick) {
     /***
 	 * remote data model based on slickgrid's standard grid
 	 *

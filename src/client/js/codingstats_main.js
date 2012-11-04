@@ -1,7 +1,6 @@
 define(function(require) {
-    require('common_config');
-    var $ = require('lib/jquery');
-    require('lib/jqueryui');
+    var $ = require('jquery');
+    require('jqueryui');
     var Spinner = require('lib/spin');
     var d3 = require('lib/d3'),
     colorbrewer = require('lib/colorbrewer'),

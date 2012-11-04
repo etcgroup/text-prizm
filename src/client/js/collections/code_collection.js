@@ -1,4 +1,4 @@
-define(['lib/backbone-relational', 'models/code_model'], function(Backbone, Code) {
+define(['backbone', 'models/code_model'], function(Backbone, Code) {
 
     var CodeCollection = Backbone.Collection.extend({
         model: Code,

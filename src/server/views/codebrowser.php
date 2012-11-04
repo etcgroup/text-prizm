@@ -37,6 +37,7 @@ function edit_url($label, $which, $code_id, $number, $before, $after)
             window.user_id = <?php echo $user_id; ?>;
         </script>
 
+        <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js', array('data-main' => js_url() . 'codebrowser_main')); ?>
 
     </head>

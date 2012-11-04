@@ -1,5 +1,5 @@
-require(['common_config', 'lib/jquery', 'lib/jquery.dataTables'],
-    function(config, $) {
+require(['jquery', 'lib/jquery.dataTables'],
+    function($) {
         $('#overview').dataTable({
             "bPaginate": false
         });

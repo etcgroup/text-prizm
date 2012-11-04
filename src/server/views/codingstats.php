@@ -9,7 +9,7 @@
             window.lines_by_person = <?php echo json_encode($lines_by_person); ?>;
             window.codes_by_line = <?php echo json_encode($codes_by_line); ?>;
         </script>
-
+        <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js', array('data-main' => js_url() . 'codingstats_main')); ?>
     </head>
     <body>

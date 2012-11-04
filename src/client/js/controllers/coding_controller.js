@@ -1,9 +1,9 @@
 define(function(require) {
-    var $ = require('lib/jquery');
-    require('lib/jqueryui');
+    var $ = require('jquery');
+    require('jqueryui');
     require('lib/jquery.blockUI');
     require('util/jquery.ui.selectable');
-    var Backbone = require('lib/backbone-relational'),
+    var Backbone = require('backbone'),
     _ = require('underscore'),
     MessageCollection = require('collections/message_collection'),
     CodeInstanceCollection = require('collections/code_instance_collection'),

@@ -1,4 +1,4 @@
-define(['lib/backbone-relational', 'models/user_model'],
+define(['backbone', 'models/user_model', 'lib/backbone-relational'],
     function(Backbone, User) {
 
         var Task = Backbone.RelationalModel.extend({

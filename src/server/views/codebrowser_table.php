@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Code Browser - Overview</title>
         <?php echo css('codebrowser_table.css'); ?>
-
+        <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js', array('data-main' => js_url() . 'codebrowser_table_main')); ?>
 
     </head>
