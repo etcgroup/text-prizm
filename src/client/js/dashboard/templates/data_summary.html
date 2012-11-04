@@ -2,5 +2,46 @@
     <h4>Data Set</h4>
 </div>
 <div class="body">
-    <p>hello there</p>
+    <div class="row-fluid">
+        <div class="span6">
+            <table class="table table-hover">
+                <tr>
+                    <td class="table-label">messages</td>
+                    <td class="table-value"><%=messages%></td>
+                </tr>
+                <tr>
+                    <td class="table-label">clusters</td>
+                    <td class="table-value"><%=clusters%></td>
+                </tr>
+                <tr>
+                    <td class="table-label">participants</td>
+                    <td class="table-value"><%=participants%></td>
+                </tr>
+                <tr>
+                    <td class="table-label">codes</td>
+                    <td class="table-value"><%=codes%></td>
+                </tr>
+            </table>
+        </div>
+        <div class="span6">
+            <table class="table table-hover">
+                <tr>
+                    <td class="table-label">coded messages</td>
+                    <td class="table-value"><%=coded_messages%> (<%= Math.round(100 * coded_messages / messages) %>%)</td>
+                </tr>
+                <tr>
+                    <td class="table-label">active coders</td>
+                    <td class="table-value"><%=active_coders%></td>
+                </tr>
+                <tr>
+                    <td class="table-label">recent memos</td>
+                    <td class="table-value"><%=recent_memos%></td>
+                </tr>
+                <tr>
+                    <td class="table-label">total memos</td>
+                    <td class="table-value"><%=total_memos%></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
