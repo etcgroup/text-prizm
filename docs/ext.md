@@ -11,4 +11,4 @@ For example, to get summary info about the data set, request `/ext/dataset/summa
 
 ## API Module Index
 
-* [Data Set](ext/dataset.md): information about the data set
+* [Data Counts](ext/datacounts.md): counts of main data types.
