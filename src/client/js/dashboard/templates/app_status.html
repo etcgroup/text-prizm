@@ -2,5 +2,17 @@
     <h4>App Status</h4>
 </div>
 <div class="body">
-    <p>hello there</p>
+    <p>
+        Running <%=name%> <strong>v<%=version%></strong><br/>
+        <small>
+            Revision
+            <a target="_blank" title="View Commit in GitHub" href="<%=github_url%>/tree/<%=revision%>">
+                <%=git_short_hash(revision)%>
+            </a>,
+            updated <%=medium_date_time(upgrade_time)%>
+        </small>
+    </p>
+    <p>
+        Using database <strong><%=database_schema%></strong> at <strong><%=database_host%></strong>
+    </p>
 </div>
