@@ -35,17 +35,3 @@ Adapted from Bootstrap .modal styles
 #dashboard .panel .body {
     padding: 9px;
 }
-
-/* Styles for panel tables */
-#dashboard .panel th, #dashboard .panel td {
-    border-top: none;
-}
-
-#dashboard .panel .table-label {
-    font-weight: bold;
-    text-align: right;
-}
-
-#dashboard .panel .table-value {
-    text-align: right;
-}
