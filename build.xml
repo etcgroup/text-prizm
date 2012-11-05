@@ -44,7 +44,6 @@
     <target name="prod-deps" description="Gets dependencies required to build for production">
         <echo>Collecting production build tools into ${build.tools.dir}</echo>
         <parallel>
-            <dependency name="rhino" dest="${build.tools.dir}"/>
             <dependency name="requirejs-optimizer" dest="${build.tools.dir}"/>
         </parallel>
     </target>
