@@ -100,6 +100,7 @@
                 Data: <%= message_count %> messages, working in code scheme <%= schema_id %>
             </div>
             <div class="right">
+                <a class="button" id="copy-paste-button" title="Click this to allow copy-paste.">Enable Copy Paste</a>
                 <a class="button" id="fix-selection-button" title="If the message selection gets weird, try this or refreshing.">Fix Broken Selection</a>
                 <input id="codeEntryBox" title="Type a new code to add here"></input>
                 <a class="button" id="create-code-button" title="If the box flashes yellow the code already exists. Red indicates an error.">Create Code</a>
