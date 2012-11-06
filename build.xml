@@ -166,7 +166,6 @@
 
     <target name="server-tools" description="Runs the server quality assurance tools"
             depends="prepare,phplint,phploc,phpmd,phpcs,phpcpd">
-        <antcall target="phpcb"/>
     </target>
 
     <target name="client-tools" depends="prepare,jshint,csslint">
