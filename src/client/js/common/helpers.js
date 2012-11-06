@@ -1,7 +1,17 @@
 define(['moment', 'underscore'], function(moment, _) {
 
     var templates = {
-        hover_full: _.template('<span title="<%=full%>"><%=summary%></span>')
+        hover_full: '<span title="<%=full%>"><%=summary%></span>',
+        user_name_link: '<a href="users/<%=name%>" title="<%=name%>"><%=full_name%></a>',
+        code_name_link: '<a class="label" href="codes/<%=name%>" title="<%=description%>"><%=name%></a>',
+        icon: '<i class="icon-<%=name%> <%=white%>"></i>',
+        time_ago: '<span title="<%= full_time %>"><%= time_ago %></span>',
+        memo_summary_link: '<a href="memos/<%=id%>" title="<%=long_summary%>"><%=short_summary%></a>'
+    }
+
+    //Compile the template strings
+    for (name in templates) {
+        templates[name] = _.template(templates[name]);
     }
 
     var Helpers = {
@@ -28,6 +38,16 @@ define(['moment', 'underscore'], function(moment, _) {
         medium_date_time: function(timestamp) {
             var date = moment.unix(timestamp);
             return date.format('MMM Do YYYY, h:mm a');
+        },
+
+        /**
+         * Given a timestamp, creates a time-ago string for it.
+         */
+        time_ago: function(timestamp) {
+            return templates.time_ago({
+                time_ago: moment.unix(timestamp).from(moment()),
+                full_time: this.long_date_time(timestamp)
+            });
         },
 
         /**
@@ -72,6 +92,91 @@ define(['moment', 'underscore'], function(moment, _) {
                 });
             } else {
                 return full_value;
+            }
+        },
+
+        /**
+         * Given a user model, creates a link to the user's page
+         * with the name as content.
+         */
+        user_name_link: function(user_model) {
+            return templates.user_name_link(user_model.toJSON());
+        },
+
+        /**
+         * Given a code model, creates a link to the page about the code.
+         */
+        code_name_link: function(code_model) {
+            return templates.code_name_link(code_model.toJSON());
+        },
+
+        /**
+         * Get the url to view the given message cluster.
+         */
+        messages_ref: function(cluster_id) {
+            return 'messages/cluster/' + cluster_id;
+        },
+
+        /**
+         * Gets html to display the given icon.
+         */
+        icon: function(name, use_white) {
+            var white = '';
+            if (use_white) {
+                white = 'icon-white'
+            }
+
+            return templates.icon({
+                name: name,
+                white: white
+            })
+        },
+
+        /**
+         * Shortens the given string to at most max_length.
+         * Tries to cut on word boundaries.
+         * Adds ellipses.
+         *
+         * Based on http://snipplr.com/view/40259/
+         */
+        short_string: function(string, max_length) {
+            if (string.length <= max_length)
+                return string;
+
+            var xMaxFit = max_length - 3;
+            var xTruncateAt = string.lastIndexOf(' ', xMaxFit);
+            if (xTruncateAt == -1 || xTruncateAt < max_length / 2)
+                xTruncateAt = maxFit;
+
+            return string.substr(0, xTruncateAt) + "...";
+        },
+
+        /**
+         * Creates a link to the memo using the summary as content.
+         */
+        memo_summary_link: function(memo_model) {
+            var summary = memo_model.get('summary');
+            var short_summary = this.short_string(summary, 25);
+
+            return templates.memo_summary_link({
+                id: memo_model.get('id'),
+                short_summary: short_summary,
+                long_summary: summary
+            });
+        },
+
+        /**
+         * Creates an appropriate link to the memo's target.
+         */
+        memo_target_link: function(memo_model) {
+            switch(memo_model.get('target_type')) {
+                case 'code':
+                    return this.code_name_link(memo_model.get('target'));
+                    break;
+                default:
+                    return templates.error({
+                        message: 'unknown target type'
+                    });
             }
         }
     };
