@@ -1,5 +1,5 @@
 define(['jquery', 'marionette', 'underscore', 'backbone',
-    'common/helpers',
+    'common/helpers/all',
     'common/models/activity',
     'text!../templates/activity_item.html',
     'text!../templates/activities.html'],

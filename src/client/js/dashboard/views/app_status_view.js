@@ -1,6 +1,6 @@
 define(['marionette',
     'text!../templates/app_status.html',
-    'common/helpers'],
+    'common/helpers/all'],
     function(Marionette, appStatusTemplate, Helpers) {
 
         /**

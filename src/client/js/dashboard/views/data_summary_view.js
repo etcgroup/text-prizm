@@ -1,6 +1,6 @@
 define(['marionette',
     'text!../templates/data_summary.html',
-    'common/helpers'],
+    'common/helpers/all'],
     function(Marionette, dataSummaryTemplate, Helpers) {
 
         /**
