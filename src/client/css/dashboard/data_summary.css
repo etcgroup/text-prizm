@@ -14,8 +14,8 @@ Styles for the data set summary panel.
 #data-set-summary-widget .table-label {
     font-weight: bold;
     text-align: left;
-    padding-top: 10px;
-    /*border-left: 1px solid #ddd;*/
+    padding-bottom: 11px;
+    vertical-align: bottom;
     padding-left: 0px;
 }
 
