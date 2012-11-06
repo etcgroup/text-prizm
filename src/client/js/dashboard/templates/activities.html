@@ -1,0 +1,35 @@
+<div>
+    <script id="apply-codes" type="text/template">
+        <%= icon('tags') %>
+        <%= user_name_link(user) %>
+        coded
+        <a href="<%= messages_ref(data.cluster) %>"><%= data.messages %> messages</a>.
+    </script>
+
+    <script id="create-code" type="text/template">
+        <%= icon('star') %>
+        <%=user_name_link(user)%>
+        created the new code
+        <%= code_name_link(data.code)%>.
+    </script>
+
+    <script id="update-code" type="text/template">
+        <%= icon('edit') %>
+        <%=user_name_link(user)%>
+        modified the code
+        <%= code_name_link(data.code)%>.
+    </script>
+
+    <script id="create-memo" type="text/template">
+        <%= icon('pencil') %>
+        <%=user_name_link(user)%>
+        wrote a memo
+        "<%=memo_summary_link(data.memo)%>"
+        about
+        <%= memo_target_link(data.memo)%>.
+    </script>
+
+    <script id="update-memo" type="text/template">
+        edit memo
+    </script>
+</div>
