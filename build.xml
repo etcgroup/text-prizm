@@ -265,10 +265,11 @@
     </macrodef>
 
     <target name="jshint" description="Perform syntax and style check of JS files. Run before committing.">
+        <property name="jshint.target" value="${src.dir}/client/js"/>
         <exec-node module="jshint">
             <arg value="--config" />
             <arg file="${scripts.dir}/jshintrc.json"/>
-            <arg file="${src.dir}/client/js" />
+            <arg file="${jshint.target}" />
         </exec-node>
     </target>
 

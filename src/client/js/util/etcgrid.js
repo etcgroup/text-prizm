@@ -104,7 +104,7 @@ define(function(require) {
         grid.autosizeColumns();
 
         $("#txtSearch").keyup(function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 loader.setSearch($(this).val());
                 var vp = grid.getViewport();
                 loader.ensureData(vp.top, vp.bottom);
@@ -116,7 +116,7 @@ define(function(require) {
 
 
 
-    };
+    }
 
 
 
@@ -138,7 +138,7 @@ define(function(require) {
             dataView.beginUpdate();
             dataView.sort(function(a,b){
                 var x = a[sortCol], y = b[sortCol];
-                return (x == y ? 0 : (x > y ? 1 : -1));
+                return (x === y ? 0 : (x > y ? 1 : -1));
             }, args.sortAsc);
 
             dataView.endUpdate();
