@@ -25,7 +25,7 @@ define(['jquery', 'lib/d3'], function($, d3) {
 
 
         function init() {
-            if( typeof options == 'object' ) {
+            if( typeof options === 'object' ) {
                 opt = $.extend(defaults, options);
             } else {
                 opt = defaults;
@@ -271,7 +271,7 @@ define(['jquery', 'lib/d3'], function($, d3) {
             layout: 'horizontal'
         };
 
-        if( typeof options == 'object' ) {
+        if( typeof options === 'object' ) {
             options = $.extend(defaults, options);
         } else {
             options = defaults;
@@ -347,7 +347,7 @@ define(['jquery', 'lib/d3'], function($, d3) {
 
         var bar = vis.selectAll("g.bar")
         .data(options.data, function(d,i) {
-            return "id" in d ? d.id : i
+            return "id" in d ? d.id : i;
         })
         .enter().append("g")
         .attr("class", "bar");
@@ -371,10 +371,9 @@ define(['jquery', 'lib/d3'], function($, d3) {
                 .attr("transform", function(d) {
                     return "translate(0, " +  y(d.name) + ")";
                 })
-                .attr("height", y.rangeBand()
-                    )
+                .attr("height", y.rangeBand())
                 .attr("width", function(d) {
-                    return x(d.value)
+                    return x(d.value);
                 });
                 break;
             default:
