@@ -8,7 +8,6 @@
     <!-- Get the short revision code -->
     <exec executable="git" outputproperty="app.revision" failifexecutionfails="false">
         <arg value="rev-parse"/>
-        <arg value="--short"/>
         <arg value="HEAD"/>
     </exec>
 
@@ -73,6 +72,7 @@
             <dependency name="color" dest="${build.gather.dir}/client"/>
             <dependency name="d3" dest="${build.gather.dir}/client"/>
             <dependency name="date" dest="${build.gather.dir}/client"/>
+            <dependency name="moment" dest="${build.gather.dir}/client"/>
             <dependency name="famfamfam" dest="${build.gather.dir}/client"/>
             <dependency name="jquery.blockUI" dest="${build.gather.dir}/client"/>
             <dependency name="color" dest="${build.gather.dir}/client"/>

@@ -1,5 +1,5 @@
 define(['marionette',
-    'common/views/activity_item_view',
+    '../views/activity_item_view',
     'text!../templates/activity_list.html'],
     function(Marionette, ActivityItemView, activityListTemplate) {
 

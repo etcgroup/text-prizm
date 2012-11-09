@@ -1,0 +1,7 @@
+/*
+Styles for the data set summary panel.
+*/
+
+#data-set-summary-widget table {
+    margin-bottom: 0; /* Since there is nothing below this table */
+}

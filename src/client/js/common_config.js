@@ -22,7 +22,8 @@
             'jquery' : 'lib/jquery',
             'jqueryui' : 'lib/jqueryui',
             'jquery.event.drag' : 'lib/jquery.event.drag',
-            'jquery.event.drop' : 'lib/jquery.event.drop'
+            'jquery.event.drop' : 'lib/jquery.event.drop',
+            'moment' : 'lib/moment'
         },
         shim: {
             'lib/jquery': {
