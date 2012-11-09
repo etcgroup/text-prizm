@@ -37,7 +37,7 @@ define(['jquery', 'lib/slick'], function($, Slick) {
 
         function isDataLoaded(from, to) {
             for (var i = from; i <= to; i++) {
-                if (data[i] == undefined || data[i] == null) {
+                if (data[i] === undefined || data[i] === null) {
                     return false;
                 }
             }
@@ -58,8 +58,9 @@ define(['jquery', 'lib/slick'], function($, Slick) {
         function ensureData(from, to) {
             if (req) {
                 req.abort();
-                for (var i = req.fromPage; i <= req.toPage; i++)
+                for (var i = req.fromPage; i <= req.toPage; i++) {
                     data[i * options.page_size] = undefined;
+                }
             }
 
             if (from < 0) {
@@ -69,15 +70,17 @@ define(['jquery', 'lib/slick'], function($, Slick) {
             var fromPage = Math.floor(from / options.page_size);
             var toPage = Math.floor(to / options.page_size);
 
-            console.log("fromPage: " + fromPage)
+            console.log("fromPage: " + fromPage);
 
-            while (data[fromPage * options.page_size] !== undefined && fromPage < toPage)
+            while (data[fromPage * options.page_size] !== undefined && fromPage < toPage) {
                 fromPage++;
+            }
 
-            while (data[toPage * options.page_size] !== undefined && fromPage < toPage)
+            while (data[toPage * options.page_size] !== undefined && fromPage < toPage) {
                 toPage--;
+            }
 
-            if (fromPage > toPage || ((fromPage == toPage) && data[fromPage * options.page_size] !== undefined)) {
+            if (fromPage > toPage || ((fromPage === toPage) && data[fromPage * options.page_size] !== undefined)) {
                 // TODO:  look-ahead
                 return;
             }
@@ -89,13 +92,14 @@ define(['jquery', 'lib/slick'], function($, Slick) {
             }
 
 
-            if (h_request != null) {
+            if (h_request !== null) {
                 clearTimeout(h_request);
             }
 
             h_request = setTimeout(function () {
-                for (var i = fromPage; i <= toPage; i++)
+                for (var i = fromPage; i <= toPage; i++) {
                     data[i * options.page_size] = null; // null indicates a 'requested but not available yet'
+                }
 
                 onDataLoading.notify({
                     from: from,
@@ -160,8 +164,9 @@ define(['jquery', 'lib/slick'], function($, Slick) {
 
 
         function reloadData(from, to) {
-            for (var i = from; i <= to; i++)
+            for (var i = from; i <= to; i++) {
                 delete data[i];
+            }
 
             ensureData(from, to);
         }
