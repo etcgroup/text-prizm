@@ -47,7 +47,12 @@ class App_status extends CI_Model {
      */
     function get_build_time()
     {
-        return $this->config->item('build_time');
+        //Build time is stored as "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        $build_time = $this->config->item('build_time');
+
+        //Convert to unix timestamp
+        $date = new DateTime($build_time);
+        return $date->getTimestamp();
     }
 
     /**
