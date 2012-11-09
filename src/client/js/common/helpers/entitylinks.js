@@ -5,7 +5,7 @@ define(['underscore'], function(_) {
         code_name_link: '<a class="label" href="codes/<%=name%>" title="<%=description%>"><%=name%></a>',
         memo_summary_link: '<a href="memos/<%=id%>" title="<%=long_summary%>"><%=short_summary%></a>',
         error: '<span class="label label-error"><%=message%></span>'
-    }
+    };
 
     //Compile the template strings
     for (var name in templates) {
@@ -60,14 +60,13 @@ define(['underscore'], function(_) {
             switch(memo_model.get('target_type')) {
                 case 'code':
                     return this.code_name_link(memo_model.get('target'));
-                    break;
                 default:
                     return templates.error({
                         message: 'unknown target type'
                     });
             }
         }
-    }
+    };
 
     return EntityLinkHelper;
 });

@@ -2,7 +2,7 @@ define(['underscore'], function(_) {
 
     var templates = {
         icon: '<i class="icon-<%=name%> <%=white%>"></i>'
-    }
+    };
 
     //Compile the template strings
     for (var name in templates) {
@@ -20,13 +20,13 @@ define(['underscore'], function(_) {
         icon: function(name, use_white) {
             var white = '';
             if (use_white) {
-                white = 'icon-white'
+                white = 'icon-white';
             }
 
             return templates.icon({
                 name: name,
                 white: white
-            })
+            });
         }
     };
 
