@@ -57,7 +57,7 @@ class Migration_Schemata_to_categories extends CI_Migration {
                 0 => $schema,
                 1 => (object) array(
                     'id' => $max_id + 1,
-                    'name' => $schema->name . ' type 1',
+                    'name' => $schema->name . ' (affect)',
                     'description' => $schema->description . ' (affect)'
                 )
             );
