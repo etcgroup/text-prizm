@@ -1,4 +1,4 @@
-define(['backbone',
+define(['underscore', 'backbone',
     'textprizm',
     './views/activity_list_view',
     'common/models/app_status',
@@ -6,6 +6,7 @@ define(['backbone',
     'common/models/data_counts',
     './views/data_summary_view'],
     function(
+        _,
         Backbone,
         TextPrizm,
         ActivityListView,
@@ -100,7 +101,7 @@ define(['backbone',
                 database_host: 'localhost:3306',
                 database_schema: 'textprizm'
             });
-        }
+        };
 
         _.extend(DashboardController.prototype, {
 

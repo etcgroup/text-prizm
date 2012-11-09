@@ -2,7 +2,7 @@ define(['moment', 'underscore'], function(moment, _) {
 
     var templates = {
         time_ago: '<span title="<%= full_time %>"><%= time_ago %></span>'
-    }
+    };
 
     //Compile the template strings
     for (var name in templates) {
@@ -40,7 +40,7 @@ define(['moment', 'underscore'], function(moment, _) {
                 full_time: this.long_date_time(timestamp)
             });
         }
-    }
+    };
 
     return DateTimeHelper;
 });
