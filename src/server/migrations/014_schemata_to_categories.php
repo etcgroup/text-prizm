@@ -51,17 +51,21 @@ class Migration_Schemata_to_categories extends CI_Migration {
 
         foreach ($schemata as $schema)
         {
-            //Insert a category for the schema
-            $this->db->insert('categories', $schema);
-
-            //Convert code_type=1 codes to another category
-            $code_type_1_id = $max_id + 1;
+            //Map code types onto categories.
+            //Code type = 0 maps to a category that is identical to the old schema.
+            $code_type_to_category = array(
+                0 => $schema,
+                1 => (object) array(
+                    'id' => $max_id + 1,
+                    'name' => $schema->name . ' type 1',
+                    'description' => $schema->description . ' (affect)'
+                )
+            );
+            //Increment the max_id since we've just used up another id
             $max_id = $max_id + 1;
-            $this->db->insert('categories', array(
-                'id' => $code_type_1_id,
-                'name' => $schema->name . ' type 1',
-                'description' => $schema->description . ' (code_type=1)'
-            ));
+
+            //Insert the new categories as a batch (the values in the $code_type_to_category map)
+            $this->db->insert_batch('categories', array_values($code_type_to_category));
 
             //Get the codes in this schema
             $this->db->where('schema_id', $schema->id);
@@ -72,22 +76,14 @@ class Migration_Schemata_to_categories extends CI_Migration {
 
             foreach ($schema_codes as $code)
             {
-                if ($code->code_type === '1')
-                {
-                    //If it is code_type 1 then insert it into that category
-                    $code_categories[] = array(
-                        'code_id' => $code->id,
-                        'category_id' => $code_type_1_id
-                    );
-                }
-                else
-                {
-                    //Otherwise just put it in the base category
-                    $code_categories[] = array(
-                        'code_id' => $code->id,
-                        'category_id' => $schema->id
-                    );
-                }
+                //Get the category for this code
+                $category = $code_type_to_category[$code->code_type];
+
+                //Create a code_categories entry linking the code to the category
+                $code_categories[] = array(
+                    'code_id' => $code->id,
+                    'category_id' => $category->id
+                );
             }
 
             //Insert all of the code_categories at once
