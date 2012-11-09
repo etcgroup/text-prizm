@@ -9,13 +9,13 @@ Each non-summary call corresponds to a count over data. Some data are streaming,
 and some are not - meaning, that countable objects are associated with
 timestamps.
 
-Streaming data count calls have exactly one parameter, the *range*, which
-may be 0, 1, 7, or 30 referring to the number of most recent days over which to
+Streaming data count calls have exactly one parameter, the *range* (for example,
+ 0, 1, 7, or 30) that refers to the number of most recent days over which to
 summarize; 0 means no constraint. Any integer will be interpreted, but 1, 7 and
 30 are recommended as most sensible. The purpose of this is to capture a delta;
 for example, the # of messages coded in the last 7 days. We are currently
-assuming non-streaming data, so this is not a meaningful parameter on the
-number of messages itself.
+assuming non-streaming messages, code scheme, and participants, so this is not
+a meaningful parameter on the number of those objects.
 
 The summary call also accepts the range parameter, and passes it to all
 parameterizable functions. So, calling summary with range=7, will result in a
@@ -27,7 +27,7 @@ with range=7.
 ### Get an exhaustive map of all available counts: `GET /data_counts/summary/`
 
 Parameters:
-* **`range`: an integer >=0; default 0**
+* **`range`: an integer >=0; default 0, meaning forever**
 
 Response:
 * 200: The body contains a JSON map from the names of the corresponding function
@@ -55,7 +55,7 @@ Response:
 
 ## Codes
 
-### Get the number of codes with any instances: `GET /data_counts/codes/`
+### Get the number of codes: `GET /data_counts/codes/`
 
 Response:
 * 200: The body contains a single positive integer.
@@ -68,7 +68,7 @@ Response:
 ### range provided: `GET /data_counts/coded_messages/`
 
 Parameters:
-* **`range`: an integer >=0; default 0**
+* **`range`: an integer >=0; default 0, meaning forever**
 
 Response:
 * 200: The body contains a single positive integer.
@@ -77,11 +77,24 @@ Response:
 
 ## Percent Coded Messages
 
-### Get the number of messages that have had any codes applied to them in
+### Get the percent of total messages that have had any codes applied to them in
 ### the dataset: `GET /data_counts/percent_coded_messages/`
 
 Parameters:
-* **`range`: an integer >=0; default 0**
+* **`range`: an integer >=0; default 0, meaning forever**
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+## Instantiated Codes
+
+### Get the number of codes that have been instantiated in the specified
+### range: `GET /data_counts/instantiated_codes/`
+
+Parameters:
+* **`range`: an integer >=0; default 0, meaning forever**
 
 Response:
 * 200: The body contains a single positive integer.
@@ -94,7 +107,7 @@ Response:
 ###  in the specified range: `GET /data_counts/coders/`
 
 Parameters:
-* **`range`: an integer >=0; default 0**
+* **`range`: an integer >=0; default 0, meaning forever**
 
 Response:
 * 200: The body contains a single positive integer.
