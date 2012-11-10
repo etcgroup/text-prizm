@@ -2,7 +2,7 @@ define(['underscore'], function(_) {
 
     var templates = {
         hover_full: '<span title="<%=full%>"><%=summary%></span>'
-    }
+    };
 
     //Compile the template strings
     for (var name in templates) {
@@ -18,7 +18,7 @@ define(['underscore'], function(_) {
          * Returns the percent that the part is of the whole.
          */
         percent_of: function(part, whole) {
-            return Math.round(100 * part / whole)
+            return Math.round(100 * part / whole);
         },
 
         /**
@@ -46,7 +46,7 @@ define(['underscore'], function(_) {
                 short_value = this.add_commas(Math.round(number / 1000)) + 'k';
                 full_value = this.add_commas(full_value);
             } else {
-                short_value = Math.round(number).toString();;
+                short_value = Math.round(number).toString();
             }
 
             if (full_value !== short_value) {
@@ -58,7 +58,7 @@ define(['underscore'], function(_) {
                 return full_value;
             }
         }
-    }
+    };
 
     return NumberHelper;
 });
