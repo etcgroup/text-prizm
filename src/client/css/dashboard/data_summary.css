@@ -3,7 +3,8 @@ Styles for the data set summary panel.
 */
 
 #data-set-summary-widget table {
-    margin-bottom: 0; /* Since there is nothing below this table */
+    /* Since there is nothing below this table we remove the default margin from bootstrap */
+    margin-bottom: 0;
 }
 
 /* Styles for panel tables */
