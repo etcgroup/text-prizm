@@ -29,6 +29,12 @@ class Activities_model extends CI_Model {
     );
 
     /**
+     * The name of the activities table.
+     * @var string
+     */
+    private $_table_name = 'activities';
+
+    /**
      * Construct a new Activities model
      */
     function __construct()
@@ -60,6 +66,17 @@ class Activities_model extends CI_Model {
     }
 
     /**
+     * Get a single activity by id.
+     *
+     * @param integer $id
+     */
+    function get_activity($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->get($this->_table_name)->row();
+    }
+
+    /**
      * Get the most recent activities in reverse chronological order.
      *
      * Valid options:
@@ -76,7 +93,7 @@ class Activities_model extends CI_Model {
         $this->db->limit($options['limit'], $options['offset']);
         $this->db->order_by('time', 'desc');
 
-        $activities = $this->db->get('activities')->result();
+        $activities = $this->db->get($this->_table_name)->result();
 
         return $activities;
     }
@@ -84,12 +101,12 @@ class Activities_model extends CI_Model {
     /**
      * Add a new activity.
      *
-     * On success, returns the data for the new activity as an object.
+     * On success, returns the id of the inserted activity.
      * On failure, returns FALSE.
      *
      * @param array $options Data about the activity.
      *
-     * @return object
+     * @return mixed
      */
     function add_activity($options)
     {
@@ -111,11 +128,9 @@ class Activities_model extends CI_Model {
         }
 
         //Finally insert into the database
-        if (!$this->db->insert($this->table_name, $options))
+        if (!$this->db->insert($this->_table_name, $options))
         {
-            $return_value = (object) $options;
-            $return_value->id = $this->db->insert_id();
-            return $return_value;
+            return $this->db->insert_id();
         }
         else
         {
