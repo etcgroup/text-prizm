@@ -2,7 +2,7 @@
 
     <!-- Get a build time -->
     <tstamp>
-        <format property="build.time" pattern="MM/dd/yyyy hh:mm aa"/>
+        <format property="build.time" pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ"/>
     </tstamp>
 
     <!-- Get the short revision code -->
