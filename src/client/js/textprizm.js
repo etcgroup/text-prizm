@@ -18,7 +18,7 @@ define(["backbone",
             }
 
             return template;
-        }
+        };
 
         /**
          * The text prizm application

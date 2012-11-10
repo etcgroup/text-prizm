@@ -1,0 +1,27 @@
+/*
+Styles for the data set summary panel.
+*/
+
+#data-set-summary-widget table {
+    margin-bottom: 0; /* Since there is nothing below this table */
+}
+
+/* Styles for panel tables */
+#data-set-summary-widget th, #data-set-summary-widget td {
+    border-top: none;
+}
+
+#data-set-summary-widget .table-label {
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 11px;
+    vertical-align: bottom;
+    padding-left: 0px;
+}
+
+#data-set-summary-widget .table-value {
+    text-align: right;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: normal;
+}

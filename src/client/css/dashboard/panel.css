@@ -3,6 +3,7 @@ Dashboard widget panels.
 Adapted from Bootstrap .modal styles
 */
 
+/* Set up the modal-like panel frames */
 #dashboard .panel {
     margin-bottom: 20px;
     background-color: #ffffff;
@@ -20,6 +21,7 @@ Adapted from Bootstrap .modal styles
     background-clip: padding-box;
 }
 
+/* Panel header styles */
 #dashboard .panel .header {
     padding: 9px;
     border-bottom: 1px solid #EEE;

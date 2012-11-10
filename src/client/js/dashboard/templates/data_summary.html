@@ -1,0 +1,55 @@
+<div class="header">
+    <h4>Data Set</h4>
+</div>
+<div class="body">
+    <div class="row-fluid">
+        <div class="span6">
+            <table class="table">
+                <tr>
+                    <td class="table-value"><%=approx_num(messages)%></td>
+                    <td class="table-label">messages</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(coded_messages)%></td>
+                    <td class="table-label">messages coded (<%=percent_of(coded_messages, messages) %>%)</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(coded_messages_recent)%></td>
+                    <td class="table-label">coded in last <%=recency%> days</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(memos)%></td>
+                    <td class="table-label">memos</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(memos_recent)%></td>
+                    <td class="table-label">memos in last <%=recency%> days</td>
+                </tr>
+            </table>
+        </div>
+        <div class="span6">
+            <table class="table">
+                <tr>
+                    <td class="table-value"><%=approx_num(clusters)%></td>
+                    <td class="table-label">clusters</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(participants)%></td>
+                    <td class="table-label">participants</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(codes)%></td>
+                    <td class="table-label">codes</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(coders)%></td>
+                    <td class="table-label">coders</td>
+                </tr>
+                <tr>
+                    <td class="table-value"><%=approx_num(coders_recent)%></td>
+                    <td class="table-label">coders in last <%=recency%> days</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
