@@ -99,7 +99,7 @@ class Activities_model extends CI_Model {
     }
 
     /**
-     * Add a new activity.
+     * Log a new activity.
      *
      * On success, returns the id of the inserted activity.
      * On failure, returns FALSE.
@@ -108,7 +108,7 @@ class Activities_model extends CI_Model {
      *
      * @return mixed
      */
-    function add_activity($options)
+    function log_activity($options)
     {
         //Check for the required fields
         if (!$this->options->has_keys($options,
