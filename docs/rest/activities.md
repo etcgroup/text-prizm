@@ -25,7 +25,6 @@ Parameters:
 
 Response
 * 200: The body contains a collection of activities.
-* 400: The body contains an error message.
 * 404: The body contains an error message.
 
 ## Adding Activities
