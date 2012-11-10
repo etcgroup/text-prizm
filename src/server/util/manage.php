@@ -360,7 +360,7 @@ abstract class Util {
 
     /**
      * Gets the current (top) action.
-     * 
+     *
      * @return string
      */
     static function get_current_action()
@@ -959,6 +959,21 @@ class Config {
         $database_config = $this->config_dir . '/database.php';
         Util::replace_in_file($before_str, $after_str, $database_config)
                 || fatal('Could not set up the database connection');
+
+        //Set up the app config
+        $before_str = array(
+            '$config[\'upgrade_time\'] = \'\';',
+            '$config[\'database_hostname\'] = \'\';',
+            '$config[\'database_schema\'] = \'\';'
+        );
+        $after_str = array(
+            '$config[\'upgrade_time\'] = \'' . $this->install_config['upgrade_complete_time'] . '\';',
+            '$config[\'database_hostname\'] = \'' . $db_conf['hostname'] . '\';',
+            '$config[\'database_schema\'] = \'' . $db_conf['database'] . '\';'
+        );
+        $app_config = $this->config_dir . '/app.php';
+        Util::replace_in_file($before_str, $after_str, $app_config)
+                || fatal('Could not set up the app config file');
     }
 
     /**
@@ -1172,7 +1187,6 @@ class Manager {
         //Mark the installation as complete
         $this->config->install_config['install_complete_time'] = time();
         unset($this->config->install_config['install_begin_time']);
-        $this->config->install_config['app'] = $this->config->app_config;
         $this->config->save_install_config();
 
         out('Hooray! The installation is complete.');
@@ -1219,7 +1233,6 @@ class Manager {
         //Mark the upgrade complete
         $this->config->install_config['upgrade_complete_time'] = time();
         unset($this->config->install_config['upgrade_begin_time']);
-        $this->config->install_config['app'] = $this->config->app_config;
         $this->config->save_install_config();
 
         out('Upgrade complete.');
