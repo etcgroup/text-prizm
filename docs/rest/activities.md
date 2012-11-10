@@ -39,6 +39,6 @@ Parameters:
 * `data`: Any additional data for the activity, **as a string** (defaults to empty)
 
 Response
-* 200: The body contains the inserted activity.
+* 201: The body contains the inserted activity.
 * 400: The body contains an error message.
 * 404: The body contains an error message.
