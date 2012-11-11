@@ -35,7 +35,7 @@ Parameters:
 * **`user_id`: The integer id of the user who performed the activity (required)**
 * **`activity_type`: The string type of the activity (required)**
 * `time`: The timestamp when the activity occurred (defaults to current time)
-* `data`: Any additional data for the activity, **as a string** (defaults to empty)
+* `json_data`: Any additional data for the activity, **as a string** (defaults to empty)
 
 Response
 * 201: The body contains the inserted activity.

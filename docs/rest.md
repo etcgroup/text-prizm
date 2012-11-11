@@ -16,3 +16,4 @@ For example, to GET messages, request `/rest/messages`
 ## API Module Index
 
 * [Data Module](rest/data.md): static data (messages, participants, etc.)
+* [Activities](rest/activities.md)
