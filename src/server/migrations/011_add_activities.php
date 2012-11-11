@@ -29,7 +29,7 @@ class Migration_Add_activities extends CI_Migration {
                 'type' => 'VARCHAR',
                 'constraint' => 200
             ),
-            'data' => array(
+            'json_data' => array(
                 'type' => 'TEXT'
             )
         ));
