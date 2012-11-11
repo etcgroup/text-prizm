@@ -206,6 +206,25 @@
         <antcall target="-build-config"/>
     </target>
 
+    <!-- Test below -->
+
+    <target name="test-client">
+
+        <dependency name="phantom-jasmine" dest="${build.tools.dir}"/>
+        <dependency name="jasmine-jquery" dest="${build.tools.dir}"/>
+
+        <property name="run_jasmine_test.file"
+                  location="${build.tools.dir}/phantom-jasmine/lib/run_jasmine_test.coffee"/>
+
+        <property name="test_runner.file"
+                  location="${tests.client.dir}/TestRunner.html"
+                  relative="true"/>
+
+        <exec executable="phantomjs.exe" failonerror="true">
+            <arg line="${run_jasmine_test.file} ${test_runner.file}"/>
+        </exec>
+
+    </target>
 
     <!-- Build tools below -->
 
