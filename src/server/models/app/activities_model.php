@@ -104,6 +104,8 @@ class Activities_model extends CI_Model {
      * On success, returns the id of the inserted activity.
      * On failure, returns FALSE.
      *
+     * $options can include user_id, time, activity_type, and data.
+     *
      * @param array $options Data about the activity.
      *
      * @return mixed
