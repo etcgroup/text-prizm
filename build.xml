@@ -192,7 +192,7 @@
     </target>
 
     <target name="build-ci" description="Performs a build with output for CI"
-            depends="prepare,phplint,-gather-client,-gather-server,-tools-ci,-build-config">
+            depends="prepare,phplint,-gather-client,-gather-server,-tools-ci,-build-config,test-client">
 
     </target>
 
@@ -204,6 +204,7 @@
             <antcall target="-tools-ci-parallel"/>
         </parallel>
         <antcall target="-build-config"/>
+        <antcall target="test-client"/>
     </target>
 
     <!-- Test below -->
