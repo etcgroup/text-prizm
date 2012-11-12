@@ -95,6 +95,9 @@ class Activities_model extends CI_Model {
 
         $activities = $this->db->get($this->_table_name)->result();
 
+        //Remove the unreognized activities
+        $activities = $this->_recognized($activities);
+
         return $activities;
     }
 
@@ -160,6 +163,29 @@ class Activities_model extends CI_Model {
     function is_activity_type($activity_type)
     {
         return in_array($activity_type, $this->_activity_types);
+    }
+
+    /**
+     * Returns a new array containing only the activities
+     * with a recognized activity type.
+     *
+     * @param array $activities The array of activity objects to filter.
+     *
+     * @return array
+     */
+    private function _recognized($activities)
+    {
+        $recognized = array();
+
+        foreach ($activities as $activity)
+        {
+            if ($this->is_activity_type($activity->activity_type))
+            {
+                $recognized[] = $activity;
+            }
+        }
+
+        return $recognized;
     }
 
 }
