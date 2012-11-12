@@ -79,6 +79,8 @@ class Activities_model extends CI_Model {
     /**
      * Get the most recent activities in reverse chronological order.
      *
+     * Only activities with a recognized activity type are returned.
+     *
      * Valid options:
      * * 'limit': the maximum number of activities to return (default 10)
      * * 'offset': the result offset (default 0)
