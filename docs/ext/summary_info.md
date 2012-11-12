@@ -4,9 +4,12 @@ This section of the Extended Info provides summary information about specific as
 
 ## Codes
 
-### Instances over time `GET /ext/summary_info/codes/instances`
+### Instances over time `GET /ext/summary_info/codes/applied_counts`
 
 Retrieves binned code instance counts over the range [`time_start`,`time_end`] with `bin_count` bins for code `code_id`.
+
+Time in this case is time the instance was applied.
+
 
 Parameters:
 * **`code_id`: a code id**
@@ -20,7 +23,7 @@ Response:
 * 404: `id` not found or invalid
 
 
-### Messages with code over time `GET /ext/summary_info/codes/messages`
+### Messages with code over time `GET /ext/summary_info/codes/message_counts`
 
 Retrieves binned counts of messages with code instances over the range [`time_start`,`time_end`] with `bin_counts` bins for `code_id`. 
 
@@ -39,7 +42,7 @@ Response:
 
 ### Code instances by participant `GET /ext/summary_info/codes/participant`
 
-Retrieves the number of code instances of `code_id` for each participant sorted from greatest to least and limited to `num_results` participants. 
+Retrieves the number of code instances of `code_id` for each participant sorted from highest to lowest count and limited to `num_results` participants. 
 
 Parameters:
 * **`code_id`: a code id**
@@ -54,7 +57,7 @@ Response:
 
 ### Code instances by day (session/cluster) `GET /ext/summary_info/codes/daily_instances`
 
-Retrieves the days/or sessions with the highest counts of code instances for  `code_id`. The results are limited to `num_results` days/sessions. Results are ordered from highest to lowest.
+Retrieves a list of `num_results` of the days/or sessions with the highest counts of code instances for  `code_id`. Results are ordered from highest to lowest.
 
 
 
@@ -71,7 +74,7 @@ Response:
 
 ### Code instances by user `GET /ext/summary_info/codes/user`
 
-Retrieves the number of code instances for `code_id` for each user. Results are ordered from highest to lowest and a maximum of `num_results`. 
+Retrieves an array of the number of code instances for `code_id` for each user. Results are ordered from highest to lowest and a maximum of `num_results`. 
 
 Parameters:
 * **`code_id`: a code id**
@@ -151,29 +154,10 @@ Response:
 
 
 
-### Percentage of applied code instances by code `GET /ext/summary_info/user/code_percentages`
 
-Retrieves an ordered list of percentages of codes applied by `user_id` and grouped by the code. The number of results is limited by the `num_results` codes.
+### Applied code instance counts by user `GET /ext/summary_info/user/code_instances`
 
-The percentages are the percentage of total code instances coded by `user_id` that were coded as `code_id`. 
-
-
-Parameters:
-* **`user_id`: a user id**
-* **`num_results`: maximum number of results to return**
-
-Response:
-* 200: The body contains the data for the requested message.
-* 400: The body contains an error message.
-* 404: The body contains an error message.
-
-
-
-### Number of applied code instances by code `GET /ext/summary_info/user/code_instances`
-
-Retrieves an ordered list of percentages of codes applied by `user_id` and grouped by the code. The number of results is limited by the `num_results` codes.
-
-The percentages are the percentage of total code instances coded by `user_id` that were coded as `code_id`. 
+Retrieves an ordered array of the number of code instances applied by `user_id` and grouped by the code. The number of results is limited by the `num_results` codes.
 
 
 Parameters:
@@ -191,7 +175,7 @@ Response:
 
 ## Participant
 
-### Number of messages over time `GET /ext/summary_info/participant/message_count`
+### Number of messages over time `GET /ext/summary_info/participant/message_counts`
 
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] with `bin_count` bins. 
 
@@ -208,27 +192,7 @@ Response:
 
 
 
-### Percentage of messages over time `GET /ext/summary_info/participant/message_percentages`
-
-
-Retrieves an array of binned percentages over the range [`time_start`,`time_end`] with `bin_count` bins. 
-
-Percentage is the percentage of users messages as a contribution to the total messages in that bin. 
-
-Parameters:
-* **`participant_id`: a participant id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
-
-Response:
-* 200: The body contains the data for the requested message.
-* 400: The body contains an error message.
-* 404: `id` not found or invalid
-
-
-
-### Message count by hour of day  `GET /ext/summary_info/participant/hourly_count`
+### Message count by hour of day  `GET /ext/summary_info/participant/hourly_counts`
 
 
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] grouped by the hour of the day UTC. 
@@ -249,29 +213,7 @@ Response:
 
 
 
-### Percent of messages by hour of day  `GET /ext/summary_info/participant/hourly_percentage`
-
-
-Retrieves an array of message percentages over the range [`time_start`,`time_end`] grouped by the hour of the day UTC. Percentages are calculated based on the users contribution to the total message count for all users during that hour. 
-
-`time_start` and `time_end` are datetimes specify the the range of messages over which the counts are calculated.
-
-
-
-Parameters:
-* **`participant_id`: a participant id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-
-
-Response:
-* 200: The body contains the data for the requested message.
-* 400: The body contains an error message.
-* 404: `id` not found or invalid
-
-
-
-### Message count by cluster (day)  `GET /ext/summary_info/participant/daily_count`
+### Message count by cluster (day)  `GET /ext/summary_info/participant/daily_counts`
 
 
 Retrieves an array of message counts for `participant_id`   for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
@@ -286,24 +228,8 @@ Response:
 * 404: The body contains an error message.
 
 
-### Percent of messages by cluster `GET /ext/summary_info/participant/daily_percentage`
 
-
-Retrieves an array of percentages for `participant_id`   for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
-
-Percentage in this case means the proportion of user contributions to the overall message count for each cluster. 
-
-Parameters:
-* **`participant_id`: a participant id**
-* **`num_results`: maximum number of results to return**
-
-Response:
-* 200: The body contains the data for the requested message.
-* 400: The body contains an error message.
-* 404: The body contains an error message.
-
-
-### Number of participants messages labelled with code instance  `GET /ext/summary_info/participant/code_instances`
+### Number of participants messages labelled with code instance  `GET /ext/summary_info/participant/code_messages`
 
 
 Retrieves an array of message counts for `participant_id`   for code. Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
@@ -317,18 +243,3 @@ Response:
 * 400: The body contains an error message.
 * 404: The body contains an error message.
 
-### Percentage of participant's messages labelled with code instance  `GET /ext/summary_info/participant/code_percentages`
-
-
-Retrieves an array of percentages for `participant_id`   for each count. Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
-
-Percentage in this case means the proportion of user contributions to the overall message count for each code. 
-
-Parameters:
-* **`participant_id`: a participant id**
-* **`num_results`: maximum number of results to return**
-
-Response:
-* 200: The body contains the data for the requested message.
-* 400: The body contains an error message.
-* 404: The body contains an error message.
