@@ -224,7 +224,7 @@
 
         <echo>Running tests of client code...</echo>
 
-        <exec executable="phantomjs.exe" failonerror="true">
+        <exec executable="phantomjs" failonerror="true">
             <arg line="${run_jasmine_test.file} ${test_runner.file}"/>
         </exec>
 
