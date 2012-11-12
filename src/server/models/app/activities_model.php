@@ -104,7 +104,7 @@ class Activities_model extends CI_Model {
      * On success, returns the id of the inserted activity.
      * On failure, returns FALSE.
      *
-     * $options can include user_id, time, activity_type, and data.
+     * $options can include user_id, time, activity_type, and json_data.
      *
      * @param array $options Data about the activity.
      *
@@ -121,7 +121,7 @@ class Activities_model extends CI_Model {
 
         //Remove any unwanted fields
         $options = $this->options->filter_keys($options,
-                array('user_id', 'time', 'activity_type', 'data'));
+                array('user_id', 'time', 'activity_type', 'json_data'));
 
         //Make sure the activity_type is supported
         if (!$this->is_activity_type($options['activity_type']))
