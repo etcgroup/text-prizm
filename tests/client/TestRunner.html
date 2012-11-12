@@ -8,6 +8,7 @@
         <script type="text/javascript" src="../../build/tools/phantom-jasmine/vendor/jasmine-1.2.0/jasmine.js"></script>
         <script type="text/javascript" src="../../build/tools/phantom-jasmine/vendor/jasmine-1.2.0/jasmine-html.js"></script>
         <script type="text/javascript" src="../../build/tools/phantom-jasmine/lib/console-runner.js"></script>
+        <script type="text/javascript" src="../../build/tools/jasmine-reporters/jasmine.junit_reporter.js"></script>
         <script type="text/javascript" src="../../build/tools/jasmine-jquery.js"></script>
 
         <!-- Get Require.js set up -->
@@ -36,14 +37,15 @@
                     tests[i] = '../../../../tests/client/js/' + tests[i];
                 }
 
-                //Setting up jasmine
-
                 //This global variable must be defined for correct exit code retrieval
                 window.console_reporter = new jasmine.ConsoleReporter();
 
                 //Add whatever reporters we need
                 jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
-                jasmine.getEnv().addReporter(console_reporter);
+                jasmine.getEnv().addReporter(window.console_reporter);
+
+                //Unfortunately the xml output location is hard-coded. Sorry.
+                jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter("build/logs/"));
 
                 //Load the tests
                 require(tests, function() {

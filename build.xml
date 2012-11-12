@@ -187,7 +187,7 @@
     </target>
 
     <target name="build" description="Performs a build without running quality assurance tools"
-            depends="prepare,-gather-client,-gather-server,-build-config">
+            depends="prepare,-gather-client,-gather-server,-build-config,test-client">
 
     </target>
 
@@ -212,13 +212,16 @@
 
         <dependency name="phantom-jasmine" dest="${build.tools.dir}"/>
         <dependency name="jasmine-jquery" dest="${build.tools.dir}"/>
+        <dependency name="jasmine-reporters" dest="${build.tools.dir}"/>
 
         <property name="run_jasmine_test.file"
-                  location="${build.tools.dir}/phantom-jasmine/lib/run_jasmine_test.coffee"/>
+                  location="${tests.client.dir}/run_jasmine_test.js"/>
 
         <property name="test_runner.file"
                   location="${tests.client.dir}/TestRunner.html"
                   relative="true"/>
+
+        <echo>Running tests of client code...</echo>
 
         <exec executable="phantomjs.exe" failonerror="true">
             <arg line="${run_jasmine_test.file} ${test_runner.file}"/>
@@ -686,6 +689,6 @@
         </exec>
     </target>
 
-    <target name="local-all" depends="build,dist,deploy-local">
+    <target name="local-all" depends="build,test-client,dist,deploy-local">
     </target>
 </project>
