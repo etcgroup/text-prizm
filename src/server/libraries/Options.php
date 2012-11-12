@@ -99,7 +99,7 @@ class Options {
         {
             if (array_key_exists($key, $options_array))
             {
-                $result_array = $options_array[$key];
+                $result_array[$key] = $options_array[$key];
             }
         }
 
