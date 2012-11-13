@@ -18,7 +18,7 @@
             'backbone': 'lib/backbone',
             'text': 'lib/requirejs-text',
             'underscore': 'lib/underscore',
-            'marionette': 'lib/backbone.marionette',
+            'marionette': 'marionette-wrapper',
             'jquery' : 'lib/jquery',
             'jqueryui' : 'lib/jqueryui',
             'jquery.event.drag' : 'lib/jquery.event.drag',

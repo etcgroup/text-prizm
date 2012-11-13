@@ -12,11 +12,7 @@ define(['jquery', 'jqueryui', 'backbone', 'underscore', 'views/message_view'],
                 this.messageList = $('#message-list-view');
 
                 var self = this;
-                this.$el.selectable({
-                    change: function(event, ui) {
-                        self.selectionChanged(ui);
-                    }
-                });
+                this.enableSelection();
             },
             takeFocus: function() {
                 this.$el.focus();
@@ -70,6 +66,28 @@ define(['jquery', 'jqueryui', 'backbone', 'underscore', 'views/message_view'],
             refreshSelection: function() {
                 console.log("Selection refreshed");
                 this.$el.selectable("refresh");
+            },
+
+            disableSelection: function() {
+                console.log("Selection destroyed");
+                this.$el.selectable("destroy");
+                this.$el.enableSelection();
+                this.$el.css({
+                    '-webkit-user-select' : 'auto'
+                });
+            },
+
+            enableSelection: function() {
+                console.log("Selection initialized");
+                var self = this;
+                this.$el.selectable({
+                    change: function(event, ui) {
+                        self.selectionChanged(ui);
+                    }
+                });
+                this.$el.css({
+                    '-webkit-user-select' : 'none'
+                });
             }
         });
 

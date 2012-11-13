@@ -43,7 +43,6 @@
     <target name="prod-deps" description="Gets dependencies required to build for production">
         <echo>Collecting production build tools into ${build.tools.dir}</echo>
         <parallel>
-            <dependency name="rhino" dest="${build.tools.dir}"/>
             <dependency name="requirejs-optimizer" dest="${build.tools.dir}"/>
         </parallel>
     </target>
@@ -167,7 +166,6 @@
 
     <target name="server-tools" description="Runs the server quality assurance tools"
             depends="prepare,phplint,phploc,phpmd,phpcs,phpcpd">
-        <antcall target="phpcb"/>
     </target>
 
     <target name="client-tools" depends="prepare,jshint,csslint">
@@ -189,12 +187,12 @@
     </target>
 
     <target name="build" description="Performs a build without running quality assurance tools"
-            depends="prepare,-gather-client,-gather-server,-build-config">
+            depends="prepare,-gather-client,-gather-server,-build-config,test-client">
 
     </target>
 
     <target name="build-ci" description="Performs a build with output for CI"
-            depends="prepare,phplint,-gather-client,-gather-server,-tools-ci,-build-config">
+            depends="prepare,phplint,-gather-client,-gather-server,-tools-ci,-build-config,test-client">
 
     </target>
 
@@ -206,8 +204,31 @@
             <antcall target="-tools-ci-parallel"/>
         </parallel>
         <antcall target="-build-config"/>
+        <antcall target="test-client"/>
     </target>
 
+    <!-- Test below -->
+
+    <target name="test-client">
+
+        <dependency name="phantom-jasmine" dest="${build.tools.dir}"/>
+        <dependency name="jasmine-jquery" dest="${build.tools.dir}"/>
+        <dependency name="jasmine-reporters" dest="${build.tools.dir}"/>
+
+        <property name="run_jasmine_test.file"
+                  location="${tests.client.dir}/run_jasmine_test.js"/>
+
+        <property name="test_runner.file"
+                  location="${tests.client.dir}/TestRunner.html"
+                  relative="true"/>
+
+        <echo>Running tests of client code...</echo>
+
+        <exec executable="phantomjs" failonerror="true">
+            <arg line="${run_jasmine_test.file} ${test_runner.file}"/>
+        </exec>
+
+    </target>
 
     <!-- Build tools below -->
 
@@ -267,10 +288,11 @@
     </macrodef>
 
     <target name="jshint" description="Perform syntax and style check of JS files. Run before committing.">
+        <property name="jshint.target" value="${src.dir}/client/js"/>
         <exec-node module="jshint">
             <arg value="--config" />
             <arg file="${scripts.dir}/jshintrc.json"/>
-            <arg file="${src.dir}/client/js" />
+            <arg file="${jshint.target}" />
         </exec-node>
     </target>
 
@@ -668,6 +690,6 @@
         </exec>
     </target>
 
-    <target name="local-all" depends="build,dist,deploy-local">
+    <target name="local-all" depends="build,test-client,dist,deploy-local">
     </target>
 </project>

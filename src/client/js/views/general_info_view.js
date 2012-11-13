@@ -12,10 +12,12 @@ define(function(require) {
         events: {
             "click #create-code-button": "createCode",
             "keypress #codeEntryBox": "keyPressed",
-            "click #fix-selection-button": "fixSelection"
+            "click #fix-selection-button": "fixSelection",
+            "click #copy-paste-button": "toggleCopyPaste"
         },
 
         initialize: function(attributes) {
+            this.selectionDisabled = true;
             window.controller.messageCollection.on('reset', this.render, this);
             window.controller.messageCollection.on('change', this.updateProgress, this);
             window.controller.instanceCollection.on('reset change add remove', this.updateProgress, this);
@@ -105,6 +107,18 @@ define(function(require) {
 
         fixSelection: function() {
             window.controller.messageListView.refreshSelection();
+        },
+
+        toggleCopyPaste: function() {
+            if (this.selectionDisabled) {
+                window.controller.messageListView.disableSelection();
+                this.$el.find('#copy-paste-button').text('Return to Normal');
+                this.selectionDisabled = false;
+            } else {
+                window.controller.messageListView.enableSelection();
+                this.$el.find('#copy-paste-button').text('Enable Copy Paste');
+                this.selectionDisabled = true;
+            }
         },
 
         updateProgress: function() {
