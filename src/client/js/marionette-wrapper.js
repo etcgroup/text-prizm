@@ -16,7 +16,7 @@ define(['lib/backbone.marionette'], function(Marionette) {
         }
 
         return template;
-    }
+    };
 
     return Marionette;
 });
