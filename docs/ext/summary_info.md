@@ -1,6 +1,8 @@
-# Extended API Data Set Info Module
+# Extended API Summary Info Module
 
-This section of the Extended Info provides summary information about specific aspects of the dataset.
+The summary info portion of the extended API provides general descriptive information about each of the resources. Many of the calls provide histogram data about the messages or the instances of codes, and thus return sets of counts. 
+
+
 
 ## Codes
 
@@ -23,7 +25,7 @@ Response:
 * 404: `id` not found or invalid
 
 
-### Messages with code over time `GET /ext/summary_info/codes/message_counts`
+### Messages with code instance over time `GET /ext/summary_info/codes/message_counts`
 
 Retrieves binned counts of messages with code instances over the range [`time_start`,`time_end`] with `bin_counts` bins for `code_id`. 
 
