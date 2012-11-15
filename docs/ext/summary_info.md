@@ -12,10 +12,10 @@ Time in this case is time the instance was applied.
 
 
 Parameters:
-* **`code_id`: a code id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
+* **`code_id`: a code id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time -- unixtime (defaults to maxint)**
+* **`bin_count`: the number of bins (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -28,10 +28,10 @@ Response:
 Retrieves binned counts of messages with code instances over the range [`time_start`,`time_end`] with `bin_counts` bins for `code_id`. 
 
 Parameters:
-* **`code_id`: a code id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
+* **`code_id`: a code id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time (defaults to maxint)**
+* **`bin_count`: the number of bins (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -45,8 +45,8 @@ Response:
 Retrieves the number of code instances of `code_id` for each participant sorted from highest to lowest count and limited to `num_results` participants. 
 
 Parameters:
-* **`code_id`: a code id**
-* **`num_results`: maximum number of participants to return**
+* **`code_id`: a code id (required)**
+* **`num_results`: maximum number of participants to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -62,8 +62,8 @@ Retrieves a list of `num_results` of the days/or sessions with the highest count
 
 
 Parameters:
-* **`code_id`: a code id**
-* **`num_results`: maximum number of results**
+* **`code_id`: a code id (required)**
+* **`num_results`: maximum number of results (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -77,13 +77,13 @@ Response:
 Retrieves an array of the number of code instances for `code_id` for each user. Results are ordered from highest to lowest and a maximum of `num_results`. 
 
 Parameters:
-* **`code_id`: a code id**
-* **`num_results`: maximum number of results to return**
+* **`code_id`: a code id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
 * 400: The body contains an error message.
-* 404: The bod* y contains an error message.
+* 404: The body contains an error message.
 
 
 
@@ -95,10 +95,10 @@ Response:
 Retrieves binned counts of code instances applied by `user_id` over the range [`time_start`,`time_end`] with `bin_counts` bins. Time in this call is the time the instance was applied.
 
 Parameters:
-* **`user_id`: a user id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
+* **`user_id`: a user id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time -- unixtime (defaults to maxint)**
+* **`bin_count`: the number of bins (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -112,10 +112,10 @@ Response:
 Retrieves binned counts of code instances applied by `user_id` over the range [`time_start`,`time_end`] with `bin_counts` bins. Time in this call is the time the instance was applied.
 
 Parameters:
-* **`user_id`: a user id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
+* **`user_id`: a user id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time -- unixtime (defaults to maxint)**
+* **`bin_count`: the number of bins (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -129,8 +129,8 @@ Response:
 Retrieves the number of code instances applied by `user_id` for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results`. 
 
 Parameters:
-* **`user_id`: a user id**
-* **`num_results`: maximum number of results to return**
+* **`user_id`: a user id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -144,8 +144,8 @@ Response:
 Retrieves the number of messages with code_instances applied by `user_id` for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results`. 
 
 Parameters:
-* **`user_id`: a user id**
-* **`num_results`: maximum number of results to return**
+* **`user_id`: a user id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -161,8 +161,8 @@ Retrieves an ordered array of the number of code instances applied by `user_id` 
 
 
 Parameters:
-* **`user_id`: a user id**
-* **`num_results`: maximum number of results to return**
+* **`user_id`: a user id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -180,10 +180,10 @@ Response:
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] with `bin_count` bins. 
 
 Parameters:
-* **`participant_id`: a participant id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
-* **`bin_count`: the number of bins **
+* **`participant_id`: a participant id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time -- unixtime (defaults to maxint)**
+* **`bin_count`: the number of bins (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -192,7 +192,7 @@ Response:
 
 
 
-### Message count by hour of day  `GET /ext/summary_info/participant/hourly_counts`
+### Message count by hour of day  `GET /ext/summary_info/participant/hourofday_counts`
 
 
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] grouped by the hour of the day UTC. 
@@ -201,9 +201,9 @@ Retrieves an array of binned message counts over the range [`time_start`,`time_e
 
 
 Parameters:
-* **`participant_id`: a participant id**
-* **`time_start`: starting time **
-* **`time_end`: ending time **
+* **`participant_id`: a participant id (required)**
+* **`time_start`: starting time -- unixtime (defaults to 0)**
+* **`time_end`: ending time -- unixtime (defaults to maxint)**
 
 
 Response:
@@ -213,14 +213,14 @@ Response:
 
 
 
-### Message count by cluster (day)  `GET /ext/summary_info/participant/daily_counts`
+### Message count by day `GET /ext/summary_info/participant/daily_counts`
 
 
 Retrieves an array of message counts for `participant_id`   for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
 
 Parameters:
-* **`participant_id`: a participant id**
-* **`num_results`: maximum number of results to return**
+* **`participant_id`: a participant id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -235,8 +235,8 @@ Response:
 Retrieves an array of message counts for `participant_id`   for code. Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
 
 Parameters:
-* **`participant_id`: a participant id**
-* **`num_results`: maximum number of results to return**
+* **`participant_id`: a participant id (required)**
+* **`num_results`: maximum number of results to return (defaults to 10)**
 
 Response:
 * 200: The body contains the data for the requested message.
