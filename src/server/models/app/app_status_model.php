@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * Model for accessing information about
  * the status of the application.
  */
-class App_status_model extends CI_Model {
+class App_status_model extends Base_model2 {
 
     /**
      * Construct a new App Status model

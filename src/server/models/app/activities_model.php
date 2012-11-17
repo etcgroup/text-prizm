@@ -6,14 +6,7 @@ if (!defined('BASEPATH'))
 /**
  * Model for retrieving and manipulating activities data.
  */
-class Activities_model extends CI_Model {
-
-    /**
-     * The current error message.
-     *
-     * @var string
-     */
-    private $_error_message;
+class Activities_model extends Base_model2 {
 
     /**
      * The recognized activity types.
@@ -41,28 +34,6 @@ class Activities_model extends CI_Model {
     {
         parent::__construct();
         $this->load->library('options');
-    }
-
-    /**
-     * Sets the error message and returns FALSE.
-     *
-     * @param string $message
-     * @return boolean
-     */
-    private function _model_error($message)
-    {
-        $this->_error_message = $message;
-        return FALSE;
-    }
-
-    /**
-     * Get the error message.
-     *
-     * @return string
-     */
-    public function error_message()
-    {
-        return $this->_error_message;
     }
 
     /**
