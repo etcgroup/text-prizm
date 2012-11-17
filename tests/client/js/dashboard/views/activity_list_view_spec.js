@@ -44,8 +44,14 @@ define([
                 //By default the view contains an empty item view
                 expect(this.view.render().$el.find('li').size()).toBe(1);
 
+                //Add some activities
+                var activity = {
+                    type: 'unknown',
+                    time: 1352830708
+                };
+                this.collection.reset([activity, activity, activity]);
+
                 //The collection now contains more models
-                this.collection.reset([{}, {}, {}]);
                 expect(this.view.render().$el.find('li').size()).toBe(3);
             });
         });
