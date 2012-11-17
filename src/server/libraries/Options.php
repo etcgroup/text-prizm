@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * A collection of utility functions related to options-handling.
  */
@@ -18,6 +20,11 @@ class Options {
      */
     public function defaults($options, $defaults)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
 
         //Convert options object to an array for uniform access
@@ -58,6 +65,11 @@ class Options {
      */
     public function has_keys($options, $keys)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
         //Convert to array if necessary
         if (is_object($options))
@@ -86,6 +98,11 @@ class Options {
      */
     public function filter_keys($options, $keys)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
         //Convert to array if necessary
         if (is_object($options))
