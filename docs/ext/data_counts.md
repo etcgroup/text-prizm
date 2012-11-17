@@ -29,7 +29,7 @@ with days=7.
 ### Get an exhaustive map of all available counts: `GET /data_counts/summary/`
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a JSON map from the names of the corresponding function
@@ -72,7 +72,7 @@ Coded messages are those associated with at least one code instance, which
 was applied in the given day range.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
@@ -86,7 +86,7 @@ Response:
 Out of the total number of messages ever.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
@@ -98,7 +98,7 @@ Response:
 ### Get the number of instantiated codes: `GET /data_counts/instantiated_codes/`
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
@@ -113,7 +113,7 @@ Actively coding refers to any user of TextPrizm having applied one or more code
 instance in the specified day range.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
