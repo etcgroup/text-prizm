@@ -28,6 +28,11 @@ with days=7.
 
 ### Get an exhaustive map of all available counts: `GET /data_counts/summary/`
 
+Counts that use the optional `days` parameter will be included
+both with and without `days` set, with `_recent` appended in the
+latter case. For example, the map will include both `coded_messages` 
+and `coded_messages_recent`.
+
 Parameters:
 * `days`: an integer >=0; default 0, meaning forever
 

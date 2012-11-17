@@ -31,9 +31,12 @@ class Data_counts extends API_Controller {
             'messages' => $this->counts_model->get_message_count(),
             'participants' => $this->counts_model->get_participant_count(),
             'codes' => $this->counts_model->get_code_count(),
-            'coded_messages' => $this->counts_model->get_coded_message_count($options),
-            'instantiated_codes' => $this->counts_model->get_instantiated_code_count($options),
-            'coders' => $this->counts_model->get_coder_count($options)
+            'coded_messages' => $this->counts_model->get_coded_message_count(),
+            'coded_messages_recent' => $this->counts_model->get_coded_message_count($options),
+            'instantiated_codes' => $this->counts_model->get_instantiated_code_count(),
+            'instantiated_codes_recent' => $this->counts_model->get_instantiated_code_count($options),
+            'coders' => $this->counts_model->get_coder_count(),
+            'coders_recent' => $this->counts_model->get_coder_count($options)
         );
 
         $this->response($summary);
