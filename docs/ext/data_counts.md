@@ -30,7 +30,7 @@ with days=7.
 
 Counts that use the optional `days` parameter will be included
 both with and without `days` set, with `_recent` appended in the
-latter case. For example, the map will include both `coded_messages` 
+latter case. For example, the map will include both `coded_messages`
 and `coded_messages_recent`.
 
 Parameters:
@@ -45,6 +45,15 @@ Response:
 ## Messages
 
 ### Get the number of messages in the dataset: `GET /data_counts/messages/`
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+## Clusters
+
+### Get the number of clusters in the dataset: `GET /data_counts/clusters/`
 
 Response:
 * 200: The body contains a single positive integer.
@@ -98,6 +107,15 @@ Response:
 * 400: The body contains an error message.
 * 404: The body contains an error message.
 
+## Codes
+
+### Get the number of codes: `GET /data_counts/codes/`
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
 ## Instantiated Codes
 
 ### Get the number of instantiated codes: `GET /data_counts/instantiated_codes/`
@@ -125,3 +143,14 @@ Response:
 * 400: The body contains an error message.
 * 404: The body contains an error message.
 
+## Memos
+
+### Get the number of memos in the dataset: `GET /data_counts/memos/`
+
+Parameters:
+* `days`: an integer >=0; default 0, meaning forever
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.

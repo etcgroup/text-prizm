@@ -29,6 +29,7 @@ class Data_counts extends API_Controller {
 
         $summary = array(
             'messages' => $this->counts_model->get_message_count(),
+            'clusters' => $this->counts_model->get_cluster_count(),
             'participants' => $this->counts_model->get_participant_count(),
             'codes' => $this->counts_model->get_code_count(),
             'coded_messages' => $this->counts_model->get_coded_message_count(),
@@ -36,7 +37,9 @@ class Data_counts extends API_Controller {
             'instantiated_codes' => $this->counts_model->get_instantiated_code_count(),
             'instantiated_codes_recent' => $this->counts_model->get_instantiated_code_count($options),
             'coders' => $this->counts_model->get_coder_count(),
-            'coders_recent' => $this->counts_model->get_coder_count($options)
+            'coders_recent' => $this->counts_model->get_coder_count($options),
+            'memos' => $this->counts_model->get_memo_count(),
+            'memos_recent' => $this->counts_model->get_memo_count($options)
         );
 
         $this->response($summary);
@@ -50,6 +53,16 @@ class Data_counts extends API_Controller {
     function messages_get()
     {
         $this->response($this->counts_model->get_message_count());
+    }
+
+    /**
+     * Get the number of clusters in the dataset.
+     *
+     * @return NULL
+     */
+    function clusters_get()
+    {
+        $this->response($this->counts_model->get_cluster_count());
     }
 
     /**
@@ -121,6 +134,18 @@ class Data_counts extends API_Controller {
         $options = $this->get();
 
         $this->response($this->counts_model->get_coder_count($options));
+    }
+
+    /**
+     * Get the number of memos.
+     *
+     * @return NULL
+     */
+    function memos_get()
+    {
+        $options = $this->get();
+
+        $this->response($this->counts_model->get_memo_count($options));
     }
 
 }

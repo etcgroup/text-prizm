@@ -15,6 +15,12 @@ class Counts_model extends Base_model2 {
     private $_messages_table_name = 'data_points';
 
     /**
+     * The name of the clusters table.
+     * @var string
+     */
+    private $_clusters_table_name = 'data_sessions';
+
+    /**
      * The name of the participants table.
      * @var string
      */
@@ -50,6 +56,16 @@ class Counts_model extends Base_model2 {
     function get_message_count()
     {
         return $this->db->count_all($this->_messages_table_name);
+    }
+
+    /**
+     * Get the number of clusters in the dataset
+     *
+     * @return int
+     */
+    function get_cluster_count()
+    {
+        return $this->db->count_all($this->_clusters_table_name);
     }
 
     /**
@@ -153,6 +169,25 @@ class Counts_model extends Base_model2 {
         $this->db->select('COUNT(DISTINCT user_id) as count');
 
         return $this->db->get()->row()->count;
+    }
+
+    /**
+     * Get the number of memos.
+     *
+     * Valid options:
+     * * 'days': the number of days over which to count memos (default 0)
+     *
+     * @param array $options Optional parameters.
+     *
+     * @return int
+     */
+    function get_memo_count($options = array())
+    {
+        $options = $this->options->defaults($options, array('days' => 0));
+
+        //TODO: fill in once memos exist
+
+        return 0;
     }
 
     /**
