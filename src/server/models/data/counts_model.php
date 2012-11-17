@@ -107,7 +107,7 @@ class Counts_model extends Base_model2 {
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT message_id) as count');
 
-        return $this->db->get()->row()->count;
+        return (int)$this->db->get()->row()->count;
     }
 
     /**
@@ -146,7 +146,7 @@ class Counts_model extends Base_model2 {
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT code_id) as count');
 
-        return $this->db->get()->row()->count;
+        return (int)$this->db->get()->row()->count;
     }
 
     /**
@@ -168,7 +168,7 @@ class Counts_model extends Base_model2 {
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT user_id) as count');
 
-        return $this->db->get()->row()->count;
+        return (int)$this->db->get()->row()->count;
     }
 
     /**
