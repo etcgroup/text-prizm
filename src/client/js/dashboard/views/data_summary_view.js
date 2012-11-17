@@ -8,7 +8,10 @@ define(['marionette',
          */
         var DatSetSummaryView = Marionette.ItemView.extend({
             template: dataSummaryTemplate,
-            templateHelpers: Helpers
+            templateHelpers: Helpers,
+            modelEvents: {
+                'change': 'render'
+            }
         });
 
         return DatSetSummaryView;
