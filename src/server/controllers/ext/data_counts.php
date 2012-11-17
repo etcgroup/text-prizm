@@ -15,7 +15,7 @@ class Data_counts extends API_Controller {
     {
         parent::__construct();
         $this->load->library('options');
-        $this->load->model('app/activities');
+        $this->load->model('data/counts_model');
     }
 
     /**
