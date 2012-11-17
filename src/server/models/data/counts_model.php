@@ -82,7 +82,7 @@ class Counts_model extends Base_model2 {
      *
      * @return int
      */
-    function get_coded_message_count($options)
+    function get_coded_message_count($options = array())
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
@@ -104,7 +104,7 @@ class Counts_model extends Base_model2 {
      *
      * @return int
      */
-    function get_percent_coded_messages($options)
+    function get_percent_coded_messages($options = array())
     {
         $total_messages = $this->get_message_count();
         $coded_messages = $this->get_coded_message_count($options);
@@ -121,7 +121,7 @@ class Counts_model extends Base_model2 {
      *
      * @return int
      */
-    function get_instantiated_code_count($options)
+    function get_instantiated_code_count($options = array())
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
@@ -143,7 +143,7 @@ class Counts_model extends Base_model2 {
      *
      * @return int
      */
-    function get_coder_count($options)
+    function get_coder_count($options = array())
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
