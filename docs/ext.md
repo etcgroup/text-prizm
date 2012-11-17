@@ -7,7 +7,7 @@ made available through the Extended API.
 For simpler access to raw data entities, use the REST API.
 
 **The base URL for accessing the REST API is `/ext/`.**
-For example, to get summary info about the data set, request `/ext/dataset/summary`
+For example, to get summary info about the data set, request `/ext/data_counts/summary`
 
 ## API Module Index
 
