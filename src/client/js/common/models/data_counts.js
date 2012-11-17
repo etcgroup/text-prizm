@@ -1,9 +1,12 @@
 define(['backbone'], function(Backbone) {
+
     /**
      * Model for storing counts info about the data set.
      */
     var DataCounts = Backbone.Model.extend({
-        url: 'ext/data_counts/summary',
+        url: function() {
+            return 'ext/data_counts/summary?days=' + this.get('days');
+        },
 
         defaults: {
             messages: 0,
@@ -16,7 +19,7 @@ define(['backbone'], function(Backbone) {
             coders_recent: 0,
             memos: 0,
             memos_recent: 0,
-            recency: 0
+            days: 30
         }
     });
     return DataCounts;
