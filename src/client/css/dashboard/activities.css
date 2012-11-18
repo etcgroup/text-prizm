@@ -4,7 +4,7 @@ Styles for the activities list and items.
 
 #activity-list ul {
     list-style: none;
-    margin: 0px;
+    margin: 0;
 }
 
 #activity-list .activity {

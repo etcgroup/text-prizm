@@ -17,7 +17,7 @@ Styles for the data set summary panel.
     text-align: left;
     padding-bottom: 11px;
     vertical-align: bottom;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #data-set-summary-widget .table-value {
