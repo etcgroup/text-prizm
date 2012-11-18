@@ -23,6 +23,7 @@ class Activities_model extends Base_model2 {
 
     /**
      * The name of the activities table.
+     *
      * @var string
      */
     private $_table_name = 'activities';
@@ -39,7 +40,9 @@ class Activities_model extends Base_model2 {
     /**
      * Get a single activity by id.
      *
-     * @param integer $id
+     * @param integer $id The id of the activity.
+     *
+     * @return object The requested activity, or NULL if not found.
      */
     function get_activity($id)
     {
@@ -57,6 +60,8 @@ class Activities_model extends Base_model2 {
      * * 'offset': the result offset (default 0)
      *
      * @param array $options An optional set of parameters
+     *
+     * @return array The requested activites, or an empty array if none.
      */
     function get_recent_activities($options = array())
     {
@@ -84,7 +89,7 @@ class Activities_model extends Base_model2 {
      *
      * @param array $options Data about the activity.
      *
-     * @return mixed
+     * @return int The id of the inserted activity, or NULL on error.
      */
     function log_activity($options)
     {
@@ -92,7 +97,7 @@ class Activities_model extends Base_model2 {
         if (!$this->options->has_keys($options,
                         array('user_id', 'time', 'activity_type')))
         {
-            return $this->_model_error('Missing fields');
+            return $this->model_error('Missing fields');
         }
 
         //Remove any unwanted fields
@@ -102,7 +107,7 @@ class Activities_model extends Base_model2 {
         //Make sure the activity_type is supported
         if (!$this->is_activity_type($options['activity_type']))
         {
-            return $this->_model_error('Unknown activity_type');
+            return $this->model_error('Unknown activity_type');
         }
 
         //Finally insert into the database
@@ -112,7 +117,7 @@ class Activities_model extends Base_model2 {
         }
         else
         {
-            return $this->_model_error('Error inserting activity');
+            return $this->model_error('Error inserting activity');
         }
     }
 

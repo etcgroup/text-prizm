@@ -29,7 +29,7 @@ class Base_model2 extends CI_Model {
      * @param string $message The error message.
      * @return boolean
      */
-    protected function _model_error($message)
+    protected function model_error($message)
     {
         $this->_error_message = $message;
         return FALSE;
