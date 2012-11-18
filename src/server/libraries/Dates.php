@@ -8,11 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dates {
 
     /**
-     * The UTC Time Zone
+     * The UTC Time Zone.
+     *
      * @var DateTimeZone
      */
     private $_utc_timezone;
 
+    /**
+     * Construct the Dates library.
+     */
     public function __construct()
     {
         $this->_utc_timezone = new DateTimeZone('UTC');
@@ -20,6 +24,8 @@ class Dates {
 
     /**
      * Get the current DateTime in UTC.
+     *
+     * @return DateTime
      */
     public function utc_date()
     {
@@ -30,12 +36,26 @@ class Dates {
      * Format a PHP DateTime for MySQL datetime fields.
      *
      * @param DateTime $php_datetime A PHP DateTime object.
-     * 
+     *
      * @return string The PHP DateTime formatted as a MySQL datetime.
      */
     public function mysql_datetime($php_datetime)
     {
         return $php_datetime->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Calculate a UTC DateTime a number of days ago.
+     *
+     * @param int $days The number of days ago.
+     *
+     * @return DateTime The resulting date.
+     */
+    public function days_ago($days)
+    {
+        $date = $this->utc_date();
+        $date->modify('-' . $days . ' day');
+        return $date;
     }
 
 }

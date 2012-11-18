@@ -14,7 +14,7 @@ class Options {
      * Modeled on http://underscorejs.org/#defaults
      *
      * @param mixed $options The provided options.
-     * @param mixed $source The default values for the options.
+     * @param mixed $defaults The default values for the options.
      *
      * @return mixed
      */
@@ -61,6 +61,7 @@ class Options {
      *
      * @param mixed $options The options to search for keys.
      * @param array $keys An array of string references to keys.
+     * 
      * @return boolean
      */
     public function has_keys($options, $keys)
@@ -95,6 +96,8 @@ class Options {
      *
      * @param mixed $options The options from which values will be drawn.
      * @param array $keys The allowed keys.
+     *
+     * @return mixed
      */
     public function filter_keys($options, $keys)
     {
