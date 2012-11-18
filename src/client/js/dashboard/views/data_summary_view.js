@@ -1,7 +1,7 @@
-define(['marionette', 'lib/spin',
+define(['jquery', 'marionette', 'lib/spin',
     'text!../templates/data_summary.html',
     'common/helpers/all'],
-    function(Marionette, Spinner, dataSummaryTemplate, Helpers) {
+    function($, Marionette, Spinner, dataSummaryTemplate, Helpers) {
 
         /**
          * A view summarizing information about the data set.
