@@ -490,6 +490,8 @@
         <replace file="${build.config.dir}/app.php">
             <replacefilter token="$config['name'] = 'My App';"
                            value="$config['name'] = '${app.name}';"/>
+            <replacefilter token="$config['repo_url'] = '';"
+                           value="$config['repo_url'] = '${app.repo_url}';"/>
             <replacefilter token="$config['version'] = '';"
                            value="$config['version'] = '${app.version}';"/>
             <replacefilter token="$config['build_time'] = '';"
