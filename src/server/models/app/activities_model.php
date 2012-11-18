@@ -35,6 +35,8 @@ class Activities_model extends Base_model2 {
     {
         parent::__construct();
         $this->load->library('options');
+        $this->load->library('dates');
+        $this->load->model('gen/users_model');
     }
 
     /**
@@ -47,7 +49,11 @@ class Activities_model extends Base_model2 {
     function get_activity($id)
     {
         $this->db->where('id', $id);
-        return $this->db->get($this->_table_name)->row();
+        $activity = $this->db->get($this->_table_name)->row();
+
+        $this->_fill_in($activity);
+
+        return $activity;
     }
 
     /**
@@ -75,6 +81,12 @@ class Activities_model extends Base_model2 {
 
         //Remove the unreognized activities
         $activities = $this->_recognized($activities);
+
+        //Insert sub-model data
+        foreach ($activities as &$activity)
+        {
+            $this->_fill_in($activity);
+        }
 
         return $activities;
     }
@@ -110,8 +122,12 @@ class Activities_model extends Base_model2 {
             return $this->model_error('Unknown activity_type');
         }
 
+        //Convert the timestamp to datetime
+        $date_time = new DateTime('@' . $options['time']);
+        $options['time'] = $this->dates->mysql_datetime($date_time);
+
         //Finally insert into the database
-        if (!$this->db->insert($this->_table_name, $options))
+        if ($this->db->insert($this->_table_name, $options))
         {
             return $this->db->insert_id();
         }
@@ -164,6 +180,19 @@ class Activities_model extends Base_model2 {
         }
 
         return $recognized;
+    }
+
+    /**
+     * Fills in the missing activity data (user, time, etc.)
+     * The object is modified in place.
+     *
+     * @param object $activity
+     */
+    private function _fill_in($activity)
+    {
+        $activity->time = $this->dates->php_datetime($activity->time)->getTimestamp();
+        $activity->user = $this->users_model->get($activity->user_id);
+        unset($activity->user_id);
     }
 
 }
