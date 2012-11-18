@@ -28,7 +28,7 @@ define(['moment', 'underscore'], function(moment, _) {
          */
         medium_date_time: function(timestamp) {
             var date = moment.unix(timestamp);
-            return date.format('MMM Do YYYY, h:mm a');
+            return date.format('MMM D YYYY, h:mm a');
         },
 
         /**
