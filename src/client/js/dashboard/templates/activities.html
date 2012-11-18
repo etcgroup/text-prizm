@@ -10,27 +10,32 @@
         <%= icon('star') %>
         <%=user_name_link(user)%>
         created the new code
-        <%= code_name_link(json_data)%>.
+        <%= code_name_link(ref_obj)%>.
     </script>
 
     <script id="update-code" type="text/template">
         <%= icon('edit') %>
         <%=user_name_link(user)%>
         modified the code
-        <%= code_name_link(json_data)%>.
+        <%= code_name_link(ref_obj)%>.
     </script>
 
     <script id="create-memo" type="text/template">
         <%= icon('pencil') %>
         <%=user_name_link(user)%>
         wrote a memo
-        "<%=memo_summary_link(json_data)%>"
+        "<%=memo_summary_link(ref_obj)%>"
         about
-        <%= memo_target_link(json_data)%>.
+        <%= memo_target_link(ref_obj)%>.
     </script>
 
     <script id="update-memo" type="text/template">
-        edit memo
+        <%= icon('pencil') %>
+        <%=user_name_link(user)%>
+        edited the memo
+        "<%=memo_summary_link(ref_obj)%>"
+        about
+        <%= memo_target_link(ref_obj)%>.
     </script>
 
     <script id="unknown" type="text/template">
