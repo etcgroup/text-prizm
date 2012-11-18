@@ -3,6 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+/**
+ * Base Model class providing utilities such as error tracking.
+ */
 class Base_model2 extends CI_Model {
 
     /**
@@ -12,6 +15,9 @@ class Base_model2 extends CI_Model {
      */
     private $_error_message;
 
+    /**
+     * Construct a new base model.
+     */
     function __construct()
     {
         parent::__construct();
@@ -20,7 +26,7 @@ class Base_model2 extends CI_Model {
     /**
      * Sets the error message and returns FALSE.
      *
-     * @param string $message
+     * @param string $message The error message.
      * @return boolean
      */
     protected function _model_error($message)
