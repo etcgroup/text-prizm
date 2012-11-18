@@ -10,30 +10,35 @@ class Counts_model extends Base_model2 {
 
     /**
      * The name of the messages table.
+     *
      * @var string
      */
     private $_messages_table_name = 'data_points';
 
     /**
      * The name of the clusters table.
+     *
      * @var string
      */
     private $_clusters_table_name = 'data_sessions';
 
     /**
      * The name of the participants table.
+     *
      * @var string
      */
     private $_participants_table_name = 'data_participants';
 
     /**
      * The name of the codes table.
+     *
      * @var string
      */
     private $_codes_table_name = 'coding_codes';
 
     /**
      * The name of the instances table.
+     *
      * @var string
      */
     private $_instances_table_name = 'coding_instances';
@@ -196,28 +201,16 @@ class Counts_model extends Base_model2 {
      * If $days is 0, there is no limit applied.
      *
      * @param int $days A number of days >= 0
+     *
+     * @return NULL
      */
     private function _limit_days($days)
     {
         if ($days > 0)
         {
-            $days_ago = $this->_get_days_ago($days);
+            $days_ago = $this->dates->days_ago($days);
             $this->db->where('added >', $this->dates->mysql_datetime($days_ago));
         }
-    }
-
-    /**
-     * Calculate a date a number of days ago.
-     *
-     * @param int $days The number of days ago.
-     *
-     * @return DateTime The resulting date.
-     */
-    private function _get_days_ago($days)
-    {
-        $date = $this->dates->utc_date();
-        $date->modify('-' . $days . ' day');
-        return $date;
     }
 
 }
