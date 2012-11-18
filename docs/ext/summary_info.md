@@ -15,9 +15,9 @@ Time in this case is time the instance was applied.
 
 Parameters:
 * **`code_id`: a code id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time -- unixtime (defaults to maxint)**
-* **`bin_count`: the number of bins (defaults to 10)**
+* `time_start`: starting time -- unixtime (defaults to 0) 
+* `time_end`: ending time -- unixtime (defaults to maxint)
+* `bin_count`: the number of bins (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -31,9 +31,9 @@ Retrieves binned counts of messages with code instances over the range [`time_st
 
 Parameters:
 * **`code_id`: a code id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time (defaults to maxint)**
-* **`bin_count`: the number of bins (defaults to 10)**
+* `time_start`: starting time -- unixtime (defaults to 0)
+* `time_end`: ending time (defaults to maxint)
+* `bin_count`: the number of bins (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -48,7 +48,7 @@ Retrieves the number of code instances of `code_id` for each participant sorted 
 
 Parameters:
 * **`code_id`: a code id (required)**
-* **`num_results`: maximum number of participants to return (defaults to 10)**
+* `num_results`: maximum number of participants to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -65,7 +65,7 @@ Retrieves a list of `num_results` of the days/or sessions with the highest count
 
 Parameters:
 * **`code_id`: a code id (required)**
-* **`num_results`: maximum number of results (defaults to 10)**
+* `num_results`: maximum number of results (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -80,7 +80,7 @@ Retrieves an array of the number of code instances for `code_id` for each user. 
 
 Parameters:
 * **`code_id`: a code id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -98,9 +98,9 @@ Retrieves binned counts of code instances applied by `user_id` over the range [`
 
 Parameters:
 * **`user_id`: a user id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time -- unixtime (defaults to maxint)**
-* **`bin_count`: the number of bins (defaults to 10)**
+* `time_start`: starting time -- unixtime (defaults to 0)
+* `time_end`: ending time -- unixtime (defaults to maxint)
+* `bin_count`: the number of bins (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -115,9 +115,9 @@ Retrieves binned counts of code instances applied by `user_id` over the range [`
 
 Parameters:
 * **`user_id`: a user id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time -- unixtime (defaults to maxint)**
-* **`bin_count`: the number of bins (defaults to 10)**
+* `time_start`: starting time -- unixtime (defaults to 0)
+* `time_end`: ending time -- unixtime (defaults to maxint)
+* `bin_count`: the number of bins (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -132,7 +132,7 @@ Retrieves the number of code instances applied by `user_id` for each day (sessio
 
 Parameters:
 * **`user_id`: a user id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -147,7 +147,7 @@ Retrieves the number of messages with code_instances applied by `user_id` for ea
 
 Parameters:
 * **`user_id`: a user id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -164,7 +164,7 @@ Retrieves an ordered array of the number of code instances applied by `user_id` 
 
 Parameters:
 * **`user_id`: a user id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -183,9 +183,9 @@ Retrieves an array of binned message counts over the range [`time_start`,`time_e
 
 Parameters:
 * **`participant_id`: a participant id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time -- unixtime (defaults to maxint)**
-* **`bin_count`: the number of bins (defaults to 10)**
+* `time_start`: starting time -- unixtime (defaults to 0)
+* `time_end`: ending time -- unixtime (defaults to maxint)
+* `bin_count`: the number of bins (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -204,8 +204,8 @@ Retrieves an array of binned message counts over the range [`time_start`,`time_e
 
 Parameters:
 * **`participant_id`: a participant id (required)**
-* **`time_start`: starting time -- unixtime (defaults to 0)**
-* **`time_end`: ending time -- unixtime (defaults to maxint)**
+* `time_start`: starting time -- unixtime (defaults to 0)
+* `time_end`: ending time -- unixtime (defaults to maxint)
 
 
 Response:
@@ -222,7 +222,7 @@ Retrieves an array of message counts for `participant_id`   for each day (sessio
 
 Parameters:
 * **`participant_id`: a participant id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
@@ -238,7 +238,7 @@ Retrieves an array of message counts for `participant_id`   for code. Results ar
 
 Parameters:
 * **`participant_id`: a participant id (required)**
-* **`num_results`: maximum number of results to return (defaults to 10)**
+* `num_results`: maximum number of results to return (defaults to 10)
 
 Response:
 * 200: The body contains the data for the requested message.
