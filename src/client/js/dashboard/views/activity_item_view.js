@@ -26,7 +26,7 @@ define(['jquery', 'marionette', 'underscore', 'backbone',
                 var data = this.model.toJSON();
 
                 //Insert the correct activity template for this activity type
-                data.activity_body = activity_templates[this.model.get('type')];
+                data.activity_body = activity_templates[this.model.get('activity_type')];
 
                 return data;
             }
