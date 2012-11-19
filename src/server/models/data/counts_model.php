@@ -107,7 +107,7 @@ class Counts_model extends Base_model2 {
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
-        $this->_limit_days($options['days']);
+        $this->_within_days($options['days']);
 
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT message_id) as count');
@@ -146,7 +146,7 @@ class Counts_model extends Base_model2 {
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
-        $this->_limit_days($options['days']);
+        $this->_within_days($options['days']);
 
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT code_id) as count');
@@ -168,7 +168,7 @@ class Counts_model extends Base_model2 {
     {
         $options = $this->options->defaults($options, array('days' => 0));
 
-        $this->_limit_days($options['days']);
+        $this->_within_days($options['days']);
 
         $this->db->from($this->_instances_table_name);
         $this->db->select('COUNT(DISTINCT user_id) as count');
@@ -204,7 +204,7 @@ class Counts_model extends Base_model2 {
      *
      * @return NULL
      */
-    private function _limit_days($days)
+    private function _within_days($days)
     {
         if ($days > 0)
         {
