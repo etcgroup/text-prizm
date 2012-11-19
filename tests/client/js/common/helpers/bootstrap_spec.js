@@ -1,4 +1,4 @@
-define(['common/helpers/bootstrap'], function(BootstrapHelper) {
+define(['jquery', 'common/helpers/bootstrap'], function($, BootstrapHelper) {
     describe("BootstrapHelper", function() {
 
         it("can render a normal icon", function() {
