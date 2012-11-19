@@ -70,5 +70,14 @@ define(['jquery', 'common/helpers/entitylinks'], function($, EntityLinkHelper) {
 
             expect(target_link_html).toBe(code_link_html);
         });
+
+        it("gracefully fails to link to a memo's unknown target", function() {
+            this.memo_data.target_type = 'elephant';
+            this.memo_data.target = {};
+
+            var target_link = $(EntityLinkHelper.memo_target_link(this.memo_data));
+
+            expect(target_link.text()).toMatch('unknown');
+        });
     });
 });
