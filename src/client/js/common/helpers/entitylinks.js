@@ -1,4 +1,4 @@
-define(['underscore'], function(_) {
+define(['underscore', './strings'], function(_, StringHelper) {
 
     var templates = {
         user_name_link: '<a href="users/<%=id%>" title="<%=name%>"><%=full_name%></a>',
@@ -46,7 +46,7 @@ define(['underscore'], function(_) {
             _.defaults(memo_data, { summary: '' });
 
             var summary = memo_data.summary;
-            var short_summary = this.short_string(summary, 25);
+            var short_summary = StringHelper.short_string(summary, 25);
 
             return templates.memo_summary_link({
                 id: memo_data.id,
