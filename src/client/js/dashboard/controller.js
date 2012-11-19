@@ -78,19 +78,8 @@ define(['underscore', 'backbone',
                 }
             }]);
 
-            this.data_counts = new DataCounts({
-                messages: 3506134,
-                participants: 673,
-                codes: 46,
-                clusters: 1002,
-                coded_messages: 23015,
-                coded_messages_recent: 1324,
-                coders: 12,
-                coders_recent: 3,
-                memos: 32,
-                memos_recent: 4,
-                recency: 30
-            });
+            this.data_counts = new DataCounts();
+            this.data_counts.fetch();
 
             this.app_status = new AppStatus({
                 name: 'Text Prizm',

@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * A collection of utility functions related to options-handling.
  */
@@ -12,12 +14,17 @@ class Options {
      * Modeled on http://underscorejs.org/#defaults
      *
      * @param mixed $options The provided options.
-     * @param mixed $source The default values for the options.
+     * @param mixed $defaults The default values for the options.
      *
      * @return mixed
      */
     public function defaults($options, $defaults)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
 
         //Convert options object to an array for uniform access
@@ -54,10 +61,16 @@ class Options {
      *
      * @param mixed $options The options to search for keys.
      * @param array $keys An array of string references to keys.
+     * 
      * @return boolean
      */
     public function has_keys($options, $keys)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
         //Convert to array if necessary
         if (is_object($options))
@@ -83,9 +96,16 @@ class Options {
      *
      * @param mixed $options The options from which values will be drawn.
      * @param array $keys The allowed keys.
+     *
+     * @return mixed
      */
     public function filter_keys($options, $keys)
     {
+        if (is_null($options))
+        {
+            $options = array();
+        }
+
         $options_array = $options;
         //Convert to array if necessary
         if (is_object($options))

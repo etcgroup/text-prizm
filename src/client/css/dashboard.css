@@ -1,4 +1,5 @@
 @import url(common.css);
+@import url(common/spinner.css);
 @import url(dashboard/panel.css);
 @import url(dashboard/data_summary.css);
 @import url(dashboard/activities.css);
