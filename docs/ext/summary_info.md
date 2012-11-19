@@ -6,7 +6,7 @@ The summary info portion of the extended API provides general descriptive inform
 
 ## Codes
 
-### Instances over time `GET /ext/summary_info/codes/applied_counts`
+### Instances over time `GET /ext/code_summary/applied_counts`
 
 Retrieves binned code instance counts over the range [`time_start`,`time_end`] with `bin_count` bins for code `code_id`.
 
@@ -25,7 +25,7 @@ Response:
 * 404: `id` not found or invalid
 
 
-### Messages with code instance over time `GET /ext/summary_info/codes/message_counts`
+### Messages with code instance over time `GET /ext/code_summary/message_counts`
 
 Retrieves binned counts of messages with code instances over the range [`time_start`,`time_end`] with `bin_counts` bins for `code_id`. 
 
@@ -42,7 +42,7 @@ Response:
 
 
 
-### Code instances by participant `GET /ext/summary_info/codes/participant`
+### Code instances by participant `GET /ext/code_summary/participant`
 
 Retrieves the number of code instances of `code_id` for each participant sorted from highest to lowest count and limited to `num_results` participants. 
 
@@ -57,7 +57,7 @@ Response:
 
 
 
-### Code instances by day (session/cluster) `GET /ext/summary_info/codes/daily_instances`
+### Code instances by day (session/cluster) `GET /ext/code_summary/daily_instances`
 
 Retrieves a list of `num_results` of the days/or sessions with the highest counts of code instances for  `code_id`. Results are ordered from highest to lowest.
 
@@ -74,7 +74,7 @@ Response:
 
 
 
-### Code instances by user `GET /ext/summary_info/codes/user`
+### Code instances by user `GET /ext/code_summary/user`
 
 Retrieves an array of the number of code instances for `code_id` for each user. Results are ordered from highest to lowest and a maximum of `num_results`. 
 
@@ -92,7 +92,7 @@ Response:
 
 ## User
 
-### Code instances by application time `GET /ext/summary_info/user/instance_application`
+### Code instances by application time `GET /ext/user_summary/instance_application`
 
 Retrieves binned counts of code instances applied by `user_id` over the range [`time_start`,`time_end`] with `bin_counts` bins. Time in this call is the time the instance was applied.
 
@@ -109,7 +109,7 @@ Response:
 
 
 
-### Messages coded by application time `GET /ext/summary_info/user/message_application`
+### Messages coded by application time `GET /ext/user_summary/message_application`
 
 Retrieves binned counts of code instances applied by `user_id` over the range [`time_start`,`time_end`] with `bin_counts` bins. Time in this call is the time the instance was applied.
 
@@ -126,7 +126,7 @@ Response:
 
 
 
-### Code instance counts by day (session/cluster) `GET /ext/summary_info/user/daily_instances`
+### Code instance counts by day (session/cluster) `GET /ext/user_summary/daily_instances`
 
 Retrieves the number of code instances applied by `user_id` for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results`. 
 
@@ -141,7 +141,7 @@ Response:
 
 
 
-### Messages coded by day (sesion/cluster) `GET /ext/summary_info/user/daily_messages`
+### Messages coded by day (sesion/cluster) `GET /ext/user_summary/daily_messages`
 
 Retrieves the number of messages with code_instances applied by `user_id` for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results`. 
 
@@ -157,7 +157,7 @@ Response:
 
 
 
-### Applied code instance counts by user `GET /ext/summary_info/user/code_instances`
+### Applied code instance counts by user `GET /ext/user_summary/code_instances`
 
 Retrieves an ordered array of the number of code instances applied by `user_id` and grouped by the code. The number of results is limited by the `num_results` codes.
 
@@ -177,7 +177,7 @@ Response:
 
 ## Participant
 
-### Number of messages over time `GET /ext/summary_info/participant/message_counts`
+### Number of messages over time `GET /ext/participant_summary/message_counts`
 
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] with `bin_count` bins. 
 
@@ -194,7 +194,7 @@ Response:
 
 
 
-### Message count by hour of day  `GET /ext/summary_info/participant/hourofday_counts`
+### Message count by hour of day  `GET /ext/participant_summary/hourofday_counts`
 
 
 Retrieves an array of binned message counts over the range [`time_start`,`time_end`] grouped by the hour of the day UTC. 
@@ -215,7 +215,7 @@ Response:
 
 
 
-### Message count by day `GET /ext/summary_info/participant/daily_counts`
+### Message count by day `GET /ext/participant_summary/daily_counts`
 
 
 Retrieves an array of message counts for `participant_id`   for each day (session/cluster). Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
@@ -231,7 +231,7 @@ Response:
 
 
 
-### Number of participants messages labelled with code instance  `GET /ext/summary_info/participant/code_messages`
+### Number of participants messages labelled with code instance  `GET /ext/participant_summary/code_messages`
 
 
 Retrieves an array of message counts for `participant_id`   for code. Results are ordered from highest to lowest counts and a maximum of `num_results` are returned.
