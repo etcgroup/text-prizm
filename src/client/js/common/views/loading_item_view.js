@@ -60,9 +60,7 @@ define(['marionette', 'lib/spin', 'text!common/templates/spinner.html'],
              * Enables the spinner.
              */
             enableSpinner: function() {
-                if (!this.spinner) {
-                    this.spinner = new Spinner();
-                }
+                this.spinner = this.spinner || new Spinner();
 
                 if (!this.spinnerEnabled) {
                     var target = this.$el.find('.spinner-box');
