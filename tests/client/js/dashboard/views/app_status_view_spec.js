@@ -1,23 +1,12 @@
 define([
-    'backbone',
+    'common/models/app_status',
     'dashboard/views/app_status_view'
-    ], function(Backbone, AppStatusView) {
+    ], function(AppStatus, AppStatusView) {
 
         describe("AppStatusView", function() {
 
             beforeEach(function() {
-                this.model = new Backbone.Model({
-                    app_name: 'AppName',
-                    build_version: '0',
-                    build_revision: '',
-                    build_time: 0,
-                    repo_url: '',
-                    upgrade_time: 0,
-                    database_host: 'localhost',
-                    database_schema: '',
-                    database_migration: 0
-                });
-
+                this.model = new AppStatus();
                 this.view = new AppStatusView({
                     model: this.model
                 });
@@ -34,29 +23,30 @@ define([
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('contains a panel header', function() {
+            it('displays a spinner before model changed', function() {
+                this.view.render();
+                expect(this.view.$el).not.toContain('.header');
+                expect(this.view.$el).toContain('.spinner');
+            });
+
+            it('does not display a spinner after model changed', function() {
+                this.model.trigger('change');
+                this.view.render();
+                expect(this.view.$el).not.toContain('.spinner');
+            });
+
+            it('contains a panel header, body, and app name after model changed', function() {
+                this.model.trigger('change');
+                this.view.render();
                 expect(this.view.render().$el).toContain('.header');
-            });
-
-            it('contains a panel body', function() {
                 expect(this.view.render().$el).toContain('.body');
+                expect(this.view.$el.text()).toMatch(this.model.get('app_name'));
             });
 
-            it('contains the app name', function() {
-                expect(this.view.render().$el.text()).toMatch(this.model.get('app_name'));
-            });
-
-            it('re-renders when the model changes', function() {
-                expect(this.view.render().$el.text()).toMatch(this.model.get('app_name'));
-
-                var new_name = 'New App Name';
-
-                //This should trigger the update
-                this.model.set({
-                    'app_name': new_name
-                });
-
-                expect(this.view.$el.text()).toMatch(new_name);
+            it('renders on model change', function() {
+                spyOn(this.view, 'render');
+                this.model.trigger('change');
+                expect(this.view.render).toHaveBeenCalled();
             });
 
         });

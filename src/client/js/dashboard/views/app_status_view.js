@@ -1,16 +1,17 @@
-define(['marionette',
+define(['common/views/loading_item_view',
     'text!../templates/app_status.html',
     'common/helpers/all'],
-    function(Marionette, appStatusTemplate, Helpers) {
+    function(LoadingItemView, appStatusTemplate, Helpers) {
 
         /**
          * A view summarizing the status of the app.
          */
-        var AppStatusView = Marionette.ItemView.extend({
+        var AppStatusView = LoadingItemView.extend({
             template: appStatusTemplate,
             templateHelpers: Helpers,
-            modelEvents: {
-                'change': 'render'
+
+            onModelChange: function() {
+                this.render();
             }
         });
 
