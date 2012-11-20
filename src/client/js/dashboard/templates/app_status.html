@@ -3,16 +3,20 @@
 </div>
 <div class="body">
     <p>
-        Running <%=name%> <strong>v<%=version%></strong><br/>
+        Running <%=app_name%> <strong>v<%=build_version%></strong>.
+    </p>
+    <p>
         <small>
             Revision
-            <a target="_blank" title="View Commit in GitHub" href="<%=github_url%>/tree/<%=revision%>">
-                <%=git_short_hash(revision)%>
+            <a target="_blank" title="View Commit" href="<%=repo_url%>/tree/<%=build_revision%>">
+                <%=git_short_hash(build_revision)%>
             </a>,
             updated <%=medium_date_time(upgrade_time)%>
         </small>
-    </p>
-    <p>
-        Using database <strong><%=database_schema%></strong> at <strong><%=database_host%></strong>
+        <br/>
+        <small>Using database
+            <strong>m<%=database_migration%></strong> at
+            <strong><%=database_host%>/<%=database_schema%></strong>.
+        </small>
     </p>
 </div>
