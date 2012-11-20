@@ -9,16 +9,30 @@ define(['moment', 'underscore'], function(moment, _) {
         templates[name] = _.template(templates[name]);
     }
 
+    //Tracks whether the DateTimeHelper functions will be outputing UTC or Local time.
+    var _output_utc = false;
+
     /**
      * Helper for date and time formatting.
      */
     var DateTimeHelper = {
+        output_utc: function() {
+            _output_utc = true;
+        },
+
+        output_local: function() {
+            _output_utc = false;
+        },
+
         /**
          * Given a timestamp, returns a long formatted
          * date-time with month, day, year, hour, minute, and second.
          */
         long_date_time: function(timestamp) {
             var date = moment.unix(timestamp);
+            if (_output_utc) {
+                date.utc();
+            }
             return date.format('MMMM Do YYYY, h:mm:ss a');
         },
 
@@ -28,6 +42,9 @@ define(['moment', 'underscore'], function(moment, _) {
          */
         medium_date_time: function(timestamp) {
             var date = moment.unix(timestamp);
+            if (_output_utc) {
+                date.utc();
+            }
             return date.format('MMM D YYYY, h:mm a');
         },
 
