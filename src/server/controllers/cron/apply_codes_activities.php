@@ -25,6 +25,7 @@ class Apply_codes_activities extends CI_Controller {
         $this->input->is_cli_request()
                 or exit('Execute via command line: php index.php cron/apply_codes_activities');
 
+        $this->load->model('gen/users_model');
         $this->load->model('app/activities_model');
         $this->load->model('coding/instances_model');
         $this->load->library('dates');
@@ -38,24 +39,51 @@ class Apply_codes_activities extends CI_Controller {
      */
     public function index()
     {
+        $users = $this->users_model->get_all();
+
+        $activity_count = 0;
+        foreach ($users as $user)
+        {
+            $activity_count += $this->_process_instances_for($user->id);
+        }
+        echo 'Logged ' . $activity_count . ' activities.' . PHP_EOL;
+    }
+
+    /**
+     * Looks at the code instances for the user and generates any needed activities.
+     *
+     * @param int $user_id A user id.
+     *
+     * @return NULL
+     */
+    private function _process_instances_for($user_id)
+    {
+        echo 'Processing user ' . $user_id . PHP_EOL;
+
         $instance_filter = array(
-            'order_by' => 'user_id, added asc',
+            'user_id' => $user_id,
+            'order_by' => 'added asc',
         );
 
-        $last_coding_timestamp = $this->activities_model->get_last_activity_time('apply-codes');
-        if (NULL !== $last_coding_timestamp)
+        $recent_activities = $this->activities_model->get_recent_activities(array(
+            'limit' => 1,
+            'activity_type' => 'apply-codes',
+            'user_id' => $user_id
+                ));
+        if (count($recent_activities) > 0)
         {
+            $last_coding_timestamp = $recent_activities[0]->time;
             $last_coding_time = $this->dates->mysql_datetime(new DateTime('@' . $last_coding_timestamp));
             $instance_filter['added >'] = $last_coding_time;
         }
 
         //Get the recent code instances in order
         $instances = $this->instances_model->get_all($instance_filter);
-        echo 'Considering ' . count($instances) . ' new code instances.' . PHP_EOL;
+        echo '  Considering ' . count($instances) . ' new code instances.' . PHP_EOL;
 
         $activities = $this->_scan_for_activities($instances,
                 $this->_gap_threshold);
-        echo 'Detected ' . count($activities) . ' coding activities.' . PHP_EOL;
+        echo '  Detected ' . count($activities) . ' coding activities.' . PHP_EOL;
 
         foreach ($activities as $activity)
         {
@@ -67,15 +95,16 @@ class Apply_codes_activities extends CI_Controller {
                 echo '----';
             }
         }
-        echo 'Activity logging complete.' . PHP_EOL;
+
+        return count($activities);
     }
 
     /**
-     * Scans through the list of code instances finding gaps greater than the gap threshold.
+     * Scans through the user's code instances finding gaps greater than the gap threshold.
      *
      * Each such gap is assumed to mark the end of a coding activity.
      *
-     * @param array $instances A list of code instances. Must be sorted by 'user_id' and 'added'.
+     * @param array $instances A list of a single user's code instances. Must be sorted by 'added'.
      * @param int $gap_threshold The gap in seconds after which a new activity is considered to have begun.
      *
      * @return array The list of activities.
@@ -93,27 +122,10 @@ class Apply_codes_activities extends CI_Controller {
 
         foreach ($instances as $instance)
         {
-            $create_activity = FALSE;
             $instance_timestamp = $this->dates->php_datetime($instance->added)->getTimestamp();
 
-            if ($instance->user_id !== $last_user)
-            {
-                //Is the last message for the current user old enough?
-                if ($last_time !== NULL && $last_time < $one_gap_ago)
-                {
-                    $create_activity = TRUE;
-                }
-            }
-            else
-            {
-                //Is there a gap between this instance and the last one?
-                if ($instance_timestamp - $last_time > $gap_threshold)
-                {
-                    $create_activity = TRUE;
-                }
-            }
-
-            if ($create_activity)
+            //Is there a gap between this instance and the last one?
+            if ($instance_timestamp - $last_time > $gap_threshold)
             {
                 //Make a new activity
                 $message_count = count($message_set);
