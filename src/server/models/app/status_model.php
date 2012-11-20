@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * Model for accessing information about
  * the status of the application.
  */
-class App_status_model extends Base_model2 {
+class Status_model extends Base_model2 {
 
     /**
      * Construct a new App Status model
@@ -31,6 +31,16 @@ class App_status_model extends Base_model2 {
     }
 
     /**
+     * Get the url of the repository.
+     *
+     * @return string
+     */
+    function get_repo_url()
+    {
+        return $this->config->item('repo_url');
+    }
+
+    /**
      * Get the current application version.
      *
      * @return string
@@ -41,7 +51,7 @@ class App_status_model extends Base_model2 {
     }
 
     /**
-     * Get the time the applicaiton was built, as a timestamp.
+     * Get the time the application was built, as a timestamp.
      *
      * @return string
      */

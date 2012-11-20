@@ -81,15 +81,8 @@ define(['underscore', 'backbone',
             this.data_counts = new DataCounts();
             this.data_counts.fetch();
 
-            this.app_status = new AppStatus({
-                name: 'Text Prizm',
-                version: '0.4.3',
-                revision: '677c23da83b51cb17598d692fbd4f482ca258d2c',
-                github_url: 'https://github.com/etcgroup/text-prism',
-                upgrade_time: 1352099002,
-                database_host: 'localhost:3306',
-                database_schema: 'textprizm'
-            });
+            this.app_status = new AppStatus();
+            this.app_status.fetch();
         };
 
         _.extend(DashboardController.prototype, {
