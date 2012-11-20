@@ -8,7 +8,10 @@ define(['marionette',
          */
         var AppStatusView = Marionette.ItemView.extend({
             template: appStatusTemplate,
-            templateHelpers: Helpers
+            templateHelpers: Helpers,
+            modelEvents: {
+                'change': 'render'
+            }
         });
 
         return AppStatusView;
