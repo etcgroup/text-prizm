@@ -967,7 +967,7 @@ class Config {
             '$config[\'database_schema\'] = \'\';'
         );
         $after_str = array(
-            '$config[\'upgrade_time\'] = \'' . $this->install_config['upgrade_complete_time'] . '\';',
+            '$config[\'upgrade_time\'] = \'' . time() . '\';',
             '$config[\'database_hostname\'] = \'' . $db_conf['hostname'] . '\';',
             '$config[\'database_schema\'] = \'' . $db_conf['database'] . '\';'
         );
