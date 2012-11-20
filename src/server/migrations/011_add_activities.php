@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Creates the 'activities' table.
- * Fields: id, user_id, time, activity_type, data
+ * Fields: id, user_id, time, activity_type, ref_id, json_data
  */
 class Migration_Add_activities extends CI_Migration {
 
@@ -29,8 +29,14 @@ class Migration_Add_activities extends CI_Migration {
                 'type' => 'VARCHAR',
                 'constraint' => 200
             ),
+            'ref_id' => array(
+                'type' => 'INT',
+                'unsigned' => TRUE,
+                'null' => TRUE
+            ),
             'json_data' => array(
-                'type' => 'TEXT'
+                'type' => 'TEXT',
+                'null' => TRUE
             )
         ));
 

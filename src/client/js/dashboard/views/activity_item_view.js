@@ -22,11 +22,18 @@ define(['jquery', 'marionette', 'underscore', 'backbone',
             tagName: 'li',
             className: 'activity',
 
+            /**
+             * Get the sub-template for the activity type.
+             */
+            getActivityTemplate: function() {
+                return activity_templates[this.model.get('activity_type')];
+            },
+
             serializeData: function() {
                 var data = this.model.toJSON();
 
                 //Insert the correct activity template for this activity type
-                data.activity_body = activity_templates[this.model.get('type')];
+                data.activity_body = this.getActivityTemplate();
 
                 return data;
             }

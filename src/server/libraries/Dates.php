@@ -45,6 +45,18 @@ class Dates {
     }
 
     /**
+     * Creates a UTC PHP DateTime from the MySQL datetime value.
+     *
+     * @param string $mysql_datetime
+     *
+     * @return DateTime
+     */
+    public function php_datetime($mysql_datetime)
+    {
+        return new DateTime($mysql_datetime, $this->_utc_timezone);
+    }
+
+    /**
      * Calculate a UTC DateTime a number of days ago.
      *
      * @param int $days The number of days ago.
