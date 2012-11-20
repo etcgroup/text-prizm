@@ -65,6 +65,7 @@ class Activities_model extends Base_model2 {
      * Valid options:
      * * 'limit': the maximum number of activities to return (default 10)
      * * 'offset': the result offset (default 0)
+     * * 'activity_type': the desired activity type (default NULL)
      *
      * @param array $options An optional set of parameters
      *
@@ -73,10 +74,16 @@ class Activities_model extends Base_model2 {
     function get_recent_activities($options = array())
     {
         $options = $this->options->defaults($options,
-                array('limit' => 10, 'offset' => 0));
+                array('limit' => 10, 'offset' => 0, 'activity_type' => NULL));
 
         $this->db->limit($options['limit'], $options['offset']);
         $this->db->order_by('time', 'desc');
+
+        //Apply the activity type filter if set
+        if (NULL !== $options['activity_type'])
+        {
+            $this->db->where('activity_type', $options['activity_type']);
+        }
 
         $activities = $this->db->get($this->_table_name)->result();
 
@@ -158,6 +165,26 @@ class Activities_model extends Base_model2 {
     function is_activity_type($activity_type)
     {
         return in_array($activity_type, $this->_activity_types);
+    }
+
+    /**
+     * Gets the timestamp of the most recent activity of the given type.
+     *
+     * @return string The unix timestamp of the activity, or NULL if no activities.
+     */
+    public function get_last_activity_time($activity_type)
+    {
+        $recent_activities = $this->get_recent_activities(array(
+            'limit' => 1,
+            'activity_type' => $activity_type
+                ));
+
+        if (count($recent_activities) > 0)
+        {
+            return $recent_activities[0]->time;
+        }
+
+        return NULL;
     }
 
     /**
