@@ -3,7 +3,7 @@ define([
     'dashboard/views/app_status_view'
     ], function(Backbone, AppStatusView) {
 
-        describe("ActivityListView", function() {
+        describe("AppStatusView", function() {
 
             beforeEach(function() {
                 this.model = new Backbone.Model({
