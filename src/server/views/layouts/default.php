@@ -29,7 +29,7 @@
             <div id="main" class="container-fluid">
                 <?php echo $main_content; ?>
             </div>
-            <div id="stiky-push"></div>
+            <div id="sticky-push"></div>
         </div>
 
         <div id="footer" class="container-fluid">
