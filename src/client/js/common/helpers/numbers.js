@@ -1,7 +1,6 @@
-define(['underscore'], function(_) {
+define(['underscore', './strings'], function(_, StringHelper) {
 
     var templates = {
-        hover_full: '<span title="<%=full%>"><%=summary%></span>'
     };
 
     //Compile the template strings
@@ -34,28 +33,28 @@ define(['underscore'], function(_) {
         },
 
         /**
-         * Produces an approximate representation of the number. The original
-         * number will be available on hover.
-         * Large values are truncated (23000 => 23k) and commas are added.
+         * Produces an approximate representation of the number (returns a string).
+         * Values over 10000 are truncated (23000 => 23k) and commas are added.
          */
         approx_num: function(number) {
-            var short_value = number.toString();
-            var full_value = number.toString();
-
             if (number >= 10000) {
-                short_value = this.add_commas(Math.round(number / 1000)) + 'k';
-                full_value = this.add_commas(full_value);
+                return this.add_commas(Math.round(number / 1000)) + 'k';
             } else {
-                short_value = Math.round(number).toString();
+                return this.add_commas(Math.round(number));
             }
+        },
 
-            if (full_value !== short_value) {
-                return templates.hover_full({
-                    summary: short_value,
-                    full: full_value
-                });
+        /**
+         * Creates a summary of the number that shows the full value on hover,
+         * if the number was actually summarized.
+         */
+        hover_approx: function(number) {
+            var full = this.add_commas(number);
+            var summary = this.approx_num(number);
+            if (full !== summary) {
+                return StringHelper.hover_full(summary, full);
             } else {
-                return full_value;
+                return StringHelper.hover_full(full, '');
             }
         }
     };

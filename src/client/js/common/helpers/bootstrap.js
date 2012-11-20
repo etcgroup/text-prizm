@@ -18,14 +18,19 @@ define(['underscore'], function(_) {
          * Gets html to display the given icon.
          */
         icon: function(name, use_white) {
-            var white = '';
-            if (use_white) {
-                white = 'icon-white';
-            }
-
             return templates.icon({
                 name: name,
-                white: white
+                white: ''
+            });
+        },
+
+        /**
+         * Gets html to display the given icon in white.
+         */
+        icon_white: function(name) {
+            return templates.icon({
+                name: name,
+                white: 'icon-white'
             });
         }
     };
