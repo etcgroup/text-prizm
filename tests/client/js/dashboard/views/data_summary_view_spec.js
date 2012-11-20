@@ -1,13 +1,13 @@
 define([
-    'common/models/app_status',
-    'dashboard/views/app_status_view'
-    ], function(AppStatus, AppStatusView) {
+    'common/models/data_counts',
+    'dashboard/views/data_summary_view'
+    ], function(DataCounts, DataSummaryView) {
 
-        describe("AppStatusView", function() {
+        describe("DataSummaryView", function() {
 
             beforeEach(function() {
-                this.model = new AppStatus();
-                this.view = new AppStatusView({
+                this.model = new DataCounts();
+                this.view = new DataSummaryView({
                     model: this.model
                 });
             });
@@ -15,8 +15,8 @@ define([
             afterEach(function() {
                 });
 
-            it('is backed by the provided model', function() {
-                expect(this.view.model).toBe(this.model);
+            it('is backed by the provided collection', function() {
+                expect(this.view.collection).toBe(this.collection);
             });
 
             it('returns itself on render', function() {
@@ -25,7 +25,7 @@ define([
 
             it('displays a spinner before model changed', function() {
                 this.view.render();
-                expect(this.view.$el).not.toContain('.header');
+                expect(this.view.$el).not.toContain('table');
                 expect(this.view.$el).toContain('.spinner');
             });
 
@@ -35,12 +35,12 @@ define([
                 expect(this.view.$el).not.toContain('.spinner');
             });
 
-            it('contains a panel header, body, and app name after model changed', function() {
+            it('contains a panel header, body, and table after model changed', function() {
                 this.model.trigger('change');
                 this.view.render();
                 expect(this.view.render().$el).toContain('.header');
                 expect(this.view.render().$el).toContain('.body');
-                expect(this.view.$el.text()).toMatch(this.model.get('app_name'));
+                expect(this.view.$el).toContain('table');
             });
 
             it('renders on model change', function() {
