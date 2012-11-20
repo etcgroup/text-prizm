@@ -6,14 +6,7 @@ if (!defined('BASEPATH'))
 /**
  * Model for retrieving and manipulating activities data.
  */
-class Activities_model extends CI_Model {
-
-    /**
-     * The current error message.
-     *
-     * @var string
-     */
-    private $_error_message;
+class Activities_model extends Base_model2 {
 
     /**
      * The recognized activity types.
@@ -30,6 +23,7 @@ class Activities_model extends CI_Model {
 
     /**
      * The name of the activities table.
+     *
      * @var string
      */
     private $_table_name = 'activities';
@@ -44,31 +38,11 @@ class Activities_model extends CI_Model {
     }
 
     /**
-     * Sets the error message and returns FALSE.
-     *
-     * @param string $message
-     * @return boolean
-     */
-    private function _model_error($message)
-    {
-        $this->_error_message = $message;
-        return FALSE;
-    }
-
-    /**
-     * Get the error message.
-     *
-     * @return string
-     */
-    public function error_message()
-    {
-        return $this->_error_message;
-    }
-
-    /**
      * Get a single activity by id.
      *
-     * @param integer $id
+     * @param integer $id The id of the activity.
+     *
+     * @return object The requested activity, or NULL if not found.
      */
     function get_activity($id)
     {
@@ -86,6 +60,8 @@ class Activities_model extends CI_Model {
      * * 'offset': the result offset (default 0)
      *
      * @param array $options An optional set of parameters
+     *
+     * @return array The requested activites, or an empty array if none.
      */
     function get_recent_activities($options = array())
     {
@@ -113,7 +89,7 @@ class Activities_model extends CI_Model {
      *
      * @param array $options Data about the activity.
      *
-     * @return mixed
+     * @return int The id of the inserted activity, or NULL on error.
      */
     function log_activity($options)
     {
@@ -121,7 +97,7 @@ class Activities_model extends CI_Model {
         if (!$this->options->has_keys($options,
                         array('user_id', 'time', 'activity_type')))
         {
-            return $this->_model_error('Missing fields');
+            return $this->model_error('Missing fields');
         }
 
         //Remove any unwanted fields
@@ -131,7 +107,7 @@ class Activities_model extends CI_Model {
         //Make sure the activity_type is supported
         if (!$this->is_activity_type($options['activity_type']))
         {
-            return $this->_model_error('Unknown activity_type');
+            return $this->model_error('Unknown activity_type');
         }
 
         //Finally insert into the database
@@ -141,7 +117,7 @@ class Activities_model extends CI_Model {
         }
         else
         {
-            return $this->_model_error('Error inserting activity');
+            return $this->model_error('Error inserting activity');
         }
     }
 
