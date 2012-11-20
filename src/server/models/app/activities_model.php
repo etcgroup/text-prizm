@@ -187,7 +187,9 @@ class Activities_model extends Base_model2 {
      * Fills in the missing activity data (user, time, etc.)
      * The object is modified in place.
      *
-     * @param object $activity
+     * @param object $activity An activity data object straight from the database.
+     *
+     * @return NULL
      */
     private function _fill_in($activity)
     {
@@ -213,7 +215,6 @@ class Activities_model extends Base_model2 {
             default:
                 break;
         }
-
 
         unset($activity->user_id);
     }

@@ -13,7 +13,7 @@ define(['backbone', 'models/user_model', 'lib/backbone-relational'], function(Ba
         ],
 
         parse: function(response, xhr) {
-            if (typeof response.json_data == "string") {
+            if (typeof response.json_data === "string") {
                 // Parse the custom json_data field
                 response.json_data = JSON.parse(response.json_data);
             }

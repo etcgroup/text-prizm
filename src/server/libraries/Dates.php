@@ -47,7 +47,7 @@ class Dates {
     /**
      * Creates a UTC PHP DateTime from the MySQL datetime value.
      *
-     * @param string $mysql_datetime
+     * @param string $mysql_datetime A MySQL datetime value.
      *
      * @return DateTime
      */

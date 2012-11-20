@@ -17,7 +17,7 @@ define(['underscore'], function(_) {
         /**
          * Gets html to display the given icon.
          */
-        icon: function(name, use_white) {
+        icon: function(name) {
             return templates.icon({
                 name: name,
                 white: ''
