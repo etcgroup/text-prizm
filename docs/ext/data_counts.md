@@ -28,8 +28,13 @@ with days=7.
 
 ### Get an exhaustive map of all available counts: `GET /data_counts/summary/`
 
+Counts that use the optional `days` parameter will be included
+both with and without `days` set, with `_recent` appended in the
+latter case. For example, the map will include both `coded_messages`
+and `coded_messages_recent`.
+
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a JSON map from the names of the corresponding function
@@ -40,6 +45,15 @@ Response:
 ## Messages
 
 ### Get the number of messages in the dataset: `GET /data_counts/messages/`
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+## Clusters
+
+### Get the number of clusters in the dataset: `GET /data_counts/clusters/`
 
 Response:
 * 200: The body contains a single positive integer.
@@ -72,7 +86,7 @@ Coded messages are those associated with at least one code instance, which
 was applied in the given day range.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
@@ -86,7 +100,16 @@ Response:
 Out of the total number of messages ever.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+## Codes
+
+### Get the number of codes: `GET /data_counts/codes/`
 
 Response:
 * 200: The body contains a single positive integer.
@@ -98,7 +121,7 @@ Response:
 ### Get the number of instantiated codes: `GET /data_counts/instantiated_codes/`
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
@@ -113,10 +136,21 @@ Actively coding refers to any user of TextPrizm having applied one or more code
 instance in the specified day range.
 
 Parameters:
-* **`days`: an integer >=0; default 0, meaning forever**
+* `days`: an integer >=0; default 0, meaning forever
 
 Response:
 * 200: The body contains a single positive integer.
 * 400: The body contains an error message.
 * 404: The body contains an error message.
 
+## Memos
+
+### Get the number of memos in the dataset: `GET /data_counts/memos/`
+
+Parameters:
+* `days`: an integer >=0; default 0, meaning forever
+
+Response:
+* 200: The body contains a single positive integer.
+* 400: The body contains an error message.
+* 404: The body contains an error message.

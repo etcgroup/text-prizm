@@ -3,6 +3,9 @@
 </div>
 <div class="body">
     <div class="row-fluid">
+
+        <% if (loaded) { %>
+
         <div class="span6">
             <table class="table">
                 <tr>
@@ -15,7 +18,7 @@
                 </tr>
                 <tr>
                     <td class="table-value"><%=hover_approx(coded_messages_recent)%></td>
-                    <td class="table-label">coded in last <%=recency%> days</td>
+                    <td class="table-label">coded in last <%=days%> days</td>
                 </tr>
                 <tr>
                     <td class="table-value"><%=hover_approx(memos)%></td>
@@ -23,7 +26,7 @@
                 </tr>
                 <tr>
                     <td class="table-value"><%=hover_approx(memos_recent)%></td>
-                    <td class="table-label">memos in last <%=recency%> days</td>
+                    <td class="table-label">memos in last <%=days%> days</td>
                 </tr>
             </table>
         </div>
@@ -47,9 +50,11 @@
                 </tr>
                 <tr>
                     <td class="table-value"><%=hover_approx(coders_recent)%></td>
-                    <td class="table-label">coders in last <%=recency%> days</td>
+                    <td class="table-label">coders in last <%=days%> days</td>
                 </tr>
             </table>
         </div>
+
+        <% } %>
     </div>
 </div>

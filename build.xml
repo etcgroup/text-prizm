@@ -211,6 +211,24 @@
 
     <target name="test-client">
 
+        <if>
+            <or>
+                <available file="phantomjs" filepath="${env.PATH}" type="file"/>
+                <!-- special case for Windows, may be PATH or Path -->
+                <available file="phantomjs.exe" filepath="${env.Path}" type="file"/>
+                <available file="phantomjs.exe" filepath="${env.PATH}" type="file"/>
+            </or>
+            <then>
+                <antcall target="run-phantomjs-tests"/>
+            </then>
+            <else>
+                <echo level="warning">WARNING: PhantomJS was not available so tests were not run!</echo>
+            </else>
+        </if>
+
+    </target>
+
+    <target name="run-phantomjs-tests">
         <dependency name="phantom-jasmine" dest="${build.tools.dir}"/>
         <dependency name="jasmine-jquery" dest="${build.tools.dir}"/>
         <dependency name="jasmine-reporters" dest="${build.tools.dir}"/>
@@ -227,7 +245,6 @@
         <exec executable="phantomjs" failonerror="true">
             <arg line="${run_jasmine_test.file} ${test_runner.file}"/>
         </exec>
-
     </target>
 
     <!-- Build tools below -->
@@ -508,7 +525,7 @@
 
         <tar destfile="${basedir}/dist.tar.gz"
              compression="gzip">
-             <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
+            <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
         </tar>
     </target>
 
@@ -524,13 +541,13 @@
 
         <tar destfile="${basedir}/dist-opt.tar.gz"
              compression="gzip">
-             <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
+            <tarfileset dir="${dist.dir}" filemode="740" dirmode="2750"/>
         </tar>
     </target>
 
     <!-- Simply copies the src into build, and then into dist -->
     <target name="refresh" description="Does a quick copy to dist of any server and client source files that have changed."
-        depends="-local-test-vars">
+            depends="-local-test-vars">
 
         <copy todir="${build.gather.dir}/server/application">
             <fileset dir="${src.dir}/server"/>
