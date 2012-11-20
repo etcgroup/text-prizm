@@ -22,6 +22,8 @@ Response:
 Parameters:
 * `limit`: The maximum number of activities to retrieve (defaults to 10)
 * `offset`: The number of activities to skip (defaults to 0)
+* `activity_type`: The desired activity type
+* `user_id`: Get activities for this user
 
 Response
 * 200: The body contains a collection of activities.
