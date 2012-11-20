@@ -75,7 +75,11 @@ class Activities_model extends Base_model2 {
     function get_recent_activities($options = array())
     {
         $options = $this->options->defaults($options,
-                array('limit' => 10, 'offset' => 0, 'activity_type' => NULL));
+                array(
+            'limit' => 10,
+            'offset' => 0,
+            'activity_type' => NULL,
+            'user_id' => NULL));
 
         $this->db->limit($options['limit'], $options['offset']);
         $this->db->order_by('time', 'desc');
