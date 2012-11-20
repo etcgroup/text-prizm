@@ -1,12 +1,12 @@
 define([
-    'common/models/app_status',
+    'common/models/data_counts',
     'dashboard/views/data_summary_view'
-    ], function(AppStatus, DataSummaryView) {
+    ], function(DataCounts, DataSummaryView) {
 
         describe("DataSummaryView", function() {
 
             beforeEach(function() {
-                this.model = new AppStatus();
+                this.model = new DataCounts();
                 this.view = new DataSummaryView({
                     model: this.model
                 });
@@ -24,7 +24,7 @@ define([
             });
 
             it('displays a spinner before model changed', function() {
-                this.view.render()
+                this.view.render();
                 expect(this.view.$el).not.toContain('table');
                 expect(this.view.$el).toContain('.spinner');
             });
@@ -44,9 +44,9 @@ define([
             });
 
             it('renders on model change', function() {
-                expect(this.view.$el).toBeUndefined();
+                spyOn(this.view, 'render');
                 this.model.trigger('change');
-                expect(this.view.$el).not.toBeUndefined();
+                expect(this.view.render).toHaveBeenCalled();
             });
 
         });
