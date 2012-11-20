@@ -72,8 +72,8 @@ class Apply_codes_activities extends CI_Controller {
                 ));
         if (count($recent_activities) > 0)
         {
-            $last_coding_timestamp = $recent_activities[0]->time;
-            $last_coding_time = $this->dates->mysql_datetime(new DateTime('@' . $last_coding_timestamp));
+            $last_timestamp = $recent_activities[0]->time;
+            $last_coding_time = $this->dates->mysql_datetime(new DateTime('@' . $last_timestamp));
             $instance_filter['added >'] = $last_coding_time;
         }
 
@@ -112,7 +112,6 @@ class Apply_codes_activities extends CI_Controller {
     private function _scan_for_activities($instances, $gap_threshold)
     {
         $now_timesamp = time();
-        $one_gap_ago = $now_timesamp - $gap_threshold;
 
         $last_user = NULL;
         $last_time = NULL;
