@@ -1,5 +1,6 @@
-define(['underscore', 'backbone',
+define(['underscore',
     'textprizm',
+    'common/collections/activity_collection',
     './views/activity_list_view',
     'common/models/app_status',
     './views/app_status_view',
@@ -7,8 +8,8 @@ define(['underscore', 'backbone',
     './views/data_summary_view'],
     function(
         _,
-        Backbone,
         TextPrizm,
+        ActivityCollection,
         ActivityListView,
         AppStatus,
         AppStatusView,
@@ -19,64 +20,9 @@ define(['underscore', 'backbone',
          * A collection of functions that control the dashboard
          */
         var DashboardController = function() {
-            //Initialize an empty activities collection
-            //This is using test data for now
-            this.activities = new Backbone.Collection([{
-                user: new Backbone.Model({
-                    name: 'alice',
-                    full_name: 'Alice'
-                }),
-                time: 1352098002,
-                type: 'apply-codes',
-                data: {
-                    messages: 523,
-                    cluster: 172
-                }
-            }, {
-                user: new Backbone.Model({
-                    name: 'bob',
-                    full_name: 'Bob'
-                }),
-                time: 1352079002,
-                type: 'create-code',
-                data: {
-                    code: new Backbone.Model({
-                        name: 'sleepiness',
-                        description: 'A feeling of mild tiredness or exhaustion.'
-                    })
-                }
-            }, {
-                user: new Backbone.Model({
-                    name: 'alice',
-                    full_name: 'Alice'
-                }),
-                time: 1352029502,
-                type: 'update-code',
-                data: {
-                    code: new Backbone.Model({
-                        name: 'annoyance',
-                        description: 'Irritation or whatever.'
-                    })
-                }
-            }, {
-                user: new Backbone.Model({
-                    name: 'bob',
-                    full_name: 'Bob'
-                }),
-                time: 1351902002,
-                type: 'create-memo',
-                data: {
-                    memo: new Backbone.Model({
-                        id: 23,
-                        summary: 'This code should be redefined ',
-                        target_type: 'code',
-                        target: new Backbone.Model({
-                            name: 'annoyance',
-                            description: 'Irritation or whatever.'
-                        })
-                    })
-                }
-            }]);
+
+            this.activities = new ActivityCollection();
+            this.activities.fetch();
 
             this.data_counts = new DataCounts();
             this.data_counts.fetch();
@@ -99,8 +45,8 @@ define(['underscore', 'backbone',
             },
 
             /**
-            * Create and show the activity list view.
-            */
+             * Create and show the activity list view.
+             */
             showActivities: function(activities) {
                 var activitiesView = new ActivityListView({
                     collection: activities

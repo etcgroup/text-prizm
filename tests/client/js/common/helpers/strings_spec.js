@@ -1,4 +1,4 @@
-define(['common/helpers/strings'], function(StringHelper) {
+define(['jquery', 'common/helpers/strings'], function($, StringHelper) {
     describe("StringHelper", function() {
 
         it("can shorten git hashes to 8 characters", function() {
@@ -23,6 +23,17 @@ define(['common/helpers/strings'], function(StringHelper) {
             //Check the boundaries
             expect(StringHelper.short_string(long_string, 8)).toBe("I am...");
             expect(StringHelper.short_string(long_string, 9)).toBe("I am a...");
-        })
+        });
+
+        it('can show full text on hover', function() {
+            var summary = 'i am a summary';
+            var full = 'I am not a summary, but am the full text.';
+
+            var element = $(StringHelper.hover_full(summary, full));
+
+            expect(element).toBe('span');
+            expect(element.attr('title')).toBe(full);
+            expect(element.text()).toBe(summary);
+        });
     });
 });

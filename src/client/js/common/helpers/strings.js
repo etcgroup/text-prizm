@@ -4,7 +4,8 @@ define(['underscore'], function(_) {
         user_name_link: '<a href="users/<%=name%>" title="<%=name%>"><%=full_name%></a>',
         code_name_link: '<a class="label" href="codes/<%=name%>" title="<%=description%>"><%=name%></a>',
         memo_summary_link: '<a href="memos/<%=id%>" title="<%=long_summary%>"><%=short_summary%></a>',
-        error: '<span class="label label-error"><%=message%></span>'
+        error: '<span class="label label-error"><%=message%></span>',
+        hover_full: '<span title="<%=full%>"><%=summary%></span>'
     };
 
     //Compile the template strings
@@ -43,6 +44,17 @@ define(['underscore'], function(_) {
             }
 
             return string.substr(0, xTruncateAt) + "...";
+        },
+
+        /**
+         * Creates a span containing the summary text while showing
+         * the full text on hover.
+         */
+        hover_full: function(summary, full) {
+            return templates.hover_full({
+                summary: summary,
+                full: full
+            });
         }
     };
 

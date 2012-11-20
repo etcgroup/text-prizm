@@ -15,7 +15,7 @@ class Activities extends API_Controller {
     {
         parent::__construct();
         $this->load->library('options');
-        $this->load->model('app/activities');
+        $this->load->model('app/activities_model');
     }
 
     /**
@@ -32,7 +32,7 @@ class Activities extends API_Controller {
             $this->response('No id provided', 400);
         }
 
-        $activity = $this->activities->get_activity($options['id']);
+        $activity = $this->activities_model->get_activity($options['id']);
 
         $this->response($activity);
     }
@@ -46,7 +46,7 @@ class Activities extends API_Controller {
     {
         $options = $this->get();
 
-        $recent_activities = $this->activites->get_recent_activites($options);
+        $recent_activities = $this->activities_model->get_recent_activities($options);
 
         //As long as it is an array, we return success. Even if empty.
         if (is_array($recent_activities))
@@ -68,13 +68,13 @@ class Activities extends API_Controller {
     {
         $options = $this->put();
 
-        $activity_id = $this->activities->log_activity($options);
+        $activity_id = $this->activities_model->log_activity($options);
         if (FALSE === $activity_id)
         {
-            $this->response($this->activities->error_message(), 400);
+            $this->response($this->activities_model->error_message(), 400);
         }
 
-        $activity = $this->activities->get_activity($activity_id);
+        $activity = $this->activities_model->get_activity($activity_id);
 
         $this->response($activity);
     }

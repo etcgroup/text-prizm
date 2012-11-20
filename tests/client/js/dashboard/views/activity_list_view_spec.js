@@ -46,7 +46,7 @@ define([
 
                 //Add some activities
                 var activity = {
-                    type: 'unknown',
+                    activity_type: 'unknown',
                     time: 1352830708
                 };
                 this.collection.reset([activity, activity, activity]);
