@@ -1,0 +1,22 @@
+<div class="header">
+    <h4>App Status</h4>
+</div>
+<div class="body">
+    <p>
+        Running <%=app_name%> <strong>v<%=build_version%></strong>.
+    </p>
+    <p>
+        <small>
+            Revision
+            <a target="_blank" title="View Commit" href="<%=repo_url%>/tree/<%=build_revision%>">
+                <%=git_short_hash(build_revision)%>
+            </a>,
+            updated <%=medium_date_time(upgrade_time)%>
+        </small>
+        <br/>
+        <small>Using database
+            <strong>m<%=database_migration%></strong> at
+            <strong><%=database_host%>/<%=database_schema%></strong>.
+        </small>
+    </p>
+</div>

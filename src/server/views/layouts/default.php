@@ -20,7 +20,7 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href="dashboard"><?php echo $this->config->item('name') ?></a>
+                        <a class="brand" href=""><?php echo $this->config->item('name') ?></a>
                         <?php echo $nav_menu; ?>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <div id="main" class="container-fluid">
                 <?php echo $main_content; ?>
             </div>
-            <div id="stiky-push"></div>
+            <div id="sticky-push"></div>
         </div>
 
         <div id="footer" class="container-fluid">

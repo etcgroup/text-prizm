@@ -1,0 +1,25 @@
+/*
+Styles for the activities list and items.
+*/
+
+#activity-list ul {
+    list-style: none;
+    margin: 0;
+}
+
+#activity-list .activity {
+    padding: 10px;
+    border-bottom: 1px solid #DDD;
+}
+
+#activity-list .activity:last-child {
+    border: none;
+}
+
+#activity-list .activity-body {
+
+}
+
+#activity-list .activity-date {
+    float: right;
+}
