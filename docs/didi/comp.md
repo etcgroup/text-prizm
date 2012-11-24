@@ -1,6 +1,6 @@
-# Didi REST API
+# Didi Computation REST API
 
-The base URL is `/didi/`; for example, to ask for a new task, use `GET /didi/task`
+This exposes task creation and assignment, as well as volunteer machine registration. The base URL is `/didi/comp/`; for example, to ask for a new task, use `GET /didi/comp/task`
 
 ## Tasks
 
@@ -17,10 +17,10 @@ A *machine* is specified by a JSON object containing:
 * `ip` - ip address
 * `port` - port on which it is listening
 
+No parameters.
+
 Response:
 * 200: The body contains `null` if no tasks need to be done, or a JSON object with a `task` (*task* objects) and `machines` (array of *machine* objects)
-* 400: The body contains an error message.
-* 404: The body contains an error message.
 
 ### Create a new task: `PUT /task/`
 
