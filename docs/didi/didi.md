@@ -1,0 +1,77 @@
+# Didi REST API
+
+The base URL is `/didi/`; for example, to ask for a new task, use `GET /didi/task`
+
+## Tasks
+
+### Retrieve a task to execute: `GET /task/`
+
+Returns a task to work on, based on existing outstanding tasks, along with a list of eligible machines that can work on it. This task if returned having taken into account any outstanding dependencies, and the machines that are able to execute this task. This need not be parameterized.
+
+A *task* is specified by a JSON object containing:
+* `files` - a JSON array with either comma-separated points or ranges of time, to be interpreted by didi-client in a data fetch; each of these is the 'file' to be assigned by mapreduce master to slaves
+* `type` - a string uniquely identifying the task type (determines eligibility, and functionality)
+* `parameters` - a JSON object with any parameters the task needs (eg, the threshold for threshold segmentation, etc.)
+
+A *machine* is specified by a JSON object containing:
+* `ip` - ip address
+* `port` - port on which it is listening
+
+Response:
+* 200: The body contains `null` if no tasks need to be done, or a JSON object with a `task` (*task* objects) and `machines` (array of *machine* objects)
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+### Create a new task: `PUT /task/`
+
+Parameters:
+* `files` - a JSON array with either comma-separated points or ranges of time, to be interpreted by didi-client in a data fetch; each of these is the 'file' to be assigned by mapreduce master to slaves
+* `type` - a string uniquely identifying the task type (determines eligibility, and functionality)
+* `parameters` - a JSON object with any parameters the task needs (eg, the threshold for threshold segmentation, etc.)
+
+Response:
+* 201: The body contains the new task, including `id`.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+### Delete a task: `DELETE /task/`
+
+To cancel a task (and any dependent tasks - this cascade enforced at app level). This way, the only machine capable of deleting a task is the one that creates it.
+
+Parameters:
+* `id` - maintained from doing a 'put task'
+
+Response:
+* 200: OK
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+## Machines
+
+### Register a new machine: `PUT /machine/`
+
+This must be called when a machine is available to accept work.
+
+Parameters:
+* `ip` - ip address
+* `port` - port on which it is listening
+* `types` - a JSON array of strings uniquely identifyign task types that this machine is capable of performing.
+
+Response:
+
+* 201: The body contains the new machine.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
+
+### Renew registration: `POST /machine/`
+
+This should periodically (at least once every 24 hours) be called as a 'heartbeat;' machines which do not renew registration in over 24 hours are removed.
+
+Parameters:
+* `ip` - IP address
+* `port` - port on which it is listening
+
+Response:
+* 200: The body contains the updated machine.
+* 400: The body contains an error message.
+* 404: The body contains an error message.
