@@ -112,7 +112,7 @@ $autoload['language'] = array();
   |
  */
 
-$autoload['model'] = array('base_model');
+$autoload['model'] = array('base_model', 'base_model2');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

@@ -1,0 +1,28 @@
+/*
+Styles for the data set summary panel.
+*/
+
+#data-set-summary-widget table {
+    /* Since there is nothing below this table we remove the default margin from bootstrap */
+    margin-bottom: 0;
+}
+
+/* Styles for panel tables */
+#data-set-summary-widget th, #data-set-summary-widget td {
+    border-top: none;
+}
+
+#data-set-summary-widget .table-label {
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 11px;
+    vertical-align: bottom;
+    padding-left: 0;
+}
+
+#data-set-summary-widget .table-value {
+    text-align: right;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: normal;
+}

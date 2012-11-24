@@ -1,20 +1,35 @@
-define(['textprizm',
+define(['underscore',
+    'textprizm',
+    'common/collections/activity_collection',
     './views/activity_list_view',
-    'common/views/app_status_view',
-    'common/views/data_set_summary_view'],
+    'common/models/app_status',
+    './views/app_status_view',
+    'common/models/data_counts',
+    './views/data_summary_view'],
     function(
+        _,
         TextPrizm,
+        ActivityCollection,
         ActivityListView,
+        AppStatus,
         AppStatusView,
-        DataSetSummaryView) {
+        DataCounts,
+        DataSummaryView) {
 
         /**
          * A collection of functions that control the dashboard
          */
         var DashboardController = function() {
-            //Initialize an empty activities collection
-            this.activities = new Backbone.Collection();
-        }
+
+            this.activities = new ActivityCollection();
+            this.activities.fetch();
+
+            this.data_counts = new DataCounts();
+            this.data_counts.fetch();
+
+            this.app_status = new AppStatus();
+            this.app_status.fetch();
+        };
 
         _.extend(DashboardController.prototype, {
 
@@ -26,22 +41,12 @@ define(['textprizm',
                 this.showActivities(this.activities);
                 this.showWidgets();
 
-                //Now fetch the data
-                //This is placeholder data
-                var self = this;
-                setTimeout(function() {
-                    self.activities.add([{
-                        name: 'foo'
-                    },{
-                        name: 'bar'
-                    }]);
-                }, 1000);
-
+            //Now fetch the data
             },
 
             /**
-            * Create and show the activity list view.
-            */
+             * Create and show the activity list view.
+             */
             showActivities: function(activities) {
                 var activitiesView = new ActivityListView({
                     collection: activities
@@ -53,10 +58,14 @@ define(['textprizm',
              * Create and show the other widgets
              */
             showWidgets: function() {
-                var appStatusView = new AppStatusView();
+                var appStatusView = new AppStatusView({
+                    model: this.app_status
+                });
                 TextPrizm.appStatus.show(appStatusView);
 
-                var dataSetSummaryView = new DataSetSummaryView();
+                var dataSetSummaryView = new DataSummaryView({
+                    model: this.data_counts
+                });
                 TextPrizm.dataSetSummary.show(dataSetSummaryView);
             }
         });

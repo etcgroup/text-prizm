@@ -1,5 +1,7 @@
-define(['marionette', 'lib/spin', 'text!common/templates/spinner.html'],
-    function(Marionette, Spinner, spinnerTemplate) {
+define(['marionette', 'jquery',
+    'lib/spin',
+    'text!common/templates/spinner.html'],
+    function(Marionette, $, Spinner, spinnerTemplate) {
 
         var LoadingItemView = Marionette.ItemView.extend({
 

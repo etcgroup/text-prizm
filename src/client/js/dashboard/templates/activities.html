@@ -1,0 +1,45 @@
+<div>
+    <script id="apply-codes" type="text/template">
+        <%= icon('tags') %>
+        <%= user_name_link(user) %>
+        coded
+        <a href="<%= messages_ref(json_data.cluster_id) %>"><%= json_data.messages %> messages</a>.
+    </script>
+
+    <script id="create-code" type="text/template">
+        <%= icon('star') %>
+        <%=user_name_link(user)%>
+        created the new code
+        <%= code_name_link(ref_obj)%>.
+    </script>
+
+    <script id="update-code" type="text/template">
+        <%= icon('edit') %>
+        <%=user_name_link(user)%>
+        modified the code
+        <%= code_name_link(ref_obj)%>.
+    </script>
+
+    <script id="create-memo" type="text/template">
+        <%= icon('pencil') %>
+        <%=user_name_link(user)%>
+        wrote a memo
+        "<%=memo_summary_link(ref_obj)%>"
+        about
+        <%= memo_target_link(ref_obj)%>.
+    </script>
+
+    <script id="update-memo" type="text/template">
+        <%= icon('pencil') %>
+        <%=user_name_link(user)%>
+        edited the memo
+        "<%=memo_summary_link(ref_obj)%>"
+        about
+        <%= memo_target_link(ref_obj)%>.
+    </script>
+
+    <script id="unknown" type="text/template">
+        <span class="label label-warning">Unknown activity type</span>
+    </script>
+
+</div>
