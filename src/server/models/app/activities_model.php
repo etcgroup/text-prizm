@@ -65,6 +65,8 @@ class Activities_model extends Base_model2 {
      * Valid options:
      * * 'limit': the maximum number of activities to return (default 10)
      * * 'offset': the result offset (default 0)
+     * * 'activity_type': the desired activity type (default NULL)
+     * * 'user_id': the desired user id (default NULL)
      *
      * @param array $options An optional set of parameters
      *
@@ -73,10 +75,25 @@ class Activities_model extends Base_model2 {
     function get_recent_activities($options = array())
     {
         $options = $this->options->defaults($options,
-                array('limit' => 10, 'offset' => 0));
+                array(
+            'limit' => 10,
+            'offset' => 0,
+            'activity_type' => NULL,
+            'user_id' => NULL));
 
         $this->db->limit($options['limit'], $options['offset']);
         $this->db->order_by('time', 'desc');
+
+        //Apply the activity type filter if set
+        if (NULL !== $options['activity_type'])
+        {
+            $this->db->where('activity_type', $options['activity_type']);
+        }
+
+        if (NULL !== $options['user_id'])
+        {
+            $this->db->where('user_id', $options['user_id']);
+        }
 
         $activities = $this->db->get($this->_table_name)->result();
 
