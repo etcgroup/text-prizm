@@ -14,6 +14,8 @@ Relations:
 
 ## Get a new task to work on
 
+Implemented by Didi->next_task()
+
 1. Fetch the next task in a task-list:
 
 ```sql

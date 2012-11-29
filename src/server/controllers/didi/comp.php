@@ -19,14 +19,12 @@ class Comp extends API_Controller {
     }
 
     /**
-     * Get an activity by id.
+     * Returns a task to work on, as a JSON object. No parameters
      *
      * @return NULL
      */
     function task_get() {
-        $activity = $this->activities_model->get_activity($options['id']);
-
-        $this->response($activity);
+        $this->response($this->didi->next_task());
     }
 
 }
