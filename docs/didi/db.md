@@ -35,6 +35,16 @@ With probability `failures / (K + failures)`, go on to the next task, skipping t
 ## Get outstanding tasks
 
 ```sql
-SELECT task_list.description, task_list.progress, task_list.count, status.progress, status.has_failed, status.task_id, status.started
+SELECT task_list.description, task_list.progress, task_list.count,
+        status.task_id, task.task_type, task.params,
+        status.progress, status.started, status.has_failed
     FROM didi_task_list task_list
-    LEFT JOIN didi_status ON 
+    LEFT JOIN didi_status
+    ON didi_status.task_list_id=task_list.id
+    LEFT JOIN didi_tasks task
+    ON didi_status.task_id=task.id
+    ORDER BY has_failed, status.started ASC
+```
+
+
+
