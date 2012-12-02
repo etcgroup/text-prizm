@@ -48,6 +48,7 @@ class Comp extends API_Controller {
         $this->db->select('*');
         $this->db->where('location', $options['location']);
         $query = $this->db->get('didi_machines');
+        
         foreach ($query->result() as $row) {
             $this->response($row);
         }
