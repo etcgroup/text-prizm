@@ -11,6 +11,7 @@ Relations:
 ** description is varchar 200
 * didi_status(**id** , task_list_id, task_id, started, updated, [pointer to hadoop master], [progress 0-100], bool has_failed)
 ** index on task_id, has_failed
+** a task_id is associated with >=1 did_status tuples iff it has not been finished.
 
 ## Get a new task to work on
 

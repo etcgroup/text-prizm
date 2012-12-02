@@ -23,7 +23,7 @@ $config['migration_enabled'] = FALSE;
   | be upgraded / downgraded to.
   |
  */
-$config['migration_version'] = 11;
+$config['migration_version'] = 12;
 
 
 /*

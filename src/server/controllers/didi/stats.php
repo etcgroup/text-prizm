@@ -13,7 +13,11 @@ class Stats extends API_Controller {
      */
     function __construct() {
         parent::__construct();
-        $this->load->model('didi/stats_comp_model');
+        //$this->load->model('didi/stats_comp_model');
+    }
+    
+    function test_get() {
+        $this->response("everything is a-ok");
     }
 
 }

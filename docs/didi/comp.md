@@ -2,20 +2,18 @@
 
 This exposes task creation and assignment, as well as volunteer machine registration. The base URL is `/didi/comp/`; for example, to ask for a new task, use `GET /didi/comp/task`
 
-## Tasks
-
-### Retrieve a task to execute: `GET /task/`
-
-Returns a task to work on, based on existing outstanding tasks, along with a list of eligible machines that can work on it. This task if returned having taken into account any outstanding dependencies, and the machines that are able to execute this task. This need not be parameterized.
-
 A *task* is specified by a JSON object containing:
 * `files` - a JSON array with either comma-separated points or ranges of time, to be interpreted by didi-client in a data fetch; each of these is the 'file' to be assigned by mapreduce master to slaves
 * `type` - a string uniquely identifying the task type (determines eligibility, and functionality)
 * `parameters` - a JSON object with any parameters the task needs (eg, the threshold for threshold segmentation, etc.)
 
-A *machine* is specified by a JSON object containing:
-* `ip` - ip address
-* `port` - port on which it is listening
+A *machine* is specified by a string *location*, comprising of `ip:port`
+
+## Tasks
+
+### Retrieve a task to execute: `GET /task/`
+
+Returns a task to work on, based on existing outstanding tasks, along with a list of eligible machines that can work on it. This task if returned having taken into account any outstanding dependencies, and the machines that are able to execute this task. This need not be parameterized.
 
 No parameters.
 
@@ -55,7 +53,8 @@ This must be called when a machine is available to accept work.
 Parameters:
 * `ip` - ip address
 * `port` - port on which it is listening
-* `types` - a JSON array of strings uniquely identifyign task types that this machine is capable of performing.
+* `name` - a human-readable moniker
+* `types` - a JSON array of strings uniquely identifying task types that this machine is capable of performing.
 
 Response:
 
@@ -75,3 +74,30 @@ Response:
 * 200: The body contains the updated machine.
 * 400: The body contains an error message.
 * 404: The body contains an error message.
+
+
+## Availability
+
+### Declare machine available: `POST /available/`
+
+Parameters:
+* `location` - a location of a machine
+* `locations` - a list of locations of machines
+* Either `location` or `locations` must be supplied, and must specify machines
+
+Response
+* 200: body contains updated machine
+* 400: if neither location nor locations is provided
+* 404: if location or locations specify nonexistent machines
+
+### Declare machine busy: `POST /busy/`
+
+Parameters:
+* `location` - a location of a machine
+* `locations` - a list of locations of machines
+* Either `location` or `locations` must be supplied, and must specify machines
+
+Response
+* 200: body contains updated machine
+* 400: if neither location nor locations is provided
+* 404: if location or locations specify nonexistent machines
