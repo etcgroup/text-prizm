@@ -1,10 +1,9 @@
-define(['jquery', 'marionette', 'underscore', 'backbone',
+define(['jquery', 'marionette', 'underscore',
     'common/helpers/all',
-    'common/models/activity',
     'text!../templates/activity_item.html',
     'text!../templates/activities.html'],
-    function($, Marionette, _, Backbone,
-        Helpers, Activity, activityItemTemplate, activitiesTemplates) {
+    function($, Marionette, _,
+        Helpers, activityItemTemplate, activitiesTemplates) {
 
         var activity_templates = {};
 
