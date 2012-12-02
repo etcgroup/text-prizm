@@ -51,8 +51,7 @@ Response:
 This must be called when a machine is available to accept work.
 
 Parameters:
-* `ip` - ip address
-* `port` - port on which it is listening
+* `location` - eg, ip:port
 * `name` - a human-readable moniker
 * `types` - a JSON array of strings uniquely identifying task types that this machine is capable of performing.
 
@@ -67,8 +66,7 @@ Response:
 This should periodically (at least once every 24 hours) be called as a 'heartbeat;' machines which do not renew registration in over 24 hours are removed.
 
 Parameters:
-* `ip` - IP address
-* `port` - port on which it is listening
+* `location` - eg, ip:port
 
 Response:
 * 200: The body contains the updated machine.

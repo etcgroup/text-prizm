@@ -6,7 +6,7 @@ Relations:
 * didi_machine(**id** , ip, port, last_ping, bool is_busy)
 * didi_abilities(**machine_id** , varchar **task_type**)
 * didi_tasks(**id** , task_type, params, files)
-* didi_task_list(**id** , task_id_list, task_count, progress, added, description)
+* didi_task_list(**id** , task_id_list, task_count, progress, added, description, user_id)
 ** index on added
 ** description is varchar 200
 * didi_status(**id** , task_list_id, task_id, started, updated, [pointer to hadoop master], [progress 0-100], bool has_failed)
@@ -48,6 +48,3 @@ SELECT task_list.description, task_list.progress, task_list.count,
     ON didi_status.task_id=task.id
     ORDER BY has_failed, status.started ASC
 ```
-
-
-
