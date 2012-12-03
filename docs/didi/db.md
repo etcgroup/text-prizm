@@ -3,15 +3,15 @@
 This describes the database and the logic provided by Didi library
 
 Relations:
-* didi_machine(**id** , ip, port, last_ping, bool is_busy)
+* didi_machines(**id** , ip, port, last_ping, bool is_busy)
 * didi_abilities(**machine_id** , varchar **task_type**)
-* didi_tasks(**id** , task_type, params, files)
-* didi_task_list(**id** , task_id_list, task_count, progress, added, description, user_id)
+* didi_tasks(**id** , task_type, params, data, is_invalid, is_finished)
+* didi_jobs(**id** , task_id_list, task_count, progress, added, description, user_id)
 ** index on added
 ** description is varchar 200
-* didi_status(**id** , task_list_id, task_id, started, updated, [pointer to hadoop master], [progress 0-100], bool has_failed)
+* didi_status(**id** , job_id, task_id, started, updated, [pointer to hadoop master], [progress 0-100], bool has_failed)
 ** index on task_id, has_failed
-** a task_id is associated with >=1 did_status tuples iff it has not been finished.
+** a task_id is associated with >=1 did_status tuples iff it has not been finished, as specified in didi_tasks.is_finished
 
 ## Get a new task to work on
 

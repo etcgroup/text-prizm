@@ -46,6 +46,17 @@ Response:
 
 ## Machines
 
+### Retrieve machine information: `GET /machine/`
+
+Paramteres:
+* `id`
+* `location`
+
+### Retrieve machines: `GET /machines/`
+
+Parameters:
+* `limit` how many (default - most recently-refreshed 10)
+
 ### Register a new machine: `PUT /machine/`
 
 This must be called when a machine is available to accept work.
@@ -99,3 +110,17 @@ Response
 * 200: body contains updated machine
 * 400: if neither location nor locations is provided
 * 404: if location or locations specify nonexistent machines
+
+
+## Jobs
+
+### Create a job: `PUT /job/`
+
+Parameters:
+* `tasks` - a JSON array of *task* objects (as specified above)
+* `description`
+* `user_id`
+
+### Cancel a job: `DELETE /job/`
+
+* `id` - the id of the job

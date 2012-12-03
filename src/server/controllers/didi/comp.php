@@ -33,31 +33,33 @@ class Comp extends API_Controller {
         if (!$this->options->has_keys($options, array('location', 'name', 'types'))) {
             $this->response('Insufficient data provided', 400);
         }
-        $this->db->where('location', $options['location']);
-        $exists = $this->db->count_all_results('didi_machines');
-        if ($exists > 0) {
+        $machine = $this->didi_model->create_machine(
+                $options['location'], $options['name'], json_decode($options['types']));
+        if ($machine == null) {
             $this->response('A machine already exists at this location.', 400);
         }
-        $this->db->insert('didi_machines', array(
-            'location' => $options['location'],
-            'name' => $options['name'],
-            'is_busy' => FALSE,
-            'last_ping' => $this->dates->mysql_datetime($this->dates->utc_date())
-                )
-        );
-        $this->db->select('*');
-        $this->db->where('location', $options['location']);
-        $query = $this->db->get('didi_machines');
-        foreach ($query->result() as $row) {
-            $this->response($row);
-        }
+        $this->response($machine);
     }
 
     function machine_post() {
         $options = $this->post();
-        if (!$this->options->has_keys($options, array('location', 'name'))) {
-            $this->response('No id provided', 400);
+        $id = isset($options['id']) ? $options['id'] : null;
+        $location = isset($options['location']) ? $options['loation'] : null;
+        if (!isset($options['name']) || ($id == null && $location == null)) {
+            $this->response('Insufficient parameters', 400);
         }
+        $this->didi_model->refresh_machine($id, $location);
+
+        $out = null;
+        if (isset($options['id'])) {
+            $out = $this->didi_model->get_machine_by_id($options['id']);
+        } else if (isset($options['location'])) {
+            $out = $this->didi_model->get_machine_by_location($options['location']);
+        }
+        if ($out == null) {
+            $this->response('No such machine found.', 404);
+        }
+        $this->response($out);
     }
 
     function available_post() {
