@@ -25,7 +25,16 @@ class Info extends API_Controller {
         {
             $limit = $options['limit'];
         }
-        $this->response($this->didi_model->get_jobs($limit));
+
+        $jobs = $this->didi_model->get_jobs($limit);
+        if (is_array($jobs))
+        {
+            $this->response($jobs, 200);
+        }
+        else
+        {
+            $this->response('Error getting jobs', 404);
+        }
     }
 
     function machine_get()
@@ -59,7 +68,7 @@ class Info extends API_Controller {
         {
             $limit = $options['limit'];
         }
-        
+
         $machines = $this->didi_model->get_machines($limit);
         if (is_array($machines))
         {

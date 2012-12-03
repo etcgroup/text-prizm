@@ -4,10 +4,7 @@ define(['underscore',
     './views/machine_list_view',
     'common/collections/job_collection',
     './views/job_list_view',
-    './views/job_creator_view',
-    'common/models/machine',
-    'common/models/job',
-    'common/models/task'],
+    './views/job_creator_view'],
     function(
         _,
         TextPrizm,
@@ -15,8 +12,7 @@ define(['underscore',
         MachineListView,
         JobCollection,
         JobListView,
-        JobCreatorView,
-        Machine, Job, Task) {
+        JobCreatorView) {
 
         /**
          * A collection of functions that control the dashboard
@@ -27,48 +23,7 @@ define(['underscore',
             this.machines.fetch();
 
             this.jobs = new JobCollection();
-            this.jobs.add(new Job({
-                id: 1,
-                task_list: [ new Task({
-                    id: 1,
-                    task_type: "type 1"
-                }), new Task({
-                    id: 2,
-                    task_type: "type 2"
-                }), new Task({
-                    id: 3,
-                    task_type: "type 3"
-                }) ],
-                task_count: 3,
-                progress: 2,
-                added: 0,
-                description: "three tasks",
-                user: {
-                    id: 1,
-                    name: "testuser",
-                    full_name: "Test User"
-                }
-            }));
-            this.jobs.add(new Job({
-                id: 2,
-                task_list: [ new Task({
-                    id: 4,
-                    task_type: "type 1"
-                }), new Task({
-                    id: 5,
-                    task_type: "type 1"
-                }) ],
-                task_count: 2,
-                progress: 0,
-                added: 0,
-                description: "two tasks",
-                user: {
-                    id: 2,
-                    name: "testuser2",
-                    full_name: "Test User"
-                }
-            }));
-        //this.jobs.fetch();
+            this.jobs.fetch();
 
         };
 
