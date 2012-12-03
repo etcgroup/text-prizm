@@ -12,16 +12,15 @@ define(['marionette',
             itemView: TaskItemView,
             itemViewContainer: '.task-list',
             tagName: 'li',
-            className: 'job',
+            className: 'job clearfix',
             templateHelpers: Helpers,
 
             ui: {
-                taskList: '.task-list',
-                tasksToggleButton: '.tasks-toggle-button'
+                taskList: '.task-list'
             },
 
             events: {
-                'click .tasks-toggle-button': 'toggleTaskList'
+                'click': 'toggleTaskList'
             },
 
             initialize: function() {
@@ -30,13 +29,11 @@ define(['marionette',
 
             expandTaskList: function() {
                 this.ui.taskList.show();
-                this.ui.tasksToggleButton.text('Collapse');
                 this.tasksShowing = true;
             },
 
             collapseTaskList: function() {
                 this.ui.taskList.hide();
-                this.ui.tasksToggleButton.text('Expand');
                 this.tasksShowing = false;
             },
 

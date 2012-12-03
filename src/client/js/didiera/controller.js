@@ -48,7 +48,8 @@ define(['underscore',
                 description: "three tasks",
                 user: {
                     id: 1,
-                    name: "testuser"
+                    name: "testuser",
+                    full_name: "Test User"
                 }
             }));
             this.jobs.add(new Job({
@@ -66,7 +67,8 @@ define(['underscore',
                 description: "two tasks",
                 user: {
                     id: 2,
-                    name: "testuser2"
+                    name: "testuser2",
+                    full_name: "Test User"
                 }
             }));
         //this.jobs.fetch();
