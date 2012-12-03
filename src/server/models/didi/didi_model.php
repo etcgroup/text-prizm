@@ -7,6 +7,7 @@ class Didi_model extends Base_model {
 
     function __construct() {
         parent::__construct();
+        $this->load->library('dates');
     }
 
     function set_machine_busyness($locations, $is_busy) {
@@ -43,6 +44,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_jobs');
         $out = array();
         foreach ($query->result() as $row) {
+            $row->added = $this->dates->php_datetime($row->added)->getTimestamp();
             $row->tasks = $this->get_tasks(json_decode($row->task_id_list));
             $row->user = new stdClass();
             $row->user->id = $row->user_id;
@@ -183,12 +185,19 @@ class Didi_model extends Base_model {
         $this->db->select('task_id_list, progress');
         $this->db->order_by('added');
         $this->db->where('progress', '< task_count');
-        $this->db->where('current', NULL);
         $this->db->order_by('time', 'desc');
         if ($n > 0) {
             $this->db->limit($n);
         }
-        return $this->db->get('didi_task_list')->result();
+        return $this->db->get('didi_jobs')->result();
+    }
+    
+    // how many isntances of this task are being worked on>
+    function count_current_work($task_id){
+        $this->db->where('task_id', $task_id);
+        $this->db->where('has_failed', false);
+        $this->db->where('progress', '< 100');
+        return $this->db->get('didi_status')->count_all_results();
     }
 
     function count_failures($task_id) {
