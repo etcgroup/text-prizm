@@ -13,7 +13,7 @@
  * @param string $page_id The page id for this menu item.
  * @param string $active_page_id The page id for the current active menu item.
  * @param string $href (optional) The url for the menu item. Defaults to the page id.
- * 
+ *
  * @return string
  */
 function nav_menu_item($text, $page_id, $active_page_id, $href = NULL)
@@ -39,5 +39,6 @@ function nav_menu_item($text, $page_id, $active_page_id, $href = NULL)
     echo nav_menu_item('Coding Stats', 'codingstats', $active_nav);
     echo nav_menu_item('Code Browser', 'codebrowser', $active_nav);
     echo nav_menu_item('Coding Tool', 'coding', $active_nav);
+    echo nav_menu_item('Didiera', 'didiera', $active_nav);
     ?>
 </ul>
