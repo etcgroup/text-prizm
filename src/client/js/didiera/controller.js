@@ -4,7 +4,10 @@ define(['underscore',
     './views/machine_list_view',
     'common/collections/job_collection',
     './views/job_list_view',
-    './views/job_creator_view'],
+    './views/job_creator_view',
+    'common/models/machine',
+    'common/models/job',
+    'common/models/task'],
     function(
         _,
         TextPrizm,
@@ -12,7 +15,8 @@ define(['underscore',
         MachineListView,
         JobCollection,
         JobListView,
-        JobCreatorView) {
+        JobCreatorView,
+        Machine, Job, Task) {
 
         /**
          * A collection of functions that control the dashboard
@@ -20,10 +24,37 @@ define(['underscore',
         var DidiController = function() {
 
             this.machines = new MachineCollection();
-            this.machines.fetch();
+            this.machines.add(new Machine());
+            this.machines.add(new Machine());
+            this.machines.add(new Machine());
+            //this.machines.fetch();
 
             this.jobs = new JobCollection();
-            this.jobs.fetch();
+            this.jobs.add(new Job({
+                id: 1,
+                task_list: [ new Task(), new Task(), new Task() ],
+                task_count: 3,
+                progress: 2,
+                added: 0,
+                description: "three tasks",
+                user: {
+                    id: 1,
+                    name: "testuser"
+                }
+            }));
+            this.jobs.add(new Job({
+                id: 2,
+                task_list: [ new Task(), new Task() ],
+                task_count: 2,
+                progress: 0,
+                added: 0,
+                description: "two tasks",
+                user: {
+                    id: 2,
+                    name: "testuser2"
+                }
+            }));
+        //this.jobs.fetch();
 
         };
 
@@ -54,7 +85,7 @@ define(['underscore',
              */
             showJobs: function(jobs) {
                 var jobsListView = new JobListView({
-                    model: jobs
+                    collection: jobs
                 });
                 TextPrizm.jobsMonitor.show(jobsListView);
             },
