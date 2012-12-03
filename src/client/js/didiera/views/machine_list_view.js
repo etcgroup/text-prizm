@@ -1,12 +1,13 @@
 define(['marionette',
-    '../views/machine_item_view'],
-    function(Marionette, MachineItemView) {
+    '../views/machine_item_view',
+    'text!../templates/machine_list.html'],
+    function(Marionette, MachineItemView, machineListTemplate) {
 
         /**
          * A view that lists machines.
          */
         var MachineListView = Marionette.CompositeView.extend({
-            template: "I'm a machine list <ul></ul>",
+            template: machineListTemplate,
             itemView: MachineItemView,
             itemViewContainer: 'ul'
         });
