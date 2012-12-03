@@ -4,7 +4,7 @@
         <div id="machine-monitor-widget" class="panel"></div>
     </div>
     <div class="span6">
-        <div id="create-jobs-widget" class="panel"></div>
+        <div id="create-jobs-widget"></div>
     </div>
 </div>
 <div id="modal" class="modal hide"></div>
