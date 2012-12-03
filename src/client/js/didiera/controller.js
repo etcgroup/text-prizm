@@ -24,10 +24,7 @@ define(['underscore',
         var DidiController = function() {
 
             this.machines = new MachineCollection();
-            this.machines.add(new Machine());
-            this.machines.add(new Machine());
-            this.machines.add(new Machine());
-            //this.machines.fetch();
+            this.machines.fetch();
 
             this.jobs = new JobCollection();
             this.jobs.add(new Job({
