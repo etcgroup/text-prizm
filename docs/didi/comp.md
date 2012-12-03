@@ -46,6 +46,17 @@ Response:
 
 ## Machines
 
+### Retrieve machine information: `GET /machine/`
+
+Paramteres:
+* `id`
+* `location`
+
+### Retrieve machines: `GET /machines/`
+
+Parameters:
+* `limit` how many (default - most recently-refreshed 10)
+
 ### Register a new machine: `PUT /machine/`
 
 This must be called when a machine is available to accept work.
