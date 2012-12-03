@@ -39,8 +39,8 @@ class Comp extends API_Controller {
         foreach($tasks as $task){
             $task_id_list[] = $this->didi_model->create_task($task);
         }
-        $this->didi_model->create_job($options['description'], $task_id_list);
-        $this->response("todo - return the job");
+        $id = $this->didi_model->create_job($options['description'], $task_id_list);
+        $this->response($this->didi_model->get_job($id));
     }
 
     function machine_put() {
