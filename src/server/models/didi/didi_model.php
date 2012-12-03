@@ -30,6 +30,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = array();
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $row->abilities = $this->get_machine_abilities($row->id);
             $out[] = $row;
         }
@@ -44,16 +45,31 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_jobs');
         $out = array();
         foreach ($query->result() as $row) {
-            $row->added = $this->dates->php_datetime($row->added)->getTimestamp();
-            $row->tasks = $this->get_tasks(json_decode($row->task_id_list));
-            $row->user = new stdClass();
-            $row->user->id = $row->user_id;
-            $row->user->name = 'test';
-            $row->user->full_name = 'didi tester';
-            $row->user->email = 'em@i.l';
-            $out[] = $row;
+            $out[] = $this->prepare_job($row);
         }
         return $out;
+    }
+
+    function get_job($id) {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        ;
+        $query = $this->db->get('didi_jobs');
+        $out = array();
+        foreach ($query->result() as $row) {
+            return $this->prepare_job($row);
+        }
+    }
+
+    private function prepare_job($job) {
+        $job->added = $this->dates->php_datetime($job->added)->getTimestamp();
+        $job->task_list = $this->get_tasks(json_decode($job->task_id_list));
+        $job->user = new stdClass();
+        $job->user->id = $job->user_id;
+        $job->user->name = 'test';
+        $job->user->full_name = 'didi tester';
+        $job->user->email = 'em@i.l';
+        return $job;
     }
 
     function get_tasks($ids) {
@@ -98,6 +114,7 @@ class Didi_model extends Base_model {
         $job->paused = 0;
         $job->added = $this->dates->mysql_datetime($this->dates->utc_date());
         $this->db->insert('didi_jobs', $job);
+        return $this->db->insert_id();
     }
 
     function create_task($object) {
@@ -141,6 +158,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $out = $row;
             break;
         }
@@ -154,6 +172,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $out = $row;
             break;
         }
@@ -185,15 +204,15 @@ class Didi_model extends Base_model {
         $this->db->select('task_id_list, progress');
         $this->db->order_by('added');
         $this->db->where('progress', '< task_count');
-        $this->db->order_by('time', 'desc');
+        $this->db->order_by('added', 'desc');
         if ($n > 0) {
             $this->db->limit($n);
         }
         return $this->db->get('didi_jobs')->result();
     }
-    
+
     // how many isntances of this task are being worked on>
-    function count_current_work($task_id){
+    function count_current_work($task_id) {
         $this->db->where('task_id', $task_id);
         $this->db->where('has_failed', false);
         $this->db->where('progress', '< 100');
