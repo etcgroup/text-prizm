@@ -1,4 +1,4 @@
-define(['backbone', 'models/user_model', 'lib/backbone-relational'], function(Backbone, User) {
+define(['backbone', 'models/user_model', './task', 'lib/backbone-relational'], function(Backbone, User, Task) {
     /**
      * Model for storing a job.
      */
@@ -9,6 +9,10 @@ define(['backbone', 'models/user_model', 'lib/backbone-relational'], function(Ba
             type: Backbone.HasOne,
             key: 'user',
             relatedModel: User
+        }, {
+            type: Backbone.HasMany,
+            key: 'task_list',
+            relatedModel: Task
         }
         ]
     });

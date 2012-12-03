@@ -32,7 +32,16 @@ define(['underscore',
             this.jobs = new JobCollection();
             this.jobs.add(new Job({
                 id: 1,
-                task_list: [ new Task(), new Task(), new Task() ],
+                task_list: [ new Task({
+                    id: 1,
+                    task_type: "type 1"
+                }), new Task({
+                    id: 2,
+                    task_type: "type 2"
+                }), new Task({
+                    id: 3,
+                    task_type: "type 3"
+                }) ],
                 task_count: 3,
                 progress: 2,
                 added: 0,
@@ -44,7 +53,13 @@ define(['underscore',
             }));
             this.jobs.add(new Job({
                 id: 2,
-                task_list: [ new Task(), new Task() ],
+                task_list: [ new Task({
+                    id: 4,
+                    task_type: "type 1"
+                }), new Task({
+                    id: 5,
+                    task_type: "type 1"
+                }) ],
                 task_count: 2,
                 progress: 0,
                 added: 0,
