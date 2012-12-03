@@ -1,6 +1,6 @@
 <span class="machine-name"><%= name %></span>
 <span class="machine-address"><%= ip + ":" + port %></span>
-<span class="machine-is-busy pull-right label <%= is_busy ? 'label-warning' : 'label-success' %>"><%= is_busy ? "Busy" : "Available" %></span><br/>
+<span class="machine-is-busy pull-right label <%= is_busy == true ? 'label-warning' : 'label-success' %>"><%= is_busy == true ? "Busy" : "Available" %></span><br/>
 
 Abilities: <span class="machine-abilities"><%= abilities.join(', ') %></span>
 <span class="pull-right">Last Ping: <span class="machine-last-ping"><%= medium_date_time(last_ping) %></span></span>
