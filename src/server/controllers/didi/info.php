@@ -16,6 +16,15 @@ class Info extends API_Controller {
         $this->load->model('didi/didi_model');
     }
     
+    function jobs_get(){
+        $options = $this->get();
+        $limit = 10;
+        if (isset($options['limit'])) {
+            $limit = $options['limit'];
+        }
+        $this->response($this->didi_model->get_jobs($limit));
+    }
+    
     function machine_get() {
         $options = $this->get();
         $out = null;
