@@ -62,8 +62,8 @@ define(['marionette',
                 if (this.validateInput()) {
                     this.model.set({
                         task_type: this.ui.taskTypeInput.val(),
-                        params: this.ui.paramsInput.val(),
-                        data: this.ui.dataInput.val()
+                        params_json: this.ui.paramsInput.val(),
+                        data_json: this.ui.dataInput.val()
                     });
                     this.trigger('task-validated');
                     this.close();
