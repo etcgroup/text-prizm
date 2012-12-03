@@ -6,7 +6,8 @@ define(['backbone', 'lib/backbone-relational'], function(Backbone) {
         url: 'didi/comp/task',
         defaults: {
             task_type: '',
-            params: ''
+            params: '',
+            data: ''
         }
     });
     return Task;
