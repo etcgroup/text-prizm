@@ -1,0 +1,16 @@
+<div class="job-header-row">
+    <span class="job-description"><%= description %></span>
+    <span class="job-id muted">id: <i><%= id %></i></span>
+    <span class="job-added">added <%= medium_date_time(added) %> by <%= user_name_link(user) %></span>
+</div>
+<div class="job-progress">
+    <div class="span8">
+        <%= progress_bar(progress/task_count, "progress-striped") %>
+    </div>
+    <div class="span4">
+        Completed <%= progress %> out of <%= task_count %> tasks.
+    </div>
+</div>
+<div>
+    <ul class="task-list hide"></ul>
+</div>

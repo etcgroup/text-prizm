@@ -4,7 +4,7 @@ Adapted from Bootstrap .modal styles
 */
 
 /* Set up the modal-like panel frames */
-#dashboard .panel {
+.panel {
     margin-bottom: 20px;
     background-color: #ffffff;
     border: 1px solid #999;
@@ -22,16 +22,16 @@ Adapted from Bootstrap .modal styles
 }
 
 /* Panel header styles */
-#dashboard .panel .header {
+.panel .header {
     padding: 9px;
     border-bottom: 1px solid #EEE;
 }
 
-#dashboard .panel .header h4 {
+.panel .header h4 {
     margin: 0;
     line-height: 20px;
 }
 
-#dashboard .panel .body {
+.panel .body {
     padding: 9px;
 }
