@@ -1,7 +1,8 @@
 define(["textprizm",
     './router',
-    './controller'],
-    function(TextPrizm, DidiRouter, DidiController) {
+    './controller',
+    'common/views/modal_region'],
+    function(TextPrizm, DidiRouter, DidiController, ModalRegion) {
 
         TextPrizm.addInitializer(function() {
             //Set up the router & controller
@@ -14,7 +15,8 @@ define(["textprizm",
         TextPrizm.addRegions({
             jobCreator: '#create-jobs-widget',
             jobsMonitor: '#job-monitor-widget',
-            machinesMonitor: '#machine-monitor-widget'
+            machinesMonitor: '#machine-monitor-widget',
+            modal: ModalRegion
         });
 
         // Now start the app
