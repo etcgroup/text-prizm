@@ -1,4 +1,4 @@
-define(['underscore'], function(_) {
+define(['underscore', 'jquery'], function(_, $) {
 
     var templates = {
         user_name_link: '<a href="users/<%=name%>" title="<%=name%>"><%=full_name%></a>',
@@ -55,6 +55,13 @@ define(['underscore'], function(_) {
                 summary: summary,
                 full: full
             });
+        },
+
+        /**
+         * Trim extra whitespace off of the string.
+         */
+        trim: function(str) {
+            return $.trim(str);
         }
     };
 

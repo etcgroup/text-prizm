@@ -35,5 +35,12 @@ define(['jquery', 'common/helpers/strings'], function($, StringHelper) {
             expect(element.attr('title')).toBe(full);
             expect(element.text()).toBe(summary);
         });
+
+        it('can trim whitespace from a string', function() {
+            expect(StringHelper.trim("asdf")).toBe("asdf");
+            expect(StringHelper.trim(" asdf")).toBe("asdf");
+            expect(StringHelper.trim("asdf ")).toBe("asdf");
+            expect(StringHelper.trim("\n\t\tasdf   asdf \t")).toBe("asdf   asdf");
+        });
     });
 });

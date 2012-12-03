@@ -16,5 +16,20 @@ define(['jquery', 'common/helpers/bootstrap'], function($, BootstrapHelper) {
             expect(icon).toBe('i.icon-' + icon_name);
             expect(icon).toBe('i.icon-white');
         });
+
+        it ("can render a progress bar", function() {
+            var percentage = 0.25;
+            var classes = "extra-class";
+            var id = "my-id";
+
+            var bar = $(BootstrapHelper.progress_bar(percentage, classes, id));
+
+            expect(bar).toBe('.progress');
+            expect(bar).toContain('.bar');
+            expect(bar.find('.bar')).toHaveCss({
+                width: '25%'
+            });
+        });
+
     });
 });
