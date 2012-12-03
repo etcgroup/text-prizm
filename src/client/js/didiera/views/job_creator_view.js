@@ -17,7 +17,8 @@ define(['marionette', 'textprizm',
 
             events: {
                 'click .add-task-button': 'addNewTask',
-                'click .submit-button': 'submit'
+                'click .submit-button': 'submit',
+                'click .cancel-button': 'cancel'
             },
 
             ui: {
@@ -28,10 +29,14 @@ define(['marionette', 'textprizm',
             },
 
             initialize: function() {
+                //Create a blank job and get the task list for it
                 this.model = new Job();
                 this.collection = this.model.get("task_list");
             },
 
+            /**
+             * Add a new task to the job and open the editor.
+             */
             addNewTask: function() {
                 var task = new Task();
                 var editor = new TaskEditorView({
@@ -66,6 +71,10 @@ define(['marionette', 'textprizm',
                 return valid;
             },
 
+            /**
+             * Attempts to submit the job. If the job is saved,
+             * the creator closes.
+             */
             submit: function() {
                 if (this.validateInput()) {
                     var self = this;
@@ -79,6 +88,13 @@ define(['marionette', 'textprizm',
                         }
                     })
                 }
+            },
+
+            /**
+             * Closes the job creator without saving.
+             */
+            cancel: function() {
+                this.close();
             }
         });
 

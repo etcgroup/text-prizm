@@ -82,7 +82,6 @@ define(['underscore',
                 //Create the interface
                 this.showMachines(this.machines);
                 this.showJobs(this.jobs);
-                this.showJobCreator();
             },
 
             /**
@@ -102,6 +101,8 @@ define(['underscore',
                 var jobsListView = new JobListView({
                     collection: jobs
                 });
+                jobsListView.on('show-job-creator', this.showJobCreator, this);
+
                 TextPrizm.jobsMonitor.show(jobsListView);
             },
 
