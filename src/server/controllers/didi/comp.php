@@ -78,8 +78,11 @@ class Comp extends API_Controller {
         $this->response($out);
     }
 
-    function machine_get() {
-        $options = $this->get();
+    function machine_post() {
+        $options = $this->post();
+        if (!$this->options->has_keys($options, array('location', 'name'))) {
+            $this->response('No id provided', 400);
+        }
         $id = null;
         if (isset($options['id'])) {
             $id = $options['id'];
@@ -87,6 +90,15 @@ class Comp extends API_Controller {
             $this->response('Insufficient data provided', 400);
         }
 
+        if ($id == null) {
+            $this->db->where('location', $options['location']);
+        } else {
+            $this->db->where('id', $options['id']);
+        }
+        $this->db->update('didi_machines', array(
+            'last_ping' => $this->dates->mysql_datetime($this->dates->utc_date())
+        ));
+        
         $this->db->select('*');
         if ($id == null) {
             $this->db->where('location', $options['location']);
@@ -96,51 +108,7 @@ class Comp extends API_Controller {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
-            $out = $row;
-            break;
-        }
-
-        $this->db->select('task_type');
-        $this->db->where('machine_id', $out->id);
-        $this->db->order_by('task_type');
-        $query = $this->db->get('didi_abilities');
-        $out->abilities = array();
-        foreach ($query->result() as $row) {
-            $out->abilities[] = $row->task_type;
-        }
-        $this->response($out);
-    }
-
-    function machines_get() {
-        $options = $this->get();
-        $limit = 10;
-        if (isset($options['limit'])) {
-            $limit = $options['limit'];
-        }
-
-        $this->db->select('*');
-        $this->db->limit($limit);
-        $this->db->order_by('last_ping', 'desc');
-        $query = $this->db->get('didi_machines');
-        $out = array();
-        foreach ($query->result() as $row) {
-            $this->db->select('task_type');
-            $this->db->where('machine_id', $row->id);
-            $this->db->order_by('task_type');
-            $q = $this->db->get('didi_abilities');
-            $row->abilities = array();
-            foreach ($q->result() as $r) {
-                $row->abilities[] = $r->task_type;
-            }
-            $out[] = $row;
-        }
-        $this->response($out);
-    }
-
-    function machine_post() {
-        $options = $this->post();
-        if (!$this->options->has_keys($options, array('location', 'name'))) {
-            $this->response('No id provided', 400);
+            $this->response($row);
         }
     }
 
