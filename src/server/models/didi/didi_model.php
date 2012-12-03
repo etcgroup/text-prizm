@@ -57,15 +57,22 @@ class Didi_model extends Base_model {
     function get_tasks($ids) {
         $out = array();
         foreach ($ids as $id) {
-            $this->db->select('*');
-            $this->db->where('id', $id);
-            $query = $this->db->get('didi_tasks');
-            foreach ($query->result() as $row) {
-                $out[] = $row;
-                break;
+            $task = $this->get_task($id);
+            if (isset($task)) {
+                $out[] = $task;
             }
         }
         return $out;
+    }
+
+    function get_task($id) {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $query = $this->db->get('didi_tasks');
+        foreach ($query->result() as $row) {
+            return $row;
+        }
+        return null;
     }
 
     function refresh_machine($id, $location = null) {
@@ -77,6 +84,26 @@ class Didi_model extends Base_model {
         $this->db->update('didi_machines', array(
             'last_ping' => $this->dates->mysql_datetime($this->dates->utc_date())
         ));
+    }
+
+    function create_job($description, $task_id_list) {
+        $job = new stdClass();
+        $job->description = $description;
+        $job->task_id_list = json_encode($task_id_list);
+        $job->count = count($task_id_list);
+        $job->progress = 0;
+        $job->user_id = -1;
+        $job->paused = 0;
+        $job->added = $this->dates->mysql_datetime($this->dates->utc_date());
+        $this->db->insert('didi_jobs', $job);
+    }
+
+    function create_task($object) {
+        $object['hash'] = sha1(json_encode($object));
+        $object['finished'] = 0;
+        $object['invalid'] = 0;
+        $this->db->insert('didi_tasks', $object);
+        return $this->db->insert_id();
     }
 
     function create_machine($location, $name, $types) {
@@ -164,7 +191,11 @@ class Didi_model extends Base_model {
         return $this->db->get('didi_task_list')->result();
     }
 
-    function count_failures() {
+    function count_failures($task_id) {
+        // SELECT COUNT(*) failures fROM didi_status WHERE task_id=[task_id] and has_failed=TRUE
+        $this->db->where('task_id', $task_id);
+        $this->db->where('has_failed', true);
+        return $this->db->get('didi_status')->count_all_results();
         //  return $task_id;
     }
 

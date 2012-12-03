@@ -27,6 +27,21 @@ class Comp extends API_Controller {
     function task_get() {
         $this->response($this->didi->next_task());
     }
+    
+    function job_post(){
+        // this is a post method because backbone is dump and thinks post is create
+        $options = $this->post();
+        if (!$this->options->has_keys($options, array('description', 'task_list'))) {
+            $this->response('Insufficient data provided', 400);
+        }
+        $tasks = $options['task_list'];
+        $task_id_list = array();
+        foreach($tasks as $task){
+            $task_id_list[] = $this->didi_model->create_task($task);
+        }
+        $this->didi_model->create_job($options['description'], $task_id_list);
+        $this->response("todo - return the job");
+    }
 
     function machine_put() {
         $options = $this->put();
