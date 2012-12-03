@@ -1,11 +1,12 @@
-define(['marionette'],
-    function(Marionette) {
+define(['marionette',
+    'text!../templates/machine_item.html'],
+    function(Marionette, machineItemTemplate) {
 
         /**
          * A view that summarizes a machine.
          */
         var MachineItemView = Marionette.ItemView.extend({
-            template: "I'm a machine",
+            template: machineItemTemplate,
             tagName: 'li',
             className: 'machine'
         });
