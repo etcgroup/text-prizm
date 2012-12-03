@@ -1,8 +1,6 @@
-<p>
-    <span class="machine-name"><%= name %></span>
-    <span class="machine-address"><%= ip + ":" + port %></span>
-</p>
-<p>
-    <span class="machine-last-ping"><%= last_ping %></span>
-    <span class="machine-current-task"><%= current_task %></span>
-</p>
+<span class="machine-name"><%= name %></span>
+<span class="machine-address"><%= ip + ":" + port %></span>
+<span class="machine-is-busy pull-right label <%= is_busy ? 'label-warning' : 'label-success' %>"><%= is_busy ? "Busy" : "Available" %></span><br/>
+
+Abilities: <span class="machine-abilities"><%= abilities.join(', ') %></span>
+<span class="pull-right">Last Ping: <span class="machine-last-ping"><%= medium_date_time(last_ping) %></span></span>

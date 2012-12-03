@@ -10,7 +10,8 @@ define(['backbone', 'lib/backbone-relational'], function(Backbone) {
             ip: "0.0.0.0",
             port: "0",
             last_ping: 0,
-            current_task: null
+            abilities: [],
+            is_busy: false
         }
     });
     return Machine;

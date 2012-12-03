@@ -1,0 +1,14 @@
+#machine-monitor-widget ul {
+    list-style: none;
+    margin: 0;
+}
+
+#machine-monitor-widget .machine {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-bottom: 1px solid #DDD;
+}
+
+#machine-monitor-widget .machine:last-child {
+    border: none;
+}
