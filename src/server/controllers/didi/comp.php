@@ -33,83 +33,33 @@ class Comp extends API_Controller {
         if (!$this->options->has_keys($options, array('location', 'name', 'types'))) {
             $this->response('Insufficient data provided', 400);
         }
-        $this->db->where('location', $options['location']);
-        $exists = $this->db->count_all_results('didi_machines');
-        if ($exists > 0) {
+        $machine = $this->didi_model->create_machine(
+                $options['location'], $options['name'], json_decode($options['types']));
+        if ($machine == null) {
             $this->response('A machine already exists at this location.', 400);
         }
-
-        // write the machine
-        $this->db->insert('didi_machines', array(
-            'location' => $options['location'],
-            'name' => $options['name'],
-            'is_busy' => FALSE,
-            'last_ping' => $this->dates->mysql_datetime($this->dates->utc_date())
-        ));
-
-        // retrieve it
-        $this->db->select('*');
-        $this->db->where('location', $options['location']);
-        $query = $this->db->get('didi_machines');
-        $out = null;
-        foreach ($query->result() as $row) {
-            $out = $row;
-            break;
-        }
-
-        // write the abilities
-        $types = array_unique(json_decode($options['types']));
-        foreach ($types as $type) {
-            $this->db->insert('didi_abilities', array(
-                'machine_id' => $out->id,
-                'task_type' => $type
-            ));
-        }
-
-        // retrieve the abilities
-        $this->db->select('task_type');
-        $this->db->where('machine_id', $out->id);
-        $this->db->order_by('task_type');
-        $query = $this->db->get('didi_abilities');
-        $out->abilities = array();
-        foreach ($query->result() as $row) {
-            $out->abilities[] = $row->task_type;
-        }
-        $this->response($out);
+        $this->response($machine);
     }
 
     function machine_post() {
         $options = $this->post();
-        if (!$this->options->has_keys($options, array('location', 'name'))) {
-            $this->response('No id provided', 400);
+        $id = isset($options['id']) ? $options['id'] : null;
+        $location = isset($options['location']) ? $options['loation'] : null;
+        if (!isset($options['name']) || ($id == null && $location == null)) {
+            $this->response('Insufficient parameters', 400);
         }
-        $id = null;
-        if (isset($options['id'])) {
-            $id = $options['id'];
-        } else if (!isset($options['location'])) {
-            $this->response('Insufficient data provided', 400);
-        }
+        $this->didi_model->refresh_machine($id, $location);
 
-        if ($id == null) {
-            $this->db->where('location', $options['location']);
-        } else {
-            $this->db->where('id', $options['id']);
-        }
-        $this->db->update('didi_machines', array(
-            'last_ping' => $this->dates->mysql_datetime($this->dates->utc_date())
-        ));
-        
-        $this->db->select('*');
-        if ($id == null) {
-            $this->db->where('location', $options['location']);
-        } else {
-            $this->db->where('id', $options['id']);
-        }
-        $query = $this->db->get('didi_machines');
         $out = null;
-        foreach ($query->result() as $row) {
-            $this->response($row);
+        if (isset($options['id'])) {
+            $out = $this->didi_model->get_machine_by_id($options['id']);
+        } else if (isset($options['location'])) {
+            $out = $this->didi_model->get_machine_by_location($options['location']);
         }
+        if ($out == null) {
+            $this->response('No such machine found.', 404);
+        }
+        $this->response($out);
     }
 
     function available_post() {

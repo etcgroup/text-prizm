@@ -13,38 +13,21 @@ class Info extends API_Controller {
      */
     function __construct() {
         parent::__construct();
-        //$this->load->model('didi/stats_comp_model');
+        $this->load->model('didi/didi_model');
     }
     
     function machine_get() {
         $options = $this->get();
-        $id = null;
+        $out = null;
         if (isset($options['id'])) {
-            $id = $options['id'];
-        } else if (!isset($options['location'])) {
+            $out = $this->didi_model->get_machine_by_id($options['id']);
+        } else if (isset($options['location'])) {
+            $out = $this->didi_model->get_machine_by_location($options['location']);
+        } else {
             $this->response('Insufficient data provided', 400);
         }
-
-        $this->db->select('*');
-        if ($id == null) {
-            $this->db->where('location', $options['location']);
-        } else {
-            $this->db->where('id', $options['id']);
-        }
-        $query = $this->db->get('didi_machines');
-        $out = null;
-        foreach ($query->result() as $row) {
-            $out = $row;
-            break;
-        }
-
-        $this->db->select('task_type');
-        $this->db->where('machine_id', $out->id);
-        $this->db->order_by('task_type');
-        $query = $this->db->get('didi_abilities');
-        $out->abilities = array();
-        foreach ($query->result() as $row) {
-            $out->abilities[] = $row->task_type;
+        if($out==null){
+            $this->response('Machine not found', 404);
         }
         $this->response($out);
     }
@@ -55,24 +38,7 @@ class Info extends API_Controller {
         if (isset($options['limit'])) {
             $limit = $options['limit'];
         }
-
-        $this->db->select('*');
-        $this->db->limit($limit);
-        $this->db->order_by('last_ping', 'desc');
-        $query = $this->db->get('didi_machines');
-        $out = array();
-        foreach ($query->result() as $row) {
-            $this->db->select('task_type');
-            $this->db->where('machine_id', $row->id);
-            $this->db->order_by('task_type');
-            $q = $this->db->get('didi_abilities');
-            $row->abilities = array();
-            foreach ($q->result() as $r) {
-                $row->abilities[] = $r->task_type;
-            }
-            $out[] = $row;
-        }
-        $this->response($out);
+        $this->response($this->didi_model->get_machines($limit));
     }
 
 }
