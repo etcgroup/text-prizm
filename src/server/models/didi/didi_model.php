@@ -44,11 +44,11 @@ class Didi_model extends Base_model {
         $out = array();
         foreach ($query->result() as $row) {
             $row->tasks = $this->get_tasks(json_decode($row->task_id_list));
-            $this->user = new stdClass();
-            $this->user->id = $row->user_id;
-            $this->user->name = 'test';
-            $this->user->fullname = 'didi tester';
-            $this->user->email = 'em@i.l';
+            $row->user = new stdClass();
+            $row->user->id = $row->user_id;
+            $row->user->name = 'test';
+            $row->user->full_name = 'didi tester';
+            $row->user->email = 'em@i.l';
             $out[] = $row;
         }
         return $out;
