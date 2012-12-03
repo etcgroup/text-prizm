@@ -58,7 +58,7 @@ define(['marionette', 'textprizm',
                     this.ui.descriptionAlert.text('Provide a description.').slideDown();
                     valid = false;
                 } else {
-                    this.ui.taskListAlert.hide();
+                    this.ui.descriptionAlert.hide();
                 }
 
                 if (this.ui.taskList.find('.task').length === 0) {
