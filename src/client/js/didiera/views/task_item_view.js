@@ -10,7 +10,11 @@ define(['marionette',
             template: taskItemTemplate,
             tagName: 'li',
             className: 'task',
-            templateHelpers: Helpers
+            templateHelpers: Helpers,
+
+            modelEvents: {
+                'change': 'render'
+            }
         });
 
         return TaskItemView;

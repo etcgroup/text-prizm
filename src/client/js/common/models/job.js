@@ -14,7 +14,15 @@ define(['backbone', 'models/user_model', './task', 'lib/backbone-relational'], f
             key: 'task_list',
             relatedModel: Task
         }
-        ]
+        ],
+
+        appendTask: function(taskModel) {
+            taskModel = taskModel || new Task();
+
+            this.get('task_list').add(taskModel);
+
+            return taskModel;
+        }
     });
     return Job;
 });
