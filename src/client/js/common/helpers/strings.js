@@ -62,6 +62,19 @@ define(['underscore', 'jquery'], function(_, $) {
          */
         trim: function(str) {
             return $.trim(str);
+        },
+
+        /**
+         * Returns null if the string is valid JSON.
+         * Otherwise, returns an error message or true.
+         */
+        get_json_error: function(str) {
+            try {
+                var data = $.parseJSON(str);
+                return null;
+            } catch (err) {
+                return err.message || true;
+            }
         }
     };
 

@@ -42,5 +42,10 @@ define(['jquery', 'common/helpers/strings'], function($, StringHelper) {
             expect(StringHelper.trim("asdf ")).toBe("asdf");
             expect(StringHelper.trim("\n\t\tasdf   asdf \t")).toBe("asdf   asdf");
         });
+
+        it('can detect invalid json', function() {
+            expect(StringHelper.get_json_error('{}')).toBeNull();
+            expect(StringHelper.get_json_error('{}f')).toBeTruthy();
+        });
     });
 });
