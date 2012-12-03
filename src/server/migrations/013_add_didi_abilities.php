@@ -3,9 +3,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Creates the 'didi_machines' table.
- * Fields: id, location, last_ping, is_busy
- * location contains ip:port and name contains some human-readable name
  */
 class Migration_Add_didi_abilities extends CI_Migration {
 

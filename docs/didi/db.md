@@ -5,7 +5,7 @@ This describes the database and the logic provided by Didi library
 Relations:
 * didi_machines(**id** , ip, port, last_ping, bool is_busy)
 * didi_abilities(**machine_id** , varchar **task_type**)
-* didi_tasks(**id** , task_type, params, data, is_invalid, is_finished)
+* didi_tasks(**id** , task_type, params, is_invalid, is_finished)
 * didi_jobs(**id** , task_id_list, task_count, progress, added, description, user_id)
 ** index on added
 ** description is varchar 200
