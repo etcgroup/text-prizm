@@ -24,7 +24,7 @@ define(['marionette', 'textprizm',
             ui: {
                 taskList: '.task-list',
                 taskListAlert: '.task-list-alert',
-                descriptionInput: '#desciprion-input',
+                descriptionInput: '#description-input',
                 descriptionAlert: '#description-alert'
             },
 
