@@ -13,3 +13,4 @@
         <div id="machine-monitor-widget" class="panel"></div>
     </div>
 </div>
+<div id="modal" class="modal hide"></div>
