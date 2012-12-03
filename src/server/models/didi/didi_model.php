@@ -34,6 +34,40 @@ class Didi_model extends Base_model {
         }
         return $out;
     }
+
+    function get_jobs($limit) {
+        $this->db->select('*');
+        $this->db->limit($limit);
+        $this->db->order_by('paused');
+        $this->db->order_by('added', 'desc');
+        $query = $this->db->get('didi_jobs');
+        $out = array();
+        foreach ($query->result() as $row) {
+            $row->tasks = $this->get_tasks(json_decode($row->task_id_list));
+            $this->user = new stdClass();
+            $this->user->id = $row->user_id;
+            $this->user->name = 'test';
+            $this->user->fullname = 'didi tester';
+            $this->user->email = 'em@i.l';
+            $out[] = $row;
+        }
+        return $out;
+    }
+
+    function get_tasks($ids) {
+        $out = array();
+        foreach ($ids as $id) {
+            $this->db->select('*');
+            $this->db->where('id', $id);
+            $query = $this->db->get('didi_tasks');
+            foreach ($query->result() as $row) {
+                $out[] = $row;
+                break;
+            }
+        }
+        return $out;
+    }
+
     function refresh_machine($id, $location = null) {
         if ($id == null) {
             $this->db->where('location', $location);
