@@ -78,7 +78,9 @@ define(['marionette', 'textprizm',
             submit: function() {
                 if (this.validateInput()) {
                     var self = this;
-                    this.model.save(null, {
+                    this.model.save({
+                        description: this.ui.descriptionInput.val()
+                    }, {
                         success: function(model, resp) {
                             self.close();
                             alert('Job submitted successfully.');
