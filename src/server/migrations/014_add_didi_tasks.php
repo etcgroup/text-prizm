@@ -22,6 +22,9 @@ class Migration_Add_didi_tasks extends CI_Migration {
             'params_json' => array(
                 'type' => 'TEXT'
             ),
+            'data_json' => array(
+                'type' => 'TEXT'
+            ),
             'hash' => array(
                 'type' => 'VARCHAR',
                 'constraint' => 200
