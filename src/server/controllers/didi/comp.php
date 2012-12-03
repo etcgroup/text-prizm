@@ -102,5 +102,9 @@ class Comp extends API_Controller {
         }
         $this->response($this->didi_model->set_machine_busyness($locations, true));
     }
+    
+    function task_post(){
+        
+    }
 
 }

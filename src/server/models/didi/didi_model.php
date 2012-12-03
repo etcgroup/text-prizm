@@ -30,6 +30,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = array();
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $row->abilities = $this->get_machine_abilities($row->id);
             $out[] = $row;
         }
@@ -157,6 +158,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $out = $row;
             break;
         }
@@ -170,6 +172,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
             $out = $row;
             break;
         }
