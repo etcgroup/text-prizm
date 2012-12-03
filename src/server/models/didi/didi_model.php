@@ -62,7 +62,7 @@ class Didi_model extends Base_model {
 
     private function prepare_job($job) {
         $job->added = $this->dates->php_datetime($job->added)->getTimestamp();
-        $job->tasks = $this->get_tasks(json_decode($job->task_id_list));
+        $job->task_list = $this->get_tasks(json_decode($job->task_id_list));
         $job->user = new stdClass();
         $job->user->id = $job->user_id;
         $job->user->name = 'test';
@@ -201,7 +201,7 @@ class Didi_model extends Base_model {
         $this->db->select('task_id_list, progress');
         $this->db->order_by('added');
         $this->db->where('progress', '< task_count');
-        $this->db->order_by('time', 'desc');
+        $this->db->order_by('added', 'desc');
         if ($n > 0) {
             $this->db->limit($n);
         }
