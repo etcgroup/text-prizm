@@ -30,7 +30,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = array();
         foreach ($query->result() as $row) {
-            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->format("U");
             $row->abilities = $this->get_machine_abilities($row->id);
             $out[] = $row;
         }
@@ -62,7 +62,7 @@ class Didi_model extends Base_model {
     }
 
     private function prepare_job($job) {
-        $job->added = $this->dates->php_datetime($job->added)->getTimestamp();
+        $job->added = $this->dates->php_datetime($job->added)->format("U");
         $job->task_list = $this->get_tasks(json_decode($job->task_id_list));
         $job->user = new stdClass();
         $job->user->id = $job->user_id;
@@ -158,7 +158,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
-            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->format("U");
             $out = $row;
             break;
         }
@@ -172,7 +172,7 @@ class Didi_model extends Base_model {
         $query = $this->db->get('didi_machines');
         $out = null;
         foreach ($query->result() as $row) {
-            $row->last_ping = $this->dates->php_datetime($row->last_ping)->getTimestamp();
+            $row->last_ping = $this->dates->php_datetime($row->last_ping)->format("U");
             $out = $row;
             break;
         }
