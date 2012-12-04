@@ -4,6 +4,8 @@
     {
         name: 'dashboard/app'
     }, {
+        name: 'didiera/app'
+    }, {
         name: "coding_main"
     }, {
         name: "codingstats_main"
