@@ -7,7 +7,7 @@ class Didiera extends Base_Controller {
 
     public function index()
     {
-        $user = $this->ensure_user();
+//        $user = $this->ensure_user();
 
         $data = array(
             'page_title' => 'Didiera'
