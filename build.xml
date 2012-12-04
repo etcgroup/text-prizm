@@ -51,7 +51,9 @@
         <echo>Collecting server dependencies into ${build.gather.dir}/server</echo>
 
         <parallel>
-            <dependency name="codeigniter" dest="${build.gather.dir}/server"/>
+            <dependency name="codeigniter" dest="${build.gather.dir}/server">
+                <property name="codeigniter.version" value="2.1-stable-etc"/>
+            </dependency>
             <dependency name="codeigniter-asset-helper" dest="${build.gather.dir}/server"/>
             <dependency name="codeigniter-restserver" dest="${build.gather.dir}/server"/>
         </parallel>
