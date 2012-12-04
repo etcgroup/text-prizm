@@ -2,6 +2,8 @@
 
 define('BASEPATH', 'nobody better try to use this define');
 
+if ( !defined('__DIR__') ) define('__DIR__', dirname(__FILE__));
+
 /**
  * Ini_file_writer based on Config_Lite (Config/Lite.php)
  *
@@ -192,7 +194,7 @@ abstract class Util {
     {
         $time = microtime(TRUE);
         $random = mt_rand(10000000, 99999999);
-        $local = gethostname();
+        $local = php_uname('n');
         $combo = uniqid($time . $random . $local, TRUE);
         return sha1($combo);
     }
@@ -641,7 +643,6 @@ class Config {
         $this->application_dir = realpath($this->util_dir . '/..');
         $this->base_dir = realpath($this->application_dir . '/..');
         $this->config_dir = $this->application_dir . '/config';
-
         $this->install_config_file = $this->config_dir . '/.install.ini';
     }
 
