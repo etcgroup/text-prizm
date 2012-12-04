@@ -83,10 +83,10 @@ define(['marionette', 'textprizm',
                     }, {
                         success: function(model, resp) {
                             self.close();
-                            alert('Job submitted successfully.');
+                            TextPrizm.success('Job submitted successfully');
                         },
                         error: function(model, resp) {
-                            alert('Job not submitted!');
+                            TextPrizm.error('Job not submitted!');
                         }
                     })
                 }
