@@ -28,6 +28,23 @@ class Comp extends API_Controller {
         $this->response($this->didi->next_task());
     }
     
+    /**
+     * Claim or update a task 
+     */
+    function tast_post() {
+        $options = $this->post();
+        if (!$this->options->has_keys($options, array('task_id'))) {
+            $this->response('Insufficient data provided', 400);
+        }
+        $task = $this->didi_model->get_task($options['task_id']);
+        if(!isset($task)){
+            $this->response('Task not found', 404);
+        }
+        if(isset($options['failed']) && $options['failed']==true){
+         //TODO   
+        }
+    }
+    
     function job_post(){
         // this is a post method because backbone is dump and thinks post is create
         $options = $this->post();
