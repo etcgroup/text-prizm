@@ -214,17 +214,16 @@ class Didi_model extends Base_model {
     // how many isntances of this task are being worked on>
     function count_current_work($task_id) {
         $this->db->where('task_id', $task_id);
-        $this->db->where('has_failed', false);
+        $this->db->where('failed', false);
         $this->db->where('progress', '< 100');
-        return $this->db->get('didi_status')->count_all_results();
+        return $this->db->count_all_results('didi_status');
     }
 
     function count_failures($task_id) {
         // SELECT COUNT(*) failures fROM didi_status WHERE task_id=[task_id] and has_failed=TRUE
         $this->db->where('task_id', $task_id);
-        $this->db->where('has_failed', true);
-        return $this->db->get('didi_status')->count_all_results();
-        //  return $task_id;
+        $this->db->where('failed', true);
+        return $this->db->count_all_results('didi_status');
     }
 
 }

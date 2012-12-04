@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Didi {
 
     private $model;
+    private $safety_bias = 3;
 
     private function get_model() {
         if ($this->model != null) {
@@ -28,12 +29,12 @@ class Didi {
             $task_id_list = json_decode($next_task->task_id_list);
             $progress = $next_task->progress;
             $task_id = $task_id_list[$progress];
-            $current = $this->get_model()->count_current_work();
+            $current = $this->get_model()->count_current_work($task_id);
             if($current>0){
                 continue;
             }
             $failures = $this->get_model()->count_failures($task_id);
-            $prob_skip = $failures($failures + $this->safety_bias);
+            $prob_skip = $failures / ($failures + $this->safety_bias);
             if (mt_rand() < $prob_skip) {
                 continue;
             }
