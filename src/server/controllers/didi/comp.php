@@ -81,9 +81,23 @@ class Comp extends API_Controller {
         $machine = $this->didi_model->create_machine(
                 $options['location'], $options['name'], json_decode($options['types']));
         if ($machine == null) {
-            $this->response('A machine already exists at this location.', 401);
+            // old behavior was to 401. This is annoying. New behavior is to update
+            // last_ping and abilities
+            $machine = $this->didi_model->get_machine_by_location($options['location']);
+            $this->didi_model->refresh_machine($machine->id);
+            $this->didi_model->refresh_machine_abilities($machine->id, json_decode($options['types']));
+            $machine->abilities = $this->didi_model->get_machine_abilities($machine->id);
         }
         $this->response($machine);
+    }
+    
+    function machine_delete() {
+        $options = $this->delete();
+        if(!isset($options['location'])){
+            $this->response('Insufficient parameters', 400);
+        }
+        $this->didi_model->delete_machine($options['location']);
+        $this->response('OK');
     }
 
     function machine_post() {

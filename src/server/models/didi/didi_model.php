@@ -152,6 +152,7 @@ class Didi_model extends Base_model {
     }
 
     function create_machine($location, $name, $types) {
+        // TODO make this not suck
         $this->db->where('location', $location);
         $exists = $this->db->count_all_results('didi_machines');
         if ($exists > 0) {
@@ -167,14 +168,26 @@ class Didi_model extends Base_model {
         ));
         $id = $this->db->insert_id();
         // write the abilities
+        $this->refresh_machine_abilities($id, $types);
+        return $this->get_machine_by_id($id);
+    }
+
+    function refresh_machine_abilities($machine_id, $types) {
         $types = array_unique($types);
+        $types = array_unique($types);
+        $this->db->delete('didi_abilities', array('machine_id' => $machine_id));
         foreach ($types as $type) {
             $this->db->insert('didi_abilities', array(
-                'machine_id' => $id,
+                'machine_id' => $machine_id,
                 'task_type' => $type
             ));
         }
-        return $this->get_machine_by_id($id);
+    }
+    
+    function delete_machine($location){
+        $machine = $this->get_machine_by_location($location);
+        $this->db->delete('didi_machines', array('id' => $machine->id));
+        $this->db->delete('didi_abilities', array('machine_id' => $machine->id));
     }
 
     function get_machine_by_location($location) {
@@ -188,7 +201,7 @@ class Didi_model extends Base_model {
             $out = $row;
             break;
         }
-        $out->abilities = $this->get_machine_abilities($id);
+        $out->abilities = $this->get_machine_abilities($out->id);
         return $out;
     }
 
