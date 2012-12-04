@@ -25,24 +25,37 @@ class Comp extends API_Controller {
      * @return NULL
      */
     function task_get() {
-        $this->response($this->didi->next_task());
+        $task = $this->didi->next_task();
+        if($task == null){
+            $this->response('No task available', 404);
+        }
+        $task->parallel = strlen($task->data_json)>0?true:false;
+        $this->response($task);
     }
     
     /**
-     * Claim or update a task 
+     * claim a  task 
      */
-    function tast_post() {
+    
+    /**
+     * update run status
+     */
+    function run_post() {
         $options = $this->post();
-        if (!$this->options->has_keys($options, array('task_id'))) {
+        if (!$this->options->has_keys($options, array('status_id'))) {
             $this->response('Insufficient data provided', 400);
         }
-        $task = $this->didi_model->get_task($options['task_id']);
+        $status_id = $options['status_id'];
         if(!isset($task)){
             $this->response('Task not found', 404);
         }
         if(isset($options['failed']) && $options['failed']==true){
-         //TODO   
+            $this->didi_model->fail_task($task->id);   
+        } else if(isset($options['progress'])){
+            $this->didi_model->update_task($task_id, $options['progress']);
         }
+        $status = $this->didi_model->get_status($status_id);
+        $this->response();
     }
     
     function job_post(){
@@ -68,7 +81,7 @@ class Comp extends API_Controller {
         $machine = $this->didi_model->create_machine(
                 $options['location'], $options['name'], json_decode($options['types']));
         if ($machine == null) {
-            $this->response('A machine already exists at this location.', 400);
+            $this->response('A machine already exists at this location.', 401);
         }
         $this->response($machine);
     }

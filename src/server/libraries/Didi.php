@@ -25,6 +25,7 @@ class Didi {
         // 2. For each (task list, progress), can identify the task_id. Then,
         // fetch the number of failures on this task thus far:
         $task_id = NULL;
+        $task = NULL;
         foreach ($possible_tasks as $next_task) {
             $task_id_list = json_decode($next_task->task_id_list);
             $progress = $next_task->progress;
@@ -38,8 +39,16 @@ class Didi {
             if (mt_rand() < $prob_skip) {
                 continue;
             }
+            $task = $this->get_model()->get_task($task_id);
+            $task->machines = $this->get_model()->get_capable_machines($task->task_type);
+            if(count($task->machines)>0){
+                break;
+            } else{
+                $task = null;
+                continue;
+            }
         }
-        return $this->get_model()->get_task($task_id);
+        return $task;
     }
 
 }

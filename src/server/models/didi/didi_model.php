@@ -10,6 +10,24 @@ class Didi_model extends Base_model {
         $this->load->library('dates');
     }
 
+    function get_capable_machines($task_type, $limit = 10) {
+        $this->db->select('location'); //TODO make distinct!
+        $this->db->join('didi_abilities', 'didi_abilities.machine_id=didi_machines.id');
+        $this->db->where('is_busy', 0);
+        $this->db->where('task_type', $task_type);
+        $out = array();
+        if (isset($limit)) {
+            $this->db->limit($limit);
+        }
+        $this->db->order_by('last_ping', 'desc');
+        $query = $this->db->get('didi_machines');
+        foreach ($query->result() as $row) {
+            $loc = explode(":", $row->location);
+            $out[] = array('ip' => $loc[0], 'port' => $loc[1]);
+        }
+        return $out;
+    }
+
     function set_machine_busyness($locations, $is_busy) {
         $out = array();
         foreach ($locations as $location) {
@@ -123,6 +141,14 @@ class Didi_model extends Base_model {
         $object['invalid'] = 0;
         $this->db->insert('didi_tasks', $object);
         return $this->db->insert_id();
+    }
+
+    function fail_task($task_id) {
+        $this->db->where('id', $task_id);
+    }
+
+    function update_task($task_id, $progress) {
+        
     }
 
     function create_machine($location, $name, $types) {
