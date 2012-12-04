@@ -1,13 +1,14 @@
 define(['marionette',
     '../views/job_item_view',
+    'common/views/spinner_view',
     'text!../templates/job_list.html'],
-    function(Marionette, JobItemView, jobListTemplate) {
+    function(Marionette, JobItemView, SpinnerView, jobListTemplate) {
         /**
          * A view that is shown when there are no jobs.
          */
-        var EmptyJobListView = Marionette.ItemView.extend({
-            template: "No jobs.",
-            tagName: 'li'
+        var EmptyJobListView = SpinnerView.extend({
+            tagName: 'li',
+            message: 'No jobs loaded yet...'
         });
 
         /**
@@ -18,7 +19,7 @@ define(['marionette',
             itemView: JobItemView,
             itemViewContainer: 'ul',
             emptyView: EmptyJobListView,
-            
+
             events: {
                 'click .create-job-button': 'showJobCreator'
             },

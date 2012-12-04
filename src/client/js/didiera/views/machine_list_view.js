@@ -1,14 +1,15 @@
 define(['marionette',
     '../views/machine_item_view',
+    'common/views/spinner_view',
     'text!../templates/machine_list.html'],
-    function(Marionette, MachineItemView, machineListTemplate) {
+    function(Marionette, MachineItemView, SpinnerView, machineListTemplate) {
 
         /**
          * A view that is shown when there are no machines.
          */
-        var EmptyMachineListView = Marionette.ItemView.extend({
-            template: "No machines currently registered.",
-            tagName: 'li'
+        var EmptyMachineListView = SpinnerView.extend({
+            tagName: 'li',
+            message: 'No machines currently registered...'
         });
 
         /**
@@ -23,4 +24,3 @@ define(['marionette',
 
         return MachineListView;
     });
-    
