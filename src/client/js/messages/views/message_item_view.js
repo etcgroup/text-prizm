@@ -12,7 +12,7 @@ define(['marionette', 'underscore',
             template: messageItemTemplate,
             templateHelpers: Helpers,
             tagName: 'li',
-            className: 'message'
+            className: 'message-item'
         });
 
         return MessageItemView;

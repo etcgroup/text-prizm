@@ -18,7 +18,7 @@ define(['marionette',
             template: messageListTemplate,
             itemView: MessageItemView,
             emptyView: EmptyMessageListView,
-            itemViewContainer: 'ul'
+            itemViewContainer: 'ul.message-list'
         });
 
         return MessageListView;

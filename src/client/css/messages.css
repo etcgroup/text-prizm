@@ -1,1 +1,3 @@
 @import url(common.css);
+@import url(messages/message_list.css);
+@import url(messages/message_item.css);
