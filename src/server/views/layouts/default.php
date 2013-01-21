@@ -11,6 +11,8 @@
             require.config({
                 baseUrl: "<?php echo js_url() ?>"
             });
+
+            window.baseUrl = '<?php echo base_url(); ?>';
         </script>
     </head>
     <body>
