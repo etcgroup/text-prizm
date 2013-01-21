@@ -9,7 +9,10 @@ define(["backbone",
 
         TextPrizm.on("initialize:after", function(options){
             if (Backbone.history){
-                Backbone.history.start();
+                Backbone.history.start({
+                    pushState: true,
+                    root: options.rootUrl
+                });
             }
         });
 
