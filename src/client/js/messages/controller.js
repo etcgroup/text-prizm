@@ -1,10 +1,14 @@
 define(['underscore',
     'textprizm',
+    'common/collections/message_collection',
+    './views/message_list_view',
     './models/cluster_selection',
     './views/cluster_selection_view'],
     function(
         _,
         TextPrizm,
+        MessageCollection,
+        MessageListView,
         ClusterSelection,
         ClusterSelectionView) {
 
@@ -13,6 +17,7 @@ define(['underscore',
          */
         var MessagesController = function() {
             this.clusterSelection = new ClusterSelection();
+            this.messages = new MessageCollection();
         };
 
         _.extend(MessagesController.prototype, {
@@ -47,6 +52,9 @@ define(['underscore',
                 this.clusterSelection = new ClusterSelection(options);
                 this.clusterSelection.on("change", this.clusterSelectionChange, this);
                 this.showClusterSelection();
+
+                this.showMessageListView();
+                this.messages.fetchCluster(this.clusterSelection.toJSON());
             },
 
             /**
@@ -60,11 +68,23 @@ define(['underscore',
             },
 
             /**
+             *Render the message list view.
+             */
+            showMessageListView: function() {
+                var messageListView = new MessageListView({
+                    collection: this.messages
+                });
+                TextPrizm.messageViewer.show(messageListView);
+            },
+
+            /**
              * Called when the cluster selection has been changed.
              */
             clusterSelectionChange: function(clusterSelection) {
                 var urlHash = clusterSelection.getAddress();
                 TextPrizm.router.navigate(urlHash);
+
+                this.messages.fetchCluster(this.clusterSelection.toJSON());
             }
         });
         return MessagesController;
