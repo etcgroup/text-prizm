@@ -10,6 +10,10 @@ class Instances_model extends Base_model {
     function __construct()
     {
         parent::__construct();
+        $this->load->library('options');
+        $this->load->library('dates');
+        $this->load->model('coding/codes_model');
+        $this->load->model('gen/users_model');
     }
 
     /**
@@ -43,6 +47,20 @@ class Instances_model extends Base_model {
             $CI->Codes_model->increment_instances($code_id);
             return $data;
         }
+    }
+
+    function get_all_for_message($message_id)
+    {
+        $this->db->where('message_id', $message_id);
+
+        $instances = $this->db->get($this->table)->result();
+
+        foreach ($instances as &$instance)
+        {
+            $this->_fill_in($instance);
+        }
+
+        return $instances;
     }
 
     function get_all_for_points($filter = array(), $points_filter = array(), $codes_filter = array())
@@ -165,6 +183,23 @@ class Instances_model extends Base_model {
             $this->db->where('schema_id', $schema_id);
             return $this->db->delete('coding_codes');
         }
+    }
+
+    /**
+     * Fills in the missing instance data (user, code, etc.)
+     * The object is modified in place.
+     *
+     * @param object $instance A code instance data object straight from the database.
+     *
+     * @return NULL
+     */
+    private function _fill_in($instance)
+    {
+        $instance->added = $this->dates->php_datetime($instance->added)->getTimestamp();
+        $instance->user = $this->users_model->get($instance->user_id);
+        $instance->code = $this->codes_model->get($instance->code_id);
+        unset($instance->code_id);
+        unset($instance->user_id);
     }
 
 }

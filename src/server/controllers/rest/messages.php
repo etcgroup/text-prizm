@@ -30,7 +30,7 @@ class Messages extends API_Controller {
         if (!$this->options->has_keys($options, array('cluster_id')) &&
                 !$this->options->has_keys($options, array('start')))
         {
-            $this->response('No cluster_id or start is required', 400);
+            $this->response('Param cluster_id or start is required', 400);
         }
 
         $count = $this->messages_model->count_messages($options);
@@ -64,5 +64,4 @@ class Messages extends API_Controller {
             $this->response('Error getting messages', 404);
         }
     }
-
 }

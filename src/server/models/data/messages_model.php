@@ -24,6 +24,7 @@ class Messages_model extends Base_model2 {
         $this->load->library('options');
         $this->load->library('dates');
         $this->load->model('data/participants_model');
+        $this->load->model('coding/instances_model');
     }
 
     /**
@@ -119,6 +120,7 @@ class Messages_model extends Base_model2 {
     {
         $message->time = $this->dates->php_datetime($message->time)->getTimestamp();
         $message->participant = $this->participants_model->get($message->participant_id);
+        $message->instances = $this->instances_model->get_all_for_message($message->id);
         unset($message->participant_id);
     }
 }
