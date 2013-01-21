@@ -16,31 +16,36 @@ define(['underscore',
         };
 
         _.extend(MessagesController.prototype, {
-
-            listenForSelectionChanges: function() {
-                this.clusterSelection.on("change", this.clusterSelectionChange, this);
-            },
-
             /**
-             * Start the Dashboard
+             * Default route with no selection made yet
              */
             start: function() {
                 //Create the interface
-                this.showClusterSelection();
+                this.initClusterSelection();
             },
 
+            /**
+             * Cluster was selected by ID.
+             */
             startById: function(clusterId) {
-                this.clusterSelection = new ClusterSelection({
+                this.initClusterSelection({
                     cluster_id: clusterId
                 });
-                this.showClusterSelection();
             },
 
+            /**
+             * Cluster was selected by date
+             */
             startByDate: function(startDate) {
-                startDate = unescape(startDate);
-                this.clusterSelection = new ClusterSelection({
-                    start_date: startDate
+                this.initClusterSelection({
+                    start_date: unescape(startDate)
                 });
+            },
+
+            initClusterSelection: function(options) {
+                options = options || {};
+                this.clusterSelection = new ClusterSelection(options);
+                this.clusterSelection.on("change", this.clusterSelectionChange, this);
                 this.showClusterSelection();
             },
 
@@ -48,7 +53,6 @@ define(['underscore',
              * Render the cluster selector.
              */
             showClusterSelection: function() {
-                this.listenForSelectionChanges();
                 var clusterSelectionView = new ClusterSelectionView({
                     model: this.clusterSelection
                 });
