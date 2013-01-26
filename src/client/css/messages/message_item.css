@@ -14,24 +14,20 @@
 }
 
 .message-item .fluid-column {
-    margin: 0 180px 0 110px;
+    margin: 0 0 0 290px;
 }
 
 .message-item .left-column {
-    width: 100px;
+    width: 280px;
     float: left;
-    text-align: right;
     margin-left: -100%;
 }
 
-.message-item .right-column {
-    float: left;
-    width: 180px;
-    margin-left: -180px;
-}
-
 .message-item .participant {
+    float: left;
+    text-align: right;
     font-weight: bold;
+    width: 100px;
 }
 
 .message-item .message {
@@ -39,5 +35,53 @@
 }
 
 .message-item .time {
+    float: left;
+    width: 180px;
+    text-align: right;
+}
 
+.message-item .time .time-link {
+    text-decoration: none;
+    color: black;
+}
+.message-item .time .time-link:hover {
+    color: #005580;
+    text-decoration: underline;
+}
+
+.message-item .time .time-link:hover .time-link-icon {
+    display: inline-block;
+}
+
+.message-item .instances {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    float: right;
+}
+
+.message-item .instances .applied-code {
+    float: left;
+    margin-right: 10px;
+}
+
+.message-item .instances .applied-code span {
+    cursor: pointer;
+    padding: 0 3px;
+    border-radius: 3px;
+    background-color: #eeff99;
+
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.80);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.80);
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.80);
+}
+
+.message-item .instances .applied-code:hover span {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.80);
+    -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.80);
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.80);
+}
+
+.message-item .instances .applied-code span.highlight {
+    color: #eee;
 }

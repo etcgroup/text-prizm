@@ -1,3 +1,6 @@
 @import url(common.css);
+@import url(common/fixed_height.css);
+@import url(messages/layout.css);
 @import url(messages/message_list.css);
 @import url(messages/message_item.css);
+@import url(messages/cluster_selection.css);

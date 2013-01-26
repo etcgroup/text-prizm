@@ -2,4 +2,13 @@ ul.message-list {
     list-style: none;
     padding: 0px;
     margin: 0px;
+    overflow: auto;
+}
+
+.code-click-help {
+    position: absolute;
+    top: -30px;
+    right: 15px;
+    font-family: monospace;
+    color: #555;
 }
