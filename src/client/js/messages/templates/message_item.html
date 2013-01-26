@@ -7,10 +7,12 @@
     </div>
     <div class="left-column">
         <div class="time">
+            <% output_utc() %>
             <a class="time-link" href="<%=messages_start_ref(time)%>" title="Link to <%=long_date_time(time)%>">
                 <i class="time-link-icon icon-share hide"></i>
                 <%=long_time(time)%>
             </a>
+            <% output_local() %>
         </div>
         <div class="participant" title="<%=participant.name%>">
             <%= participant.name%>:
