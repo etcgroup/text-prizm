@@ -77,7 +77,7 @@ define(['jquery', 'underscore', 'backbone', 'textprizm', 'api', 'moment',
                 $.get(url)
                 .done(function(count) {
                     self.totalMessageCount = count;
-                    self.trigger('total-messages', count);
+                    self.trigger('total-messages', count, self);
                 })
                 .error(function(error) {
                     alert("Error counting messages");
@@ -136,7 +136,7 @@ define(['jquery', 'underscore', 'backbone', 'textprizm', 'api', 'moment',
                     self.trigger('batch-add', {
                         from: from,
                         to: to
-                    });
+                    }, self);
 
                     self.fetching = false;
                 })
@@ -174,7 +174,7 @@ define(['jquery', 'underscore', 'backbone', 'textprizm', 'api', 'moment',
                     self.trigger('batch-add', {
                         from: from,
                         to: to
-                    });
+                    }, self);
 
                     self.fetching = false;
                 })

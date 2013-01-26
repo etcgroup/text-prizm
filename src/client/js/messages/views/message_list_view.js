@@ -22,23 +22,15 @@ define(['backbone', 'marionette',
             className: 'message-list-view',
 
             ui: {
-                messageList: 'ul.message-list',
-                loadAllBox: '.load-all-box',
-                showingCount: '.showing-count',
-                totalCount: '.total-count',
-                selectionType: '.selection-type',
-                loadAllButton: '.load-all-button'
+                messageList: 'ul.message-list'
             },
 
             events: {
-                'scroll': 'onScroll',
-                'click .load-all-button': 'loadAllMessages'
+                'scroll': 'onScroll'
             },
 
             collectionEvents: {
-                'reset': 'updateShowingCount',
-                'batch-add': 'renderMoreMessages',
-                'total-messages': 'totalMessagesAvailable'
+                'batch-add': 'renderMoreMessages'
             },
 
             // Build an `itemView` for every model in the collection.
@@ -70,14 +62,6 @@ define(['backbone', 'marionette',
                 }
             },
 
-            totalMessagesAvailable: function(total) {
-                this.updateShowingCount();
-                this.ui.totalCount.text(this.collection.getTotalMessageCount());
-                this.ui.selectionType.text(this.collection.getSelectionType());
-
-                this.ui.loadAllBox.slideDown();
-            },
-
             onScroll: function() {
                 var totalHeight = this.ui.messageList.height();
                 var scrollTop = this.$el.scrollTop() + this.$el.height();
@@ -88,14 +72,6 @@ define(['backbone', 'marionette',
                 }
             },
 
-            loadAllMessages: function() {
-                this.collection.fetchAllMessages();
-            },
-
-            updateShowingCount: function() {
-                this.ui.showingCount.text(this.collection.size());
-            },
-
             renderMoreMessages: function(options) {
                 var ItemView = this.getItemView();
 
@@ -103,8 +79,6 @@ define(['backbone', 'marionette',
                     var item = this.collection.at(i);
                     this.addItemView(item, ItemView, i);
                 }
-
-                this.updateShowingCount();
             }
         });
 

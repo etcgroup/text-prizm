@@ -51,6 +51,8 @@ define(['underscore',
                 options = options || {};
                 this.clusterSelection = new ClusterSelection(options);
                 this.clusterSelection.on("change", this.clusterSelectionChange, this);
+                this.clusterSelection.on('load-all', this.messages.fetchAllMessages, this.messages);
+
                 this.showClusterSelection();
 
                 this.showMessageListView();
@@ -68,6 +70,13 @@ define(['underscore',
                     model: this.clusterSelection
                 });
                 TextPrizm.messageNavigator.show(clusterSelectionView);
+
+                this.messages.on('reset',
+                    clusterSelectionView.onMessagesReset, clusterSelectionView);
+                this.messages.on('batch-add',
+                    clusterSelectionView.onMessagesBatchAdd, clusterSelectionView);
+                this.messages.on('total-messages',
+                    clusterSelectionView.totalMessagesAvailable, clusterSelectionView);
             },
 
             /**
@@ -88,6 +97,7 @@ define(['underscore',
                 TextPrizm.router.navigate(urlHash);
 
                 this.messages.fetchCluster(this.clusterSelection.toJSON());
+                this.messages.fetchTotalMessageCount();
             }
         });
         return MessagesController;
