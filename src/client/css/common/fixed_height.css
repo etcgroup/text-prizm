@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+}
+
+/* Override the sticky footer css */
+#sticky-wrapper {
+    height: 100% !important;
+}
+
+#sticky-wrapper > .container-fluid {
+    padding-top: 0;
+    position: absolute;
+    top: 60px; /* Height of the header + 20 px */
+    bottom: 60px; /* Height of the footer */
+    left: 0;
+    right: 0;
+}
