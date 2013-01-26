@@ -1,7 +1,8 @@
 define(["backbone",
     "marionette",
+    "api",
     "common/views/alert_box"],
-    function(Backbone, Marionette, AlertBox) {
+    function(Backbone, Marionette, api, AlertBox) {
 
         /**
          * The text prizm application
@@ -33,9 +34,16 @@ define(["backbone",
             }
         });
 
+        /**
+         * Options should include rootUrl, the path from the application
+         * to the current page, without any leading/trailing slashes.
+         */
         TextPrizm.on("initialize:after", function(options){
             if (Backbone.history){
-                Backbone.history.start();
+                Backbone.history.start({
+                    pushState: true,
+                    root: api.url(options.rootUrl)
+                });
             }
         });
 

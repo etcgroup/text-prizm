@@ -1,9 +1,11 @@
-define(['underscore', './strings'], function(_, StringHelper) {
+define(['underscore', './strings', './datetimes'], function(_, StringHelper, DateTimeHelper) {
+
+    var baseUrl = window.baseUrl || '';
 
     var templates = {
-        user_name_link: '<a href="users/<%=id%>" title="<%=name%>"><%=full_name%></a>',
-        code_name_link: '<a class="label" href="codes/<%=id%>" title="<%=description%>"><%=name%></a>',
-        memo_summary_link: '<a href="memos/<%=id%>" title="<%=long_summary%>"><%=short_summary%></a>',
+        user_name_link: '<a href="' + baseUrl + 'users/<%=id%>" title="<%=name%>"><%=full_name%></a>',
+        code_name_link: '<a class="label" href="' + baseUrl + 'codes/<%=id%>" title="<%=description%>"><%=name%></a>',
+        memo_summary_link: '<a href="' + baseUrl + 'memos/<%=id%>" title="<%=long_summary%>"><%=short_summary%></a>',
         error: '<span class="label label-warning"><%=message%></span>'
     };
 
@@ -36,7 +38,14 @@ define(['underscore', './strings'], function(_, StringHelper) {
          * Get the url to view the given message cluster.
          */
         messages_ref: function(cluster_id) {
-            return 'messages/cluster/' + cluster_id;
+            return baseUrl + 'messages/cluster/' + cluster_id;
+        },
+
+        /**
+         * Gets a url to view messages after the given timestamp.
+         */
+        messages_start_ref: function(timestamp) {
+            return baseUrl + 'messages/start/' + DateTimeHelper.mysql_date_time(timestamp);
         },
 
         /**

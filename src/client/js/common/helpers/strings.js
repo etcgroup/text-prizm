@@ -55,6 +55,34 @@ define(['underscore'], function(_) {
                 summary: summary,
                 full: full
             });
+        },
+
+        /**
+         * Concatenates the list of items with a
+         * separator (defaults to ','). The final item
+         * will be preceded by "and".
+         */
+        entity_list: function(list, separator) {
+            separator = separator || ',';
+
+            var result = '';
+            _.each(list, function(item, index) {
+                if (index > 0) {
+                    result += ' ';
+                }
+
+                result += item;
+
+                if (list.length > 2 && index < list.length - 1) {
+                    result += separator;
+                }
+
+                if (list.length > 1 && index === list.length - 2) {
+                    result += ' and';
+                }
+            });
+
+            return result;
         }
     };
 

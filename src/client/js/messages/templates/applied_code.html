@@ -1,0 +1,8 @@
+<span class="<%=code.highlight ? 'highlight' : '' %>"
+      <%=code.highlight ? 'style="background-color:' + code.highlight + '"' : '' %>
+      title="Applied by <%= entity_list(coders) %>">
+    <%=code.name%>
+    <% if (coders.length > 1) { %>
+    (<%= coders.length %>)
+    <% } %>
+</span>

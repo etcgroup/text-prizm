@@ -43,7 +43,7 @@ if (!defined('BASEPATH'))
 
 $route['default_controller'] = "dashboard";
 $route['404_override'] = '';
-
+$route['messages/(:any)'] = 'messages';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

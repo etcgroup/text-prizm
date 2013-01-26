@@ -1,25 +1,24 @@
 define(["textprizm",
     './router',
     './controller'],
-    function(TextPrizm, DashboardRouter, DashboardController) {
+    function(TextPrizm, MessagesRouter, MessagesController) {
 
         TextPrizm.addInitializer(function() {
             //Set up the router & controller
-            this.router = new DashboardRouter({
-                controller: new DashboardController()
+            this.router = new MessagesRouter({
+                controller: new MessagesController()
             });
         });
 
         // Set the regions for this app
         TextPrizm.addRegions({
-            appStatus: '#app-status-widget',
-            dataSetSummary: '#data-set-summary-widget',
-            activities: '#activity-list'
+            messageNavigator: '#message-navigator',
+            messageViewer: '#message-viewer'
         });
 
         // Now start the app
         var options = {
-            rootUrl: ''
+            rootUrl: 'messages'
         };
         TextPrizm.start(options);
     });

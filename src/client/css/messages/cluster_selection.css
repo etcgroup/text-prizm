@@ -1,0 +1,10 @@
+.cluster-selection {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.cluster-selection .edit-button {
+    margin-left: 10px;
+    margin-right: 10px;
+}

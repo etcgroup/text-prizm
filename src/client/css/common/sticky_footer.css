@@ -15,13 +15,13 @@ body {
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin: 0 auto -60px;
+    margin: 0 auto -40px;
 }
 
 /* Set the fixed height of the footer here */
 #sticky-push,
 #footer {
-    height: 60px;
+    height: 40px;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
