@@ -23,6 +23,7 @@ Response:
 
 Parameters:
 * `start`: retrieve messages after this MySQL datetime
+* `end`: retrieve messages until this MySQL datetime
 * `cluster_id`: retrieve messages with this cluster id
 
 ### Get code instances for a page of messages: `GET messages/code_instances`
