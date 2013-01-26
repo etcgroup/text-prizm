@@ -1,4 +1,4 @@
-define(['backbone', 'api', '../models/message'], function(Backbone, api, Message) {
+define(['backbone', 'textprizm', 'api', '../models/message'], function(Backbone, TextPrizm, api, Message) {
 
     var MessageCollection = Backbone.Collection.extend({
         url: api.url('rest/messages'),
@@ -21,8 +21,12 @@ define(['backbone', 'api', '../models/message'], function(Backbone, api, Message
 
             url += '&offset=' + options.offset;
 
+            TextPrizm.success('Loading messages...');
+
             return this.fetch({
                 url: url
+            }).error(function() {
+                TextPrizm.error('Error downloading messages!.');
             });
         },
 
@@ -40,6 +44,7 @@ define(['backbone', 'api', '../models/message'], function(Backbone, api, Message
             subCollection.fetchCluster(options)
             .done(function() {
                 if (subCollection.size() == 0) {
+                    TextPrizm.warning('No more messages.');
                     self.fetchNoMore = true;
                     return;
                 }
@@ -59,7 +64,6 @@ define(['backbone', 'api', '../models/message'], function(Backbone, api, Message
                 self.fetching = false;
             })
             .error(function() {
-                alert('Unable to load messages');
                 self.fetching = false;
             });
         }
