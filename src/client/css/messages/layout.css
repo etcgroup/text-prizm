@@ -1,0 +1,25 @@
+
+#messages {
+    height: 100%;
+    position: relative;
+}
+
+#message-navigator {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 30px;
+}
+
+#message-viewer {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#message-viewer .message-list-view {
+    height: 100%;
+    overflow: auto;
+}
