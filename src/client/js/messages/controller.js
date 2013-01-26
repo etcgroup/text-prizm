@@ -34,7 +34,7 @@ define(['underscore',
              */
             startById: function(clusterId) {
                 this.initClusterSelection({
-                    cluster_id: clusterId
+                    cluster: clusterId
                 });
             },
 
@@ -43,7 +43,7 @@ define(['underscore',
              */
             startByDate: function(startDate) {
                 this.initClusterSelection({
-                    start_date: unescape(startDate)
+                    start: unescape(startDate)
                 });
             },
 
@@ -56,6 +56,7 @@ define(['underscore',
                 this.showMessageListView();
                 if (this.clusterSelection.hasSelection()) {
                     this.messages.fetchCluster(this.clusterSelection.toJSON());
+                    this.messages.fetchTotalMessageCount();
                 }
             },
 

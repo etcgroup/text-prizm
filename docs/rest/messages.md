@@ -10,7 +10,7 @@ and `user` information.
 
 Parameters:
 * `start`: retrieve messages after this MySQL datetime
-* `cluster_id`: retrieve messages with this cluster id
+* `cluster`: retrieve messages with this cluster id
 * `limit`: The maximum number of messages to retrieve (defaults to 100)
 * `offset`: The number of messages to skip (defaults to 0)
 
@@ -24,7 +24,7 @@ Response:
 Parameters:
 * `start`: retrieve messages after this MySQL datetime
 * `end`: retrieve messages until this MySQL datetime
-* `cluster_id`: retrieve messages with this cluster id
+* `cluster`: retrieve messages with this cluster id
 
 ### Get code instances for a page of messages: `GET messages/code_instances`
 
@@ -32,4 +32,4 @@ Each code instance includes information about its code.
 
 Parameters:
 * `start`: retrieve messages after this MySQL datetime
-* `cluster_id`: retrieve messages with this cluster id
+* `cluster`: retrieve messages with this cluster id

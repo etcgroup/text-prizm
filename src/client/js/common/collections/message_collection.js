@@ -1,71 +1,182 @@
-define(['backbone', 'textprizm', 'api', '../models/message'], function(Backbone, TextPrizm, api, Message) {
+define(['jquery', 'underscore', 'backbone', 'textprizm', 'api', 'moment',
+    '../models/message'],
+    function($, _, Backbone, TextPrizm, api, moment, Message) {
 
-    var MessageCollection = Backbone.Collection.extend({
-        url: api.url('rest/messages'),
-        model: Message,
+        var MessageCollection = Backbone.Collection.extend({
+            url: api.url('rest/messages'),
+            model: Message,
 
-        fetchCluster: function(options) {
-            this.options = _.defaults(options, {
-                offset: 0
-            });
+            initialize: function() {
+                this.totalMessageCount = null;
+            },
 
-            this.options = options;
+            cloneWithoutNullish: function(obj) {
+                var result = {};
+                _.each(obj, function(value, key) {
+                    if (value !== null && value !== undefined) {
+                        result[key] = value;
+                    }
+                });
+                return result;
+            },
 
-            var url = this.url;
-            if (options.cluster_id) {
-                url += '/page?cluster_id=' + options.cluster_id;
-            } else if (options.start_date) {
-                url += '/page?start=' + options.start_date;
-            }
+            getMessagesUrl: function(options) {
+                options = _.pick(options, 'cluster', 'start', 'offset', 'limit');
+                options = this.cloneWithoutNullish(options);
 
-            url += '&offset=' + options.offset;
+                var url = this.url + '/page?' + $.param(options);
 
-            TextPrizm.success('Loading messages...');
+                return url;
+            },
 
-            return this.fetch({
-                url: url
-            }).error(function() {
-                TextPrizm.error('Error downloading messages!.');
-            });
-        },
+            getCountUrl: function(options) {
+                var url = this.url + '/count?';
 
-        fetchMoreMessages: function() {
-            if (this.fetching || this.fetchNoMore) return;
-            this.fetching = true;
+                options = _.pick(options, 'cluster', 'start');
 
-            var self = this;
+                if (options.start) {
+                    //Add a day
+                    options.end = moment.utc(options.start, 'YYYY-MM-DD HH:mm:ss');
+                    options.end.add('days', 1);
+                    options.end = options.end.format('YYYY-MM-DD HH:mm:ss');
+                }
 
-            this.options.offset = this.size();
-            var options = _.clone(this.options);
+                options = this.cloneWithoutNullish(options);
+                url += $.param(options);
 
-            var subCollection = new MessageCollection();
+                return url;
+            },
 
-            subCollection.fetchCluster(options)
-            .done(function() {
-                if (subCollection.size() == 0) {
-                    TextPrizm.warning('No more messages.');
-                    self.fetchNoMore = true;
+            fetchCluster: function(options) {
+                this.options = _.defaults(options, {
+                    offset: 0
+                });
+
+                this.options = options;
+
+                var url = this.getMessagesUrl(options);
+
+                TextPrizm.success('Loading messages...');
+
+                return this.fetch({
+                    url: url
+                }).error(function() {
+                    TextPrizm.error('Error downloading messages!.');
+                });
+            },
+
+            fetchTotalMessageCount: function() {
+                var url = this.getCountUrl(this.options);
+
+                var self = this;
+                $.get(url)
+                .done(function(count) {
+                    self.totalMessageCount = count;
+                    self.trigger('total-messages', count);
+                })
+                .error(function(error) {
+                    alert("Error counting messages");
+                    console.log(error);
+                });
+            },
+
+            getTotalMessageCount: function() {
+                return this.totalMessageCount;
+            },
+
+            getSelectionType: function() {
+                if (this.options.cluster) {
+                    return 'cluster';
+                }
+
+                if (this.options.start) {
+                    return '24-hour period';
+                }
+
+                return '???';
+            },
+
+            fetchAllMessages: function() {
+                if (this.fetching || this.fetchNoMore) return;
+                if (this.totalMessageCount === null) {
+                    alert("Can't fetch all messages without counting first");
                     return;
                 }
 
-                var from = self.size();
-                var to = from + subCollection.size();
+                this.fetching = true;
 
-                self.add(subCollection.models, {
-                    silent: true
+                var self = this;
+
+                this.options.offset = this.size();
+                var options = _.clone(this.options);
+                options.limit = this.totalMessageCount - this.options.offset;
+
+                var subCollection = new MessageCollection();
+
+                subCollection.fetchCluster(options)
+                .done(function() {
+                    if (subCollection.size() == 0) {
+                        TextPrizm.warning('No more messages.');
+                        self.fetchNoMore = true;
+                        return;
+                    }
+
+                    var from = self.size();
+                    var to = from + subCollection.size();
+
+                    self.add(subCollection.models, {
+                        silent: true
+                    });
+
+                    self.trigger('batch-add', {
+                        from: from,
+                        to: to
+                    });
+
+                    self.fetching = false;
+                })
+                .error(function() {
+                    self.fetching = false;
                 });
+            },
 
-                self.trigger('batch-add', {
-                    from: from,
-                    to: to
+            fetchMoreMessages: function() {
+                if (this.fetching || this.fetchNoMore) return;
+                this.fetching = true;
+
+                var self = this;
+
+                this.options.offset = this.size();
+                var options = _.clone(this.options);
+
+                var subCollection = new MessageCollection();
+
+                subCollection.fetchCluster(options)
+                .done(function() {
+                    if (subCollection.size() == 0) {
+                        TextPrizm.warning('No more messages.');
+                        self.fetchNoMore = true;
+                        return;
+                    }
+
+                    var from = self.size();
+                    var to = from + subCollection.size();
+
+                    self.add(subCollection.models, {
+                        silent: true
+                    });
+
+                    self.trigger('batch-add', {
+                        from: from,
+                        to: to
+                    });
+
+                    self.fetching = false;
+                })
+                .error(function() {
+                    self.fetching = false;
                 });
-
-                self.fetching = false;
-            })
-            .error(function() {
-                self.fetching = false;
-            });
-        }
+            }
+        });
+        return MessageCollection;
     });
-    return MessageCollection;
-});

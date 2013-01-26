@@ -1,8 +1,8 @@
 <div class="form-inline">
-    <% if (cluster_id) { %>
-    Messages from cluster <%= cluster_id %> <span class="btn edit-button">Change</span>
-    <% } else if (start_date) { %>
-    Messages after <%= start_date %> <span class="btn edit-button">Change</span>
+    <% if (cluster) { %>
+    Messages from cluster <%= cluster %> <span class="btn edit-button">Change</span>
+    <% } else if (start) { %>
+    Messages on <%= start %> <span class="btn edit-button">Change</span>
     <% } else { %>
     Please select some messages
     <% } %>
@@ -10,10 +10,10 @@
     <div class="selection-form hide">
         by cluster id
         <input class="cluster-id-input" type="text" placeholder="cluster id"
-               value="<%=cluster_id || ''%>"/>
+               value="<%=cluster || ''%>"/>
         or date
         <input class="start-date-input" type="text" placeholder="date/time" title="MySQL DATETIME format (i.e. 'YYYY-MM-DD HH:mm:ss')."
-               value="<%=start_date || ''%>"/>
+               value="<%=start || ''%>"/>
         <button class="btn go-button">Go</button>
     </div>
 </div>
