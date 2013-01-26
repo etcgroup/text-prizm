@@ -68,7 +68,7 @@ define(['underscore',
             },
 
             /**
-             *Render the message list view.
+             * Render the message list view.
              */
             showMessageListView: function() {
                 var messageListView = new MessageListView({
