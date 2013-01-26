@@ -18,7 +18,7 @@ define(["textprizm",
 
         // Now start the app
         var options = {
-            rootUrl: '/messages/'
+            rootUrl: 'messages'
         };
         TextPrizm.start(options);
     });

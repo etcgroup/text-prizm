@@ -34,6 +34,10 @@ define(["backbone",
             }
         });
 
+        /**
+         * Options should include rootUrl, the path from the application
+         * to the current page, without any leading/trailing slashes.
+         */
         TextPrizm.on("initialize:after", function(options){
             if (Backbone.history){
                 Backbone.history.start({

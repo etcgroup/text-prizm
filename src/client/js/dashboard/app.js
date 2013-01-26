@@ -19,7 +19,7 @@ define(["textprizm",
 
         // Now start the app
         var options = {
-            rootUrl: '/'
+            rootUrl: ''
         };
         TextPrizm.start(options);
     });
