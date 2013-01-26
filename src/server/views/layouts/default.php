@@ -40,6 +40,8 @@
             </div>
         </div>
 
+        <div id="alert-box"></div>
+
         <script>
             var app = require(["<?php echo $app_js ?>"]);
         </script>

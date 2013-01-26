@@ -1,0 +1,11 @@
+#alert-box {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    z-index: 10000;
+}
+
+#alert-box .label {
+    font-size: 13px;
+    padding: 2px 6px 3px 6px;
+}
