@@ -54,7 +54,9 @@ define(['underscore',
                 this.showClusterSelection();
 
                 this.showMessageListView();
-                this.messages.fetchCluster(this.clusterSelection.toJSON());
+                if (this.clusterSelection.hasSelection()) {
+                    this.messages.fetchCluster(this.clusterSelection.toJSON());
+                }
             },
 
             /**
