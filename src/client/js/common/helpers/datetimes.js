@@ -37,6 +37,18 @@ define(['moment', 'underscore'], function(moment, _) {
         },
 
         /**
+         * Given a timestamp, returns a long formatted
+         * time with hours, minutes, and seconds.
+         */
+        long_time: function(timestamp) {
+            var date = moment.unix(timestamp);
+            if (_output_utc) {
+                date.utc();
+            }
+            return date.format('h:mm:ss a');
+        },
+
+        /**
          * Given a timestamp, returns a medium formatted
          * date-time with month, day, year, hour, and minute.
          */
@@ -46,6 +58,15 @@ define(['moment', 'underscore'], function(moment, _) {
                 date.utc();
             }
             return date.format('MMM D YYYY, h:mm a');
+        },
+
+        /**
+         * Convert a unix timestamp to a MySQL datetime (always in UTC).
+         */
+        mysql_date_time: function(timestamp) {
+            var date = moment.unix(timestamp);
+            date.utc();
+            return date.format('YYYY-MM-DD HH:mm:ss');
         },
 
         /**
