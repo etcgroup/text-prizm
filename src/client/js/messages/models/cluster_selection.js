@@ -30,6 +30,13 @@ define(['backbone'], function(Backbone) {
             } else {
                 return '';
             }
+        },
+
+        /**
+         * Returns true if the selection is set.
+         */
+        hasSelection: function () {
+            return this.get('cluster_id') || this.get('start_date');
         }
     });
     return ClusterSelection;

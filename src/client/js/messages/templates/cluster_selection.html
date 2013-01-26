@@ -1,10 +1,19 @@
-
 <div class="form-inline">
-    Select messages by cluster id
-    <input id="cluster-id-input" type="text" placeholder="cluster id"
-           value="<%=cluster_id || ''%>"/>
-    or date
-    <input id="start-date-input" type="text" placeholder="date/time" title="MySQL DATETIME format (i.e. 'YYYY-MM-DD HH:mm:ss')."
-           value="<%=start_date || ''%>"/>
-    <button id="go-button" class="btn">Go</button>
+    <% if (cluster_id) { %>
+    Messages from cluster <%= cluster_id %> <span class="btn edit-button">Change</span>
+    <% } else if (start_date) { %>
+    Messages after <%= start_date %> <span class="btn edit-button">Change</span>
+    <% } else { %>
+    Please select some messages
+    <% } %>
+
+    <div class="selection-form hide">
+        cluster id
+        <input class="cluster-id-input" type="text" placeholder="cluster id"
+               value="<%=cluster_id || ''%>"/>
+        or date
+        <input class="start-date-input" type="text" placeholder="date/time" title="MySQL DATETIME format (i.e. 'YYYY-MM-DD HH:mm:ss')."
+               value="<%=start_date || ''%>"/>
+        <button class="btn go-button">Go</button>
+    </div>
 </div>

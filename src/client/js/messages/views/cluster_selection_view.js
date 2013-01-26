@@ -9,10 +9,13 @@ define(['marionette', 'moment', 'lib/bootstrap',
         var ClusterSelectionView = Marionette.ItemView.extend({
             template: clusterSelectionTemplate,
             templateHelpers: Helpers,
+            className: 'cluster-selection',
 
             ui: {
-                startDateInput: "#start-date-input",
-                clusterIdInput: "#cluster-id-input"
+                startDateInput: ".start-date-input",
+                clusterIdInput: ".cluster-id-input",
+                selectionForm: ".selection-form",
+                editButton: ".edit-button"
             },
 
             modelEvents: {
@@ -20,15 +23,43 @@ define(['marionette', 'moment', 'lib/bootstrap',
             },
 
             events: {
-                'click #go-button': "goClicked",
-                'change #start-date-input': "startDateInputChanged",
-                'change #cluster-id-input': "clusterIdInputChanged"
+                'click .edit-button': "editClicked",
+                'click .go-button': "goClicked",
+                'change .start-date-input': "startDateInputChanged",
+                'change .cluster-id-input': "clusterIdInputChanged",
+                'keyup .start-date-input': "inputKeyUp",
+                'keyup .cluster-id-input': "inputKeyUp"
+            },
+
+            initialize: function() {
+                this.formShowing = false;
             },
 
             onRender: function() {
                 this.ui.startDateInput.tooltip({
                     placement: 'bottom'
                 });
+
+                if (!this.model.hasSelection()) {
+                    this.showForm();
+                }
+            },
+
+            hideForm: function() {
+                this.ui.selectionForm[0].style.display = "none";
+                this.formShowing = false;
+            },
+
+            showForm: function() {
+                this.ui.selectionForm[0].style.display = "inline";
+                this.formShowing = true;
+            },
+
+            inputKeyUp: function(event) {
+                //enter key
+                if (event.which == 13) {
+                    this.goClicked();
+                }
             },
 
             startDateInputChanged: function() {
@@ -37,6 +68,14 @@ define(['marionette', 'moment', 'lib/bootstrap',
 
             clusterIdInputChanged: function() {
                 this.ui.startDateInput.val('');
+            },
+
+            editClicked: function() {
+                if (this.formShowing) {
+                    this.hideForm();
+                } else {
+                    this.showForm();
+                }
             },
 
             goClicked: function() {
@@ -49,6 +88,7 @@ define(['marionette', 'moment', 'lib/bootstrap',
                         alert("Invalid date format");
                     } else {
                         this.model.setStartDate(startDate);
+                        this.hideForm();
                     }
                 } else if (clusterIdText) {
                     var clusterId = parseInt(clusterIdText);
@@ -56,6 +96,7 @@ define(['marionette', 'moment', 'lib/bootstrap',
                         alert("Invalid cluster id");
                     } else {
                         this.model.setClusterId(clusterId);
+                        this.hideForm();
                     }
                 } else {
                     alert("No selection made");
