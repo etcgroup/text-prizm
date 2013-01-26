@@ -1,6 +1,5 @@
-define(['backbone', 'models/participant_model', 'models/code_instance_model', 'lib/backbone-relational'],
-    function(Backbone, CodeInstance, Participant) {
-
+define(['backbone', 'models/participant_model', '../models/code_instance', 'lib/backbone-relational'],
+    function(Backbone, Participant, CodeInstance) {
         var Message = Backbone.RelationalModel.extend({
             relations: [{
                 type: Backbone.HasOne,
