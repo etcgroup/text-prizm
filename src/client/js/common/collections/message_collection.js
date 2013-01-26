@@ -6,8 +6,7 @@ define(['backbone', 'textprizm', 'api', '../models/message'], function(Backbone,
 
         fetchCluster: function(options) {
             this.options = _.defaults(options, {
-                offset: 0,
-                cluster_id: 1
+                offset: 0
             });
 
             this.options = options;
