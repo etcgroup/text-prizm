@@ -1,7 +1,7 @@
-define(['backbone', 'marionette',
+define(['jquery', 'underscore', 'backbone', 'marionette',
     'common/helpers/all',
     'text!common/templates/alert_box.html'],
-    function(Backbone, Marionette, Helpers, alertBoxTemplate) {
+    function($, _, Backbone, Marionette, Helpers, alertBoxTemplate) {
 
         var AlertBox = Marionette.ItemView.extend({
             template: alertBoxTemplate,
@@ -26,11 +26,23 @@ define(['backbone', 'marionette',
                 });
             },
 
-            setMessage: function(message, classes) {
+            setMessage: function(options, classes) {
+                if (_.isString(options)) {
+                    options = {
+                        message: options
+                    }
+                }
+
+                options = _.defaults(options, {
+                    message: 'Alert!',
+                    displayInterval: this.options.displayInterval,
+                    returnTerminator: false
+                });
+
                 classes = classes || " ";
 
                 this.model.set({
-                    message: message,
+                    message: options.message,
                     classes: classes
                 });
 
@@ -39,9 +51,18 @@ define(['backbone', 'marionette',
                 this.$el.fadeIn('fast');
 
                 var self = this;
-                setTimeout(function() {
-                    self.$el.fadeOut('slow');
-                }, this.options.displayInterval);
+                if (options.returnTerminator) {
+                    return function() {
+                        //Cancel, if still showing the same message
+                        if (options.message === self.model.get('message')) {
+                            self.$el.fadeOut('slow');
+                        }
+                    }
+                } else {
+                    setTimeout(function() {
+                        self.$el.fadeOut('slow');
+                    }, options.displayInterval);
+                }
             }
         });
 

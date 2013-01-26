@@ -56,10 +56,15 @@ define(['jquery', 'underscore', 'backbone', 'textprizm', 'api', 'moment',
 
                 var url = this.getMessagesUrl(options);
 
-                TextPrizm.success('Loading messages...');
+                var terminator = TextPrizm.success({
+                    message:'Loading messages...',
+                    returnTerminator: true
+                });
 
                 return this.fetch({
                     url: url
+                }).done(function() {
+                    terminator();
                 }).error(function() {
                     TextPrizm.error('Error downloading messages!.');
                 });
