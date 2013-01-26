@@ -35,5 +35,19 @@ define(['jquery', 'common/helpers/strings'], function($, StringHelper) {
             expect(element.attr('title')).toBe(full);
             expect(element.text()).toBe(summary);
         });
+
+        it('can concatenate string lists', function() {
+            var list0 = [];
+            var list1 = ['a'];
+            var list2 = ['a', 'b'];
+            var list3 = ['a', 'b', 'c'];
+
+            expect(StringHelper.entity_list(list0)).toBe('');
+            expect(StringHelper.entity_list(list1)).toBe('a');
+            expect(StringHelper.entity_list(list2)).toBe('a and b');
+            expect(StringHelper.entity_list(list3)).toBe('a, b, and c');
+
+            expect(StringHelper.entity_list(list3, ';')).toBe('a; b; and c');
+        });
     });
 });

@@ -53,7 +53,8 @@
                 deps: ['jquery.event.drag',
                 'jquery.event.drop']
             },
-            'util/jquery.ui.selectable': ['jquery', 'jqueryui']
+            'util/jquery.ui.selectable': ['jquery', 'jqueryui'],
+            'lib/bootstrap': ['jquery']
         }
     });
 })();

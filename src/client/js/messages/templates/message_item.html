@@ -1,0 +1,19 @@
+<div class="clearfix">
+    <div class="fluid-column-wrapper">
+        <div class="fluid-column">
+            <div class="message"><%= message %></div>
+            <ul class="instances"></ul>
+        </div>
+    </div>
+    <div class="left-column">
+        <div class="time">
+            <a class="time-link" href="<%=messages_start_ref(time)%>" title="Link to <%=long_date_time(time)%>">
+                <i class="time-link-icon icon-share hide"></i>
+                <%=long_time(time)%>
+            </a>
+        </div>
+        <div class="participant" title="<%=participant.name%>">
+            <%= participant.name%>:
+        </div>
+    </div>
+</div>

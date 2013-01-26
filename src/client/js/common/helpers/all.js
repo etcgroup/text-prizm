@@ -10,7 +10,9 @@ define([
         /**
          * Pull together all of the helpers
          */
-        var Helpers = {};
+        var Helpers = {
+            _: _
+        };
 
         return _.extend(Helpers,
             DateTimeHelper,

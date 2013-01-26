@@ -4,6 +4,8 @@
     {
         name: 'dashboard/app'
     }, {
+        name: 'messages/app'
+    }, {
         name: "coding_main"
     }, {
         name: "codingstats_main"
