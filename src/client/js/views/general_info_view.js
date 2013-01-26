@@ -31,7 +31,8 @@ define(function(require) {
             hours = hours.toPrecision(2) + " hours";
 
             var data = {
-                from_time: from.toString('h:mm:ss tt, MMMM dS, yyyy'),
+                from_time: from.toString('h:mm:ss tt, MMMM d, yyyy'),
+                link_to_viewer: baseUrl + 'messages/start/' + from.toString('yyyy-MM-dd hh:mm:ss'),
                 time_interval: hours,
                 message_count: window.controller.messageCollection.length,
                 version: window.controller.version,
