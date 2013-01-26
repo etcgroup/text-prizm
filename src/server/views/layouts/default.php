@@ -7,12 +7,15 @@
 
         <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js') ?>
+
+        <?php $path_to_app = parse_url(base_url()); ?>
         <script>
             require.config({
                 baseUrl: "<?php echo js_url() ?>"
             });
 
-            window.baseUrl = '<?php echo base_url(); ?>';
+
+            window.baseUrl = '<?php echo $path_to_app['path']; ?>';
         </script>
     </head>
     <body>
