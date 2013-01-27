@@ -5,6 +5,7 @@
         <title>Coding</title>
         <?php echo css('coding.css'); ?>
 
+        <?php $path_to_app = parse_url(base_url()); ?>
         <script type="text/javascript">
 <?php if (isset($get_all_users) && $get_all_users): ?>
         window.get_all_users = true;
@@ -17,6 +18,7 @@
         users: <?php echo json_encode($users); ?>,
         userId: <?php echo $user_id ?>
     };
+    window.baseUrl = '<?php echo $path_to_app['path']; ?>';
         </script>
         <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js', array('data-main' => js_url() . 'coding_main')); ?>
@@ -96,7 +98,7 @@
                 User: <%= user_name %>
             </div>
             <div class="info-group">
-                Viewing: <%= time_interval %> starting from <%= from_time %><br/>
+                Viewing: <a href="<%=link_to_viewer%>"><%= time_interval %> starting from <%= from_time %></a><br/>
                 Data: <%= message_count %> messages, working in code scheme <%= schema_id %>
             </div>
             <div class="right">

@@ -26,7 +26,7 @@ define(['backbone', 'marionette',
             },
 
             events: {
-                'scroll': 'loadMoreMessages'
+                'scroll': 'onScroll'
             },
 
             collectionEvents: {
@@ -62,7 +62,7 @@ define(['backbone', 'marionette',
                 }
             },
 
-            loadMoreMessages: function() {
+            onScroll: function() {
                 var totalHeight = this.ui.messageList.height();
                 var scrollTop = this.$el.scrollTop() + this.$el.height();
                 var margin = 200;

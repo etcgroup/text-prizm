@@ -4,18 +4,23 @@ define(['marionette', 'moment', 'lib/bootstrap',
     function(Marionette, moment, bootstrap, clusterSelectionTemplate, Helpers) {
 
         /**
-         * A view that lets you select a cluster.
-         */
+     * A view that lets you select a cluster.
+     */
         var ClusterSelectionView = Marionette.ItemView.extend({
             template: clusterSelectionTemplate,
             templateHelpers: Helpers,
             className: 'cluster-selection',
 
             ui: {
-                startDateInput: ".start-date-input",
-                clusterIdInput: ".cluster-id-input",
+                displayField: ".display-field",
+                inputField: ".input-field",
                 selectionForm: ".selection-form",
-                editButton: ".edit-button"
+
+                loadAllBox: '.load-all-box',
+                showingCount: '.showing-count',
+                totalCount: '.total-count',
+                selectionType: '.selection-type',
+                loadAllButton: '.load-all-button'
             },
 
             modelEvents: {
@@ -23,35 +28,54 @@ define(['marionette', 'moment', 'lib/bootstrap',
             },
 
             events: {
-                'click .edit-button': "editClicked",
+                'click .display-field': 'editClicked',
                 'click .go-button': "goClicked",
-                'change .start-date-input': "startDateInputChanged",
-                'change .cluster-id-input': "clusterIdInputChanged",
-                'keyup .start-date-input': "inputKeyUp",
-                'keyup .cluster-id-input': "inputKeyUp"
+                'keyup .input-field': "inputKeyUp",
+                'blur .input-field': "inputBlurred",
+                'click .load-all-button': 'loadAllMessages'
             },
 
             initialize: function() {
                 this.formShowing = false;
             },
 
-            onRender: function() {
-                this.ui.startDateInput.tooltip({
-                    placement: 'bottom'
-                });
+            onBeforeRender: function() {
+                this.closeTooltip();
+            },
 
+            closeTooltip: function() {
+                if (this.tooltipPlaced) {
+                    this.tooltipPlaced = false;
+                    this.ui.inputField.tooltip('hide');
+                    this.ui.inputField.off('.tooltip.data-api');
+                }
+            },
+
+            onRender: function() {
                 if (!this.model.hasSelection()) {
                     this.showForm();
                 }
             },
 
             hideForm: function() {
+                this.closeTooltip();
+                this.ui.displayField[0].style.display = "inline-block";
                 this.ui.selectionForm[0].style.display = "none";
                 this.formShowing = false;
             },
 
             showForm: function() {
+                this.ui.displayField[0].style.display = "none";
                 this.ui.selectionForm[0].style.display = "inline";
+
+                this.ui.inputField.tooltip({
+                    placement: 'bottom'
+                });
+                this.tooltipPlaced = true;
+
+                this.ui.inputField.val(this.ui.displayField.text());
+                this.ui.inputField.focus();
+
                 this.formShowing = true;
             },
 
@@ -62,12 +86,8 @@ define(['marionette', 'moment', 'lib/bootstrap',
                 }
             },
 
-            startDateInputChanged: function() {
-                this.ui.clusterIdInput.val('');
-            },
-
-            clusterIdInputChanged: function() {
-                this.ui.startDateInput.val('');
+            inputBlurred: function() {
+                this.hideForm();
             },
 
             editClicked: function() {
@@ -79,28 +99,45 @@ define(['marionette', 'moment', 'lib/bootstrap',
             },
 
             goClicked: function() {
+                var text = this.ui.inputField.val();
 
-                var startDateText = this.ui.startDateInput.val();
-                var clusterIdText = this.ui.clusterIdInput.val();
-                if (startDateText) {
-                    var startDate = moment.utc(startDateText, 'YYYY-MM-DD HH:mm:ss');
-                    if (!startDate.isValid()) {
-                        alert("Invalid date format");
-                    } else {
-                        this.model.setStartDate(startDate);
-                        this.hideForm();
-                    }
-                } else if (clusterIdText) {
-                    var clusterId = parseInt(clusterIdText);
+                var startDate = moment.utc(text, 'YYYY-MM-DD HH:mm:ss');
+                if (startDate.isValid()) {
+                    this.model.setStartDate(startDate);
+                    this.hideForm();
+                } else {
+                    var clusterId = parseInt(text);
                     if (isNaN(clusterId) || clusterId <= 0) {
                         alert("Invalid cluster id");
                     } else {
                         this.model.setClusterId(clusterId);
                         this.hideForm();
                     }
-                } else {
-                    alert("No selection made");
                 }
+            },
+
+            loadAllMessages: function() {
+                this.model.trigger('load-all');
+            },
+
+            totalMessagesAvailable: function(count, messages) {
+                this.updateShowingCount(messages.size());
+                this.ui.totalCount.text(messages.getTotalMessageCount());
+                this.ui.selectionType.text(messages.getSelectionType());
+
+                this.ui.loadAllBox.slideDown();
+            },
+
+            onMessagesBatchAdd: function(options, messages) {
+                this.updateShowingCount(messages.size());
+            },
+
+            onMessagesReset: function(messages) {
+                this.updateShowingCount(messages.size());
+            },
+
+            updateShowingCount: function(count) {
+                this.ui.showingCount.text(count);
             }
         });
 

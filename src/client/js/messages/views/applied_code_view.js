@@ -34,7 +34,7 @@ define(['marionette', 'underscore',
                 if (this.tooltipPlaced) {
                     this.tooltipPlaced = false;
                     this.ui.label.tooltip('hide');
-                    this.$el.off('.tooltip.data-api');
+                    this.ui.label.off('.tooltip.data-api');
                 }
             },
 

@@ -9,6 +9,7 @@
     top: 0px;
     left: 0px;
     height: 30px;
+    width: 100%;
 }
 
 #message-viewer {
