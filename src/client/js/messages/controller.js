@@ -34,7 +34,7 @@ define(['underscore',
              */
             startById: function(clusterId) {
                 this.initClusterSelection({
-                    cluster_id: clusterId
+                    cluster: clusterId
                 });
             },
 
@@ -43,7 +43,7 @@ define(['underscore',
              */
             startByDate: function(startDate) {
                 this.initClusterSelection({
-                    start_date: unescape(startDate)
+                    start: unescape(startDate)
                 });
             },
 
@@ -51,11 +51,14 @@ define(['underscore',
                 options = options || {};
                 this.clusterSelection = new ClusterSelection(options);
                 this.clusterSelection.on("change", this.clusterSelectionChange, this);
+                this.clusterSelection.on('load-all', this.messages.fetchAllMessages, this.messages);
+
                 this.showClusterSelection();
 
                 this.showMessageListView();
                 if (this.clusterSelection.hasSelection()) {
                     this.messages.fetchCluster(this.clusterSelection.toJSON());
+                    this.messages.fetchTotalMessageCount();
                 }
             },
 
@@ -67,6 +70,13 @@ define(['underscore',
                     model: this.clusterSelection
                 });
                 TextPrizm.messageNavigator.show(clusterSelectionView);
+
+                this.messages.on('reset',
+                    clusterSelectionView.onMessagesReset, clusterSelectionView);
+                this.messages.on('batch-add',
+                    clusterSelectionView.onMessagesBatchAdd, clusterSelectionView);
+                this.messages.on('total-messages',
+                    clusterSelectionView.totalMessagesAvailable, clusterSelectionView);
             },
 
             /**
@@ -87,6 +97,7 @@ define(['underscore',
                 TextPrizm.router.navigate(urlHash);
 
                 this.messages.fetchCluster(this.clusterSelection.toJSON());
+                this.messages.fetchTotalMessageCount();
             }
         });
         return MessagesController;

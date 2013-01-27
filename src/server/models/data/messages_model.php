@@ -31,7 +31,7 @@ class Messages_model extends Base_model2 {
      * Get the count of matching messages.
      *
      * Valid options:
-     * * 'cluster_id': return messages from the given cluster (default NULL)
+     * * 'cluster': return messages from the given cluster (default NULL)
      * * 'start': messages after this MySQL datetime will be returned (default NULL)
      *
      * @param array $options An optional set of parameters.
@@ -42,18 +42,24 @@ class Messages_model extends Base_model2 {
     {
         $options = $this->options->defaults($options,
                 array(
-            'cluster_id' => NULL,
-            'start' => NULL));
+            'cluster' => NULL,
+            'start' => NULL,
+            'end' => NULL));
 
         //Apply the cluster filter if set
-        if (NULL !== $options['cluster_id'])
+        if (NULL !== $options['cluster'])
         {
-            $this->db->where('session_id', $options['cluster_id']);
+            $this->db->where('session_id', $options['cluster']);
         }
 
         if (NULL !== $options['start'])
         {
             $this->db->where('time >=', $options['start']);
+        }
+
+        if (NULL !== $options['end'])
+        {
+            $this->db->where('time <=', $options['end']);
         }
 
         $count = $this->db->count_all_results($this->_table_name);
@@ -67,7 +73,7 @@ class Messages_model extends Base_model2 {
      * Valid options:
      * * 'limit': the maximum number of messages to return (default 100)
      * * 'offset': the result offset (default 0)
-     * * 'cluster_id': return messages from the given cluster (default NULL)
+     * * 'cluster': return messages from the given cluster (default NULL)
      * * 'start': messages after this MySQL datetime will be returned (default NULL)
      *
      * @param array $options An optional set of parameters.
@@ -80,16 +86,16 @@ class Messages_model extends Base_model2 {
                 array(
             'limit' => 100,
             'offset' => 0,
-            'cluster_id' => NULL,
+            'cluster' => NULL,
             'start' => NULL));
 
         $this->db->limit($options['limit'], $options['offset']);
         $this->db->order_by('time', 'asc');
 
         //Apply the cluster filter if set
-        if (NULL !== $options['cluster_id'])
+        if (NULL !== $options['cluster'])
         {
-            $this->db->where('session_id', $options['cluster_id']);
+            //$this->db->where('session_id', $options['cluster']);
         }
 
         if (NULL !== $options['start'])
@@ -123,4 +129,5 @@ class Messages_model extends Base_model2 {
         $message->instances = $this->instances_model->get_all_for_message($message->id);
         unset($message->participant_id);
     }
+
 }

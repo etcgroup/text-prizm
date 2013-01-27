@@ -4,7 +4,29 @@
     line-height: 20px;
 }
 
+.cluster-selection .editable {
+    display: inline-block;
+    width: 206px;
+    line-height: 20px;
+    padding: 4px 6px;
+    font-size: 14px;
+
+    background-color: #ffff99;
+    border: 1px dashed #ffcc66;
+}
+
+.cluster-selection .selection-form {
+    background: white;
+    z-index: 100;
+}
+
 .cluster-selection .edit-button {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.cluster-selection .load-all-box {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

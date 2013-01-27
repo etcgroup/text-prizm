@@ -21,16 +21,16 @@ define(["backbone",
             this.alertRegion.show(alertBox);
 
             //Create a handler for alerts
-            this.success = function(message) {
-                alertBox.setMessage(message, 'label-success');
+            this.success = function(options) {
+                return alertBox.setMessage(options, 'label-success');
             }
 
-            this.warning = function(message) {
-                alertBox.setMessage(message, 'label-warning')
+            this.warning = function(options) {
+                return alertBox.setMessage(options, 'label-warning')
             }
 
             this.error = function(message) {
-                alertBox.setMessage(message, 'label-important')
+                return alertBox.setMessage(options, 'label-important')
             }
         });
 

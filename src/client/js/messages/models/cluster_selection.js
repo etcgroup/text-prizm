@@ -4,29 +4,29 @@ define(['backbone'], function(Backbone) {
      */
     var ClusterSelection = Backbone.Model.extend({
         defaults: {
-            cluster_id: null,
-            start_date: null
+            cluster: null,
+            start: null
         },
 
         setClusterId: function(clusterId) {
             this.set({
-                cluster_id: clusterId,
-                start_date: null
+                cluster: clusterId,
+                start: null
             });
         },
 
         setStartDate: function(startDate) {
             this.set({
-                cluster_id: null,
-                start_date: startDate.format('YYYY-MM-DD HH:mm:ss')
+                cluster: null,
+                start: startDate.format('YYYY-MM-DD HH:mm:ss')
             });
         },
 
         getAddress: function() {
-            if (this.get('cluster_id')) {
-                return '/cluster/' + this.get('cluster_id');
-            } else if (this.get('start_date')) {
-                return '/start/' + this.get('start_date');
+            if (this.get('cluster')) {
+                return '/cluster/' + this.get('cluster');
+            } else if (this.get('start')) {
+                return '/start/' + this.get('start');
             } else {
                 return '';
             }
@@ -36,7 +36,7 @@ define(['backbone'], function(Backbone) {
          * Returns true if the selection is set.
          */
         hasSelection: function () {
-            return this.get('cluster_id') || this.get('start_date');
+            return this.get('cluster') || this.get('start');
         }
     });
     return ClusterSelection;
