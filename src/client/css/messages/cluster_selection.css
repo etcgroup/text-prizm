@@ -13,6 +13,7 @@
 
     background-color: #ffff99;
     border: 1px dashed #ffcc66;
+    cursor: pointer;
 }
 
 .cluster-selection .selection-form {
