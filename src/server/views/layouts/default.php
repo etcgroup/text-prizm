@@ -25,7 +25,7 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href=""><?php echo $this->config->item('name') ?></a>
+                        <a class="brand" href="<?php echo base_url(); ?>"><?php echo $this->config->item('name') ?></a>
                         <?php echo $nav_menu; ?>
                     </div>
                 </div>

@@ -30,6 +30,8 @@ function nav_menu_item($text, $page_id, $active_page_id, $href = NULL)
         $href = $page_id;
     }
 
+    $href = base_url($href);
+
     return "<li {$attrs}><a href='{$href}'>{$text}</a></li>";
 }
 ?>
