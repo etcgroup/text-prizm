@@ -14,11 +14,11 @@
 }
 
 .message-item .fluid-column {
-    margin: 0 0 0 290px;
+    margin: 0 0 0 210px;
 }
 
 .message-item .left-column {
-    width: 280px;
+    width: 200px;
     float: left;
     margin-left: -100%;
 }
@@ -36,7 +36,7 @@
 
 .message-item .time {
     float: left;
-    width: 180px;
+    width: 100px;
     text-align: right;
 }
 
