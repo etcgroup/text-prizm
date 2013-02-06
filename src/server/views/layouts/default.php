@@ -11,8 +11,8 @@
 
         <?php echo css($app_css . '?' . $cache_string); ?>
 
-        <?php echo js('common_config.js'); ?>
-        <?php echo js('lib/require.js') ?>
+        <?php echo js('common_config.js?' . $cache_string); ?>
+        <?php echo js('lib/require.js?' . $cache_string) ?>
 
         <script>
             require.config({

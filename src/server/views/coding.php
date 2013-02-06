@@ -11,8 +11,8 @@
 
         <?php echo css('coding.css?' . $cache_string); ?>
 
-        <?php echo js('common_config.js'); ?>
-        <?php echo js('lib/require.js') ?>
+        <?php echo js('common_config.js?' . $cache_string); ?>
+        <?php echo js('lib/require.js?' . $cache_string) ?>
 
         <script type="text/javascript">
 <?php if (isset($get_all_users) && $get_all_users): ?>
