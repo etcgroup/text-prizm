@@ -3,13 +3,22 @@
     <head>
         <meta charset="utf-8">
         <title>Coding</title>
-        <?php echo css('coding.css'); ?>
 
-        <?php $path_to_app = parse_url(base_url()); ?>
+        <?php
+        $path_to_app = parse_url(base_url());
+        $cache_string = 'v=' . substr($build_revision, 0, 8);
+        ?>
+
+        <?php echo css('coding.css?' . $cache_string); ?>
+
+        <?php echo js('common_config.js'); ?>
+        <?php echo js('lib/require.js') ?>
+
         <script type="text/javascript">
 <?php if (isset($get_all_users) && $get_all_users): ?>
         window.get_all_users = true;
 <?php endif; ?>
+
     window.coding_options ={
         version: "<?php echo $version ?>",
         schemaId: <?php echo $schema_id ?>,
@@ -18,11 +27,14 @@
         users: <?php echo json_encode($users); ?>,
         userId: <?php echo $user_id ?>
     };
+
+    require.config({
+        baseUrl: "<?php echo js_url() ?>",
+        urlArgs: "<?php echo $cache_string; ?>"
+    });
+
     window.baseUrl = '<?php echo $path_to_app['path']; ?>';
         </script>
-        <?php echo js('common_config.js'); ?>
-        <?php echo js('lib/require.js', array('data-main' => js_url() . 'coding_main')); ?>
-
     </head>
     <body>
         <div id="general-info"></div>
@@ -113,6 +125,10 @@
                     <div id="coding-progress-bar-inner"></div>
                 </div>
             </div>
+        </script>
+
+        <script>
+            var app = require(["coding_main"]);
         </script>
     </body>
 </html>

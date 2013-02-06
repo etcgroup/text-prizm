@@ -5,6 +5,12 @@ if (!defined('BASEPATH'))
 
 class Base_Controller extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('app/status_model');
+    }
+
     protected function ensure_user()
     {
         $this->load->model('gen/Users_model');
@@ -50,6 +56,9 @@ class Base_Controller extends CI_Controller {
 
         // Generate the main page content
         $data['main_content'] = $this->load->view($content_view, $data, true);
+
+        // Get some useful data
+        $data['build_revision'] = $this->status_model->get_revision();
 
         // Load the layout with the subsections & data
         $this->load->view('layouts/default', $data);

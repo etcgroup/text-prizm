@@ -26,6 +26,7 @@ class Coding extends CI_Controller {
         $this->load->model('coding/Codes_model');
         $this->load->model('gen/Users_model');
         $this->load->model('data/Participants_model');
+        $this->load->model('app/status_model');
 
         $current_user = $this->Users_model->current_user();
 
@@ -49,7 +50,8 @@ class Coding extends CI_Controller {
                 'user_id' => $current_user->id,
                 'codes' => $codes,
                 'schema_id' => $schema_id,
-                'participants' => $participants
+                'participants' => $participants,
+                'build_revision' => $this->status_model->get_revision()
             );
 
             if ($this->input->get('get_all_users'))

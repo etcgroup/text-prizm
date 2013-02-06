@@ -3,15 +3,21 @@
     <head>
         <meta charset="utf-8">
         <title><?php echo $page_title; ?></title>
-        <?php echo css($app_css); ?>
+
+        <?php
+        $path_to_app = parse_url(base_url());
+        $cache_string = 'v=' . substr($build_revision, 0, 8);
+        ?>
+
+        <?php echo css($app_css . '?' . $cache_string); ?>
 
         <?php echo js('common_config.js'); ?>
         <?php echo js('lib/require.js') ?>
 
-        <?php $path_to_app = parse_url(base_url()); ?>
         <script>
             require.config({
-                baseUrl: "<?php echo js_url() ?>"
+                baseUrl: "<?php echo js_url() ?>",
+                urlArgs: "<?php echo $cache_string; ?>"
             });
 
 
