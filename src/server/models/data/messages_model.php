@@ -95,7 +95,7 @@ class Messages_model extends Base_model2 {
         //Apply the cluster filter if set
         if (NULL !== $options['cluster'])
         {
-            //$this->db->where('session_id', $options['cluster']);
+            $this->db->where('session_id', $options['cluster']);
         }
 
         if (NULL !== $options['start'])
