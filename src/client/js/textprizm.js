@@ -29,7 +29,7 @@ define(["backbone",
                 return alertBox.setMessage(options, 'label-warning')
             }
 
-            this.error = function(message) {
+            this.error = function(options) {
                 return alertBox.setMessage(options, 'label-important')
             }
         });
