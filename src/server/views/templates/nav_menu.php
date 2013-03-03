@@ -42,5 +42,6 @@ function nav_menu_item($text, $page_id, $active_page_id, $href = NULL)
     echo nav_menu_item('Code Browser', 'codebrowser', $active_nav);
     echo nav_menu_item('Coding Tool', 'coding', $active_nav);
     echo nav_menu_item('Messages', 'messages', $active_nav);
+    echo nav_menu_item('Triage', 'triage', $active_nav);
     ?>
 </ul>
