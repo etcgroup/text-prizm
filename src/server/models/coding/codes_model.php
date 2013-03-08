@@ -224,5 +224,19 @@ class Codes_model extends Base_model {
 
         return $result;
     }
+    
+    function pair_metrics($ids){
+        $id_a = $ids["id_a"];
+        $id_b = $ids["id_b"];
+        // TODO unfake this
+        $result = array(
+            "id_a" => $id_a,
+            "id_b" => $id_b,
+            "cooccur" => 1,
+            "condis" => 45,
+            "foo" => 678,
+            "label" => "coda a x code b");
+        return $result;
+    }
 
 }

@@ -12,8 +12,7 @@ define(["textprizm",
 
         // Set the regions for this app
         TextPrizm.addRegions({
-       //     messageNavigator: '#message-navigator',
-        //    messageViewer: '#message-viewer'
+            pairMetrics: '#pair-metrics'
         });
 
         // Now start the app
