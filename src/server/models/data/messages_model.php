@@ -105,10 +105,21 @@ class Messages_model extends Base_model2 {
 
         $messages = $this->db->get($this->_table_name)->result();
 
-        //Insert sub-model data
+        //Post process the messages
+        $prev_participant_id = NULL;
+        $prev_cluster_id = NULL;
         foreach ($messages as &$message)
         {
+            //Add some info about the previous message
+            $message->prev_participant_id = $prev_participant_id;
+            $prev_participant_id = $message->participant_id;
+
+            $message->prev_cluster_id = $prev_cluster_id;
+            $prev_cluster_id = $message->session_id;
+
+            //Fill in the sub-model entities
             $this->_fill_in($message);
+
         }
 
         return $messages;

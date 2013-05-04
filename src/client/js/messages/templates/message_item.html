@@ -8,14 +8,23 @@
     <div class="left-column">
         <div class="time">
             <% output_utc() %>
-            <a class="time-link" href="<%=messages_start_ref(time)%>" title="Link to <%=long_date_time(time)%>">
+            <a class="time-link" href="<%=messages_start_ref(time)%>" title="<%=medium_date_time(time)%>">
                 <i class="time-link-icon icon-share hide"></i>
                 <%=long_time(time)%>
             </a>
             <% output_local() %>
         </div>
+        <div class="cluster">
+        <% if (prev_cluster_id != session_id) { %>
+            <a class="cluster-link" href="<%=messages_ref(session_id)%>" title="Cluster #<%=session_id%>">
+                <i class="cluster-link-icon icon-share hide"></i><%=session_id%>
+            </a>
+        <% } %>
+        </div>
         <div class="participant" title="<%=participant.name%>">
+        <% if (prev_participant_id != participant.id) { %>
             <%= participant.name%>:
+        <% } %>
         </div>
     </div>
 </div>

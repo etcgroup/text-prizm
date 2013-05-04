@@ -20,12 +20,16 @@ define(['marionette', 'underscore',
 
             ui: {
                 timeLink: '.time-link',
+                clusterLink: '.cluster-link',
                 appliedCodes: '.applied-code'
             },
 
             onRender: function() {
                 this.ui.timeLink.tooltip({
-                    placement: 'right'
+                    placement: 'bottom'
+                });
+                this.ui.clusterLink.tooltip({
+                    placement: 'bottom'
                 });
             }
         });

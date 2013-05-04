@@ -14,11 +14,11 @@
 }
 
 .message-item .fluid-column {
-    margin: 0 0 0 210px;
+    margin: 0 0 0 270px;
 }
 
 .message-item .left-column {
-    width: 200px;
+    width: 260px;
     float: left;
     margin-left: -100%;
 }
@@ -28,6 +28,7 @@
     text-align: right;
     font-weight: bold;
     width: 100px;
+    min-height: 1px; /* make sure empty participant labels still have size */
 }
 
 .message-item .message {
@@ -52,6 +53,25 @@
 .message-item .time .time-link:hover .time-link-icon {
     display: inline-block;
 }
+
+.message-item .cluster {
+    float: left;
+    width: 60px;
+    text-align: right;
+    min-height: 1px; /* make sure empty cluster labels still have size */
+}
+.message-item .cluster .cluster-link {
+    text-decoration: none;
+    color: #888;
+}
+.message-item .cluster .cluster-link:hover {
+    color: #333;
+    text-decoration: underline;
+}
+.message-item .cluster .cluster-link:hover .cluster-link-icon {
+    display: inline-block;
+}
+
 
 .message-item .instances {
     list-style: none;
