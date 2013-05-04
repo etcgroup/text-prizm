@@ -31,3 +31,8 @@
     right: 0;
     top: 0;
 }
+
+.cluster-selection .load-all-button {
+    /* This helps the adjacent text line up with the button */
+    vertical-align: baseline;
+}
