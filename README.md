@@ -1,6 +1,9 @@
 Text Prizm
 ==========
 
+A web application for collaborative qualitative coding of
+large volumes of short text messages.
+
 Setup and Configuration
 -----------------------
 
@@ -15,7 +18,10 @@ that defines the configuration of many third party libraries:
 This should be cloned as a sibling to the text-prizm project folder.
 
 For testing and development, it might be easiest to set up a virtual server
-using the provided Vagrantfile. Below are the steps for doing this:
+using the provided Vagrantfile. The instructions below may or may not work
+without translation on other types of systems.
+
+Below are the steps for setting up a VM:
 
 1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/).
    Vagrant is a program for managing virtual machines that works on
