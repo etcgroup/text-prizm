@@ -53,7 +53,7 @@ class Migration_Add_data_points extends CI_Migration {
         $this->db->query('CREATE INDEX session_id_participant_id ON data_points (session_id, participant_id)');
 
         //Make a fulltext index for searching
-        $this->db->query('CREATE FULLTEXT INDEX message_text ON data_points (message)');
+        # $this->db->query('CREATE FULLTEXT INDEX message_text ON data_points (message)');
     }
 
     public function down()
