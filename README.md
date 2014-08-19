@@ -206,7 +206,7 @@ you should be prompted for your credentials. Just type in 'admin' without a pass
 FAQ
 -----------------------
 * Q: What happened if I get the following error message?
-```bash
+```
 BUILD FAILED
 /<my_dir_url>/text-prizm/build.xml:144: Project 'dependencies' must be present in order to build.
 ```
