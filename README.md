@@ -7,16 +7,19 @@ large volumes of short text messages.
 Setup and Configuration
 -----------------------
 
-### Get the source code
+### Get the source code of Text Prizm
 
 On the machine where you will be working with Text Prizm,
-run `git clone git@github.com:etcgroup/text-prizm.git`.
+run `git clone https://github.com/etcgroup/text-prizm.git`.
+Since this is a private repository, it will ask your github username and password in order to download it.
 
+### Get Dependencies
 To build the software, you will also need a copy of the "dependencies" project
 that defines the configuration of many third party libraries:
-`git clone git@github.com:etcgroup/dependencies.git`.
-This should be cloned as a sibling to the text-prizm project folder.
+`git clone https://github.com/etcgroup/dependencies.git`.
+This should be cloned as **a sibling to** the text-prizm project folder.
 
+### Install a Virtual Machine (Not necessary if you have a server already)
 For testing and development, it might be easiest to set up a virtual server
 using the provided Vagrantfile. The instructions below may or may not work
 without translation on other types of systems.
@@ -38,6 +41,8 @@ Below are the steps for setting up a VM:
    machine will be automatically synced.
    The `dependencies` folder will also be mounted so that you
    can build on the VM.
+
+Note: VirtualBox is needed for Vagrant
    
 ### Prerequisites
 
@@ -99,7 +104,8 @@ FLUSH PRIVILEGES;
 
 Exit your MySQL client.
 
-### Build Text Prizm
+
+### Build Text Prizm & First-time Setup
 
 On your server, cd to your Text Prizm project folder (e.g. `/home/vagrant/text-prizm`).
 Then use ant to build the project:
@@ -108,7 +114,6 @@ Then use ant to build the project:
 $ cd text-prizm
 $ ant
 ```
-
 The ant script will download a bunch of stuff from places.
 Downloaded files will be stored (for faster later building) in
 the dependencies `_cache` folder.
@@ -118,28 +123,41 @@ in the `dist` folder. Finally, the `deploy-local` folder
 is created, and the distribution is "deployed" (copied) there.
 The `deploy-local` folder is where Text Prizm will actually be run from.
 
-The first time you run the build script, it will fail at the end
-with the message "The installation has not yet been completed."
+The first time to run this step will stop with the following message:
+```bash
+     [exec]       [ upgrade ] Beginning upgrade...
+     [exec]       [ upgrade ] ERROR: The installation has not yet been completed.
+```
+
 That is because it initiates an automatic upgrade process whenever
 you deploy Text Prizm, but this doesn't work because we haven't actually
-finished installing it yet.
- 
+finished installing it yet.	 
+
 To complete the initial configuration, run the following command.
+```bash
+$ cd deploy-local
+$ php applications/util/manage.php install
+```
+
 You will be prompted to provide database credentials and other
 configuration details. Also important, you must set the base url path
 from which your copy of Text Prizm will be served (e.g. you could enter something
- like `/tp/`).
-
-```bash
-$ php applications/util/manage.php install
-```
+ like `/tp/` so that the url for Text Prizm will be http://localhost:8080/tp/ .)
 
 The official storage location for these settings in `deploy-local/application/config/.install.ini`,
 but the script also updates many of the php files in `deploy-local/application/config`
 accordingly.
 
+After it is finished, run ant at the parent directory again:
+```bash
+$ cd ..
+$ ant
+```
+
 This script also ran the database migration procedures, so your
 previously empty database now contains several tables.
+
+### Rebuild
 
 If you rebuild later, the `dist` folder will be copied onto the deploy-local folder again,
 but your `.install.ini` fill will be used to restore any deployment-specific settings.
@@ -185,3 +203,33 @@ INSERT INTO text_prizm.users (name, full_name, email)
 Now, if you visit [http://localhost:8080/tp/](http://localhost:8080/tp/)
 you should be prompted for your credentials. Just type in 'admin' without a password.
 
+FAQ
+-----------------------
+* Q: What happened if I get the following error message?
+```bash
+BUILD FAILED
+/<my_dir_url>/text-prizm/build.xml:144: Project 'dependencies' must be present in order to build.
+```
+A: Please make sure you clone "dependencies" project as a sibling folder to text-prizm.
+[Dependencies Project](https://github.com/etcgroup/dependencies)
+
+* Q: I got the following messages after I ran ant. 
+```bash
+deploy-local:
+    [mkdir] Created dir: /<my_dir_url>/text-prizm/deploy-local
+     [exec] Could not open input file: /<my_dir_url>/text-prizm/deploy-local/application/util/manage.php
+     [exec] Result: 1
+     [copy] Copying 469 files to /<my_dir_url>/text-prizm/deploy-local
+     [exec]
+     [exec]       [ upgrade ] Beginning upgrade...
+     [exec]       [ upgrade ] ERROR: The installation has not yet been completed.
+     [exec] PHP Strict Standards:  Non-static method Util::is_cli_request() should not be called statically in /<my_dir_url>/text-prizm/deploy-local/applic
+ation/util/manage.php on line 1245
+
+BUILD FAILED
+/<my_dir_url>/text-prizm/build.xml:700: exec returned: 1
+```
+A: Please run the following command after you run ant for the first time:
+```bash
+php deploy-local/applications/util/manage.php install
+```
