@@ -205,15 +205,18 @@ you should be prompted for your credentials. Just type in 'admin' without a pass
 
 FAQ
 -----------------------
-* Q: What happened if I get the following error message?
+** Q: What happened if I get the following error message? **
 ```
 BUILD FAILED
 /<my_dir_url>/text-prizm/build.xml:144: Project 'dependencies' must be present in order to build.
 ```
 A: Please make sure you clone "dependencies" project as a sibling folder to text-prizm.
+
 [Dependencies Project](https://github.com/etcgroup/dependencies)
 
-* Q: I got the following messages after I ran ant. 
+
+
+** Q: I got the following messages after I ran ant. **
 ```
 deploy-local:
     [mkdir] Created dir: /<my_dir_url>/text-prizm/deploy-local
