@@ -124,7 +124,7 @@ is created, and the distribution is "deployed" (copied) there.
 The `deploy-local` folder is where Text Prizm will actually be run from.
 
 The first time to run this step will stop with the following message:
-```bash
+```
      [exec]       [ upgrade ] Beginning upgrade...
      [exec]       [ upgrade ] ERROR: The installation has not yet been completed.
 ```
@@ -214,7 +214,7 @@ A: Please make sure you clone "dependencies" project as a sibling folder to text
 [Dependencies Project](https://github.com/etcgroup/dependencies)
 
 * Q: I got the following messages after I ran ant. 
-```bash
+```
 deploy-local:
     [mkdir] Created dir: /<my_dir_url>/text-prizm/deploy-local
      [exec] Could not open input file: /<my_dir_url>/text-prizm/deploy-local/application/util/manage.php
