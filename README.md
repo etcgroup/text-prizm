@@ -59,6 +59,7 @@ You will be asked to provide a root password for MySQL.
 
 ```bash
 $ sudo apt-get update
+$ sudo apt-get upgrade
 $ sudo apt-get install ant default-jdk ant-contrib git
 $ sudo apt-get install lamp-server^
 ```
