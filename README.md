@@ -7,18 +7,6 @@ large volumes of short text messages.
 Setup and Configuration
 -----------------------
 
-### Get the source code of Text Prizm
-
-On the machine where you will be working with Text Prizm,
-run `git clone https://github.com/etcgroup/text-prizm.git`.
-Since this is a private repository, it will ask your github username and password in order to download it.
-
-### Get Dependencies
-To build the software, you will also need a copy of the "dependencies" project
-that defines the configuration of many third party libraries:
-`git clone https://github.com/etcgroup/dependencies.git`.
-This should be cloned as **a sibling to** the text-prizm project folder.
-
 ### Install a Virtual Machine (Not necessary if you have a server already)
 For testing and development, it might be easiest to set up a virtual server
 using the provided Vagrantfile. The instructions below may or may not work
@@ -104,6 +92,19 @@ FLUSH PRIVILEGES;
 ```
 
 Exit your MySQL client.
+
+
+### Get the source code of Text Prizm
+
+On the machine where you will be working with Text Prizm,
+run `git clone https://github.com/etcgroup/text-prizm.git`.
+Since this is a private repository, it will ask your github username and password in order to download it.
+
+### Get Dependencies
+To build the software, you will also need a copy of the "dependencies" project
+that defines the configuration of many third party libraries:
+`git clone https://github.com/etcgroup/dependencies.git`.
+This should be cloned as **a sibling to** the text-prizm project folder.
 
 
 ### Build Text Prizm & First-time Setup
